@@ -1,45 +1,18 @@
-import { Card, Typography ,IconButton } from "../../MT";
+import { Card, Typography ,IconButton } from "../MT";
 import {PencilIcon , TrashIcon} from "@heroicons/react/24/solid"
+import prisma from "@/lib/prisma";
+
  
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse" , ""];
  
-const Clients =[
-  {id:1  , name:"Abderrahim Oujdi" , tele:"0651565748" , ville:"Agadir" , 
-    adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"
-  },
-  {id:2  , name:"Arwa Oujdi" , tele:"0745258963" , ville:"Taroudant",
-    adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"
-  },
-  {id:3  , name:"Fayza Bouderqua" , tele:"0762850323" , ville:"Casablanca",
-    adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"},
-  {id:4  , name:"Fatima Sabiri" , tele:"0672032545" , ville:"Rabat",
-    adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"},
-  {id:5  , name:"Khalid houmad" , tele:"0651565748" , ville:"Inzegan",
-    adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"},
-    {id:6  , name:"Abderrahim Oujdi" , tele:"0651565748" , ville:"Agadir" , 
-      adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"
-    },
-    {id:7  , name:"Arwa Oujdi" , tele:"0745258963" , ville:"Taroudant",
-      adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"
-    },
-    {id:8  , name:"Fayza Bouderqua" , tele:"0762850323" , ville:"Casablanca",
-      adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"},
-    {id:9  , name:"Fatima Sabiri" , tele:"0672032545" , ville:"Rabat",
-      adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"},
-    {id:10  , name:"Khalid houmad" , tele:"0651565748" , ville:"Inzegan",
-      adress : "Hay Essaada rue 1613 N° 01 Dcheira Inzegan"}
-]
 
-export default function DefaultTable() {
+async function getClients(){
+  const clients = await prisma.clients.findMany()
+  return clients
+}
+export default async function ClientsTable(){
+  const Clients = await getClients()
   return (
-    <div className="p-5">
-      <Typography
-      variant="h1"
-      color="blue-gray"
-      className="mb-3"
-      >
-      Liste des clients
-      </Typography>
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
@@ -107,7 +80,7 @@ export default function DefaultTable() {
                   <IconButton variant="text">
                     <PencilIcon className="h-4 w-4" />
                   </IconButton>
-                  <IconButton variant="text">
+                  <IconButton color="deep-orange" variant="text">
                     <TrashIcon className="h-4 w-4" />
                   </IconButton>
                 </td>
@@ -117,6 +90,7 @@ export default function DefaultTable() {
         </tbody>
       </table>
     </Card>
-    </div>
   );
 }
+
+

@@ -48,7 +48,7 @@ const SelectCity = (props) => {
         isClearable
         styles={customStyles}
         onChange={(selectedOption) => {  
-          props.setClient((cur) => ({...cur , ville : selectedOption.name}))
+          props.setClient((cur) => ({...cur , ville : selectedOption?.name}))
         }}
       />
     </div>
