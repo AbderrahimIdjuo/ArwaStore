@@ -1,6 +1,7 @@
 'use client'
 import { Card, Typography ,IconButton ,Dialog } from "../MT";
 import {PencilIcon , TrashIcon} from "@heroicons/react/24/solid"
+import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import UpdateClientForm from "./UpdateClientForm"
@@ -10,19 +11,15 @@ import UpdateClientForm from "./UpdateClientForm"
 
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse" , ""];
 
-const clientUp = {
-  name : "Ahmed",
-  tele : "0651847596",
-  nbrArticls :"5",
-  ville:"Taroudant",
-  adress :"hay sebt lgerdan"
-}
 
-export default function ClientsTable({Clients}){
+export default function ClientsTable({Clients , searchValue}){
   const [open, setOpen] = useState(false);
+  const [clientClicked , setClientClicked]=useState()
   const handleOpen = () => setOpen((cur) => !cur);
   const router = useRouter()
 
+  
+  
 
 
 const deletClient = async (clidntId)=>{
@@ -37,16 +34,6 @@ const deletClient = async (clidntId)=>{
     console.log(e); 
   }
 }
-/*
-const updateClient = async (clidntId)=>{
-  try{
-
-  }catch(e){
-    console.log(e); 
-  }
-}
-*/
-
 
   return (
     <Card className="h-full w-full overflow-scroll">
@@ -113,22 +100,16 @@ const updateClient = async (clidntId)=>{
                   </Typography>
                 </td>
                 <td className={classes}>
-                  <IconButton onClick={handleOpen} variant="text">
+                  <IconButton onClick={()=>{
+                    setClientClicked(client)
+                    handleOpen()
+                  } } variant="text">
                     <PencilIcon className="h-4 w-4" />
                   </IconButton>
-                  <IconButton onClick={()=> deletClient(id)} color="deep-orange" variant="text">
+                  <IconButton onClick={()=> deletClient(client.id)} color="deep-orange" variant="text">
                     <TrashIcon className="h-4 w-4" />
                   </IconButton>
                 </td>
-                <Dialog
-                  id="ajouter-client"
-                  size="xl"
-                  open={open}
-                  handler={handleOpen}
-                  className="bg-transparent shadow-none dialog"
-                  >
-                  <UpdateClientForm client={client}/>
-                </Dialog>
               </tr>
               
             );
@@ -136,7 +117,15 @@ const updateClient = async (clidntId)=>{
           })}
         </tbody>
       </table>
-
+      <Dialog
+                  id="ajouter-client"
+                  size="xl"
+                  open={open}
+                  handler={handleOpen}
+                  className="bg-transparent shadow-none dialog"
+                  >
+                  <UpdateClientForm client={clientClicked}/>
+      </Dialog>
     </Card>
 
 

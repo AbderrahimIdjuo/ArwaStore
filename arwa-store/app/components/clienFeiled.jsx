@@ -6,7 +6,12 @@ import { MagnifyingGlassIcon , PlusIcon} from "@heroicons/react/24/solid"
 import ClientsTable from "./ClientsTable"
 export default function ClientFeiled({Clients}){
     const [open, setOpen] = React.useState(false);
+    const [searchValue, setSearchValue] = React.useState("");
     const handleOpen = () => setOpen((cur) => !cur);
+    const HandleChange = (e)=>{
+      const value = e.target.value
+      setSearchValue(value)  
+    }
     
     return (
 <>
@@ -16,7 +21,9 @@ export default function ClientFeiled({Clients}){
           name="search" 
           color="blue-gray" 
           label="Chercher un client" 
-          size="md" 
+          size="md"
+          value={searchValue}
+          onChange={HandleChange} 
           icon={<MagnifyingGlassIcon color="blue-gray" className="h-6 w-6"/>}
           /> 
         </div>
@@ -33,7 +40,7 @@ export default function ClientFeiled({Clients}){
           </Button>
         </div>
     </div>
-    <ClientsTable Clients={Clients}/>
+    <ClientsTable Clients={Clients} searchValue={searchValue} />
 
     <Dialog
     id="ajouter-client"

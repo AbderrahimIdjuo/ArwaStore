@@ -23,17 +23,17 @@ setClient((cur)=>({...cur , [event.target.name] : event.target.value}) )
 const Confirmer = async (e)=>{
   e.preventDefault();
   try {
-    await fetch(`/api/update/${client.id}`,
+   const response = await fetch(`/api/update/${Client.id}`,
       {
         method : 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(client),
+        body: JSON.stringify(Client),
       }
     )        
     if (!response.ok) {
-      throw new Error('Failed to add client');
+      throw new Error('Failed to update client');
     }
 
     console.log("Client modifier avec succès");

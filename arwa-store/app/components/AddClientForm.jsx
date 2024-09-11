@@ -27,34 +27,40 @@ setClient((cur)=>({...cur , [event.target.name] : event.target.value}) )
 }
 const Confirmer = async (e)=>{
   e.preventDefault();
-  try {
-    const response = await fetch('/api/add-client', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(client),
-    });
-            console.log(response.ok)
-    if (!response.ok) {
-      throw new Error('Failed to add client');
-    }
+  
+    toast.promise(
+      (async () => {
+        const response = await fetch('/api/add-client', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(client),
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to add client');
+        }
+  
+        console.log("Client ajouté avec succès");
+        setClient({
+          name: "",
+          tele: "",
+          nbrArticls: "",
+          ville: "",
+          adress: ""
+        });
+  
+        router.refresh();
+      })(),
+      {
+        loading: 'Ajout de client...',
+        success: 'Client ajouté avec succès!',
+        error: 'Échec de l\'ajout du client',
+      }
+    );
 
-    console.log("Client ajouté avec succès");
-    toast.success('Client ajouté avec succès!');
-    
-    setClient({
-      name: "",
-      tele: "",
-      nbrArticls: "",
-      ville: "",
-      adress: ""
-    });
-    router.refresh()
-  } catch (error) {
-    console.log("err code :" + error.code);
-    toast.error('Numéro de tele déja exist');
-  }
+  
 }
 
 
@@ -83,7 +89,7 @@ const Confirmer = async (e)=>{
             <Typography className="-mb-2" variant="h6">
               Nombre d'articles
             </Typography>
-            <Input name="nbrArticls" onChange={HandleChange} color="light-blue" label="Nbr d'articles" size="md" type="number" value={client.nbrArticls} />
+            <Input name="nbrArticls" onChange={HandleChange} color="light-blue" label="Nbr d'articles" size="md" type="number" min={1} value={client.nbrArticls} />
               </div>
             </div>
 
