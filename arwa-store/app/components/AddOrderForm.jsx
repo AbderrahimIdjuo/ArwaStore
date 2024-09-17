@@ -24,6 +24,7 @@ export default function AddOrder() {
   ];
   const [clientID, setClientID] = useState(null);
   const [status, setStatus] = useState(null);
+  const [selectedClient, setSelectedClient] = useState();
   const {
     register,
     handleSubmit,
@@ -56,6 +57,7 @@ export default function AddOrder() {
 
         console.log("Commande ajouté avec succès", Data);
         setStatus("");
+        setSelectedClient("")
         reset();
         //router.refresh();
       })(),
@@ -84,7 +86,7 @@ export default function AddOrder() {
                 <Typography className="-mb-2" variant="h6">
                   Client
                 </Typography>
-                <SelectClient setClientID={setClientID} />
+                <SelectClient setClientID={setClientID} value={selectedClient}/>
               </div>
               <div id="Input-feild" className="flex flex-col w-1/5 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
