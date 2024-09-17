@@ -1,39 +1,30 @@
-'use client'
-import { Card, Typography ,IconButton ,Dialog } from "../MT";
-import {PencilIcon , TrashIcon} from "@heroicons/react/24/solid"
-import toast, { Toaster } from "react-hot-toast"
+"use client";
+import { Card, Typography, IconButton, Dialog } from "../MT";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import UpdateClientForm from "./UpdateClientForm"
+import { useEffect, useState } from "react";
+import UpdateClientForm from "./UpdateClientForm";
 
+const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse", ""];
 
-
-
-const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse" , ""];
-
-
-export default function ClientsTable({Clients , searchValue}){
+export default function ClientsTable({ Clients, searchValue, getClients }) {
   const [open, setOpen] = useState(false);
-  const [clientClicked , setClientClicked]=useState()
+  const [clientClicked, setClientClicked] = useState();
+
   const handleOpen = () => setOpen((cur) => !cur);
-  const router = useRouter()
+  const router = useRouter();
 
-  
-  
-
-
-const deletClient = async (clidntId)=>{
-  try{
-    await fetch(`/api/clients/${clidntId}`,
-      {
-        method : 'DELETE'
-      }
-    )
-    router.refresh()
-  }catch(e){
-    console.log(e); 
-  }
-}
+  const deletClient = async (clidntId) => {
+    try {
+      await fetch(`/api/espace-client/${clidntId}`, {
+        method: "DELETE",
+      });
+      getClients();
+      router.refresh();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Card className="h-full w-full overflow-scroll">
@@ -60,7 +51,7 @@ const deletClient = async (clidntId)=>{
           {Clients?.map((client, index) => {
             const isLast = index === Clients.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
- 
+
             return (
               <tr key={client.id}>
                 <td className={classes}>
@@ -100,36 +91,40 @@ const deletClient = async (clidntId)=>{
                   </Typography>
                 </td>
                 <td className={classes}>
-                  <IconButton onClick={()=>{
-                    setClientClicked(client)
-                    handleOpen()
-                  } } variant="text">
+                  <IconButton
+                    onClick={() => {
+                      setClientClicked(client);
+                      handleOpen();
+                    }}
+                    variant="text"
+                  >
                     <PencilIcon className="h-4 w-4" />
                   </IconButton>
-                  <IconButton onClick={()=> deletClient(client.id)} color="deep-orange" variant="text">
+                  <IconButton
+                    onClick={() => {
+                      console.log(client.id);
+                      deletClient(client.id);
+                    }}
+                    color="deep-orange"
+                    variant="text"
+                  >
                     <TrashIcon className="h-4 w-4" />
                   </IconButton>
                 </td>
               </tr>
-              
             );
-            
           })}
         </tbody>
       </table>
       <Dialog
-                  id="ajouter-client"
-                  size="xl"
-                  open={open}
-                  handler={handleOpen}
-                  className="bg-transparent shadow-none dialog"
-                  >
-                  <UpdateClientForm client={clientClicked}/>
+        id="modifier-client"
+        size="xl"
+        open={open}
+        handler={handleOpen}
+        className="bg-transparent shadow-none dialog"
+      >
+        <UpdateClientForm client={clientClicked} getClients={getClients} />
       </Dialog>
     </Card>
-
-
   );
 }
-
-

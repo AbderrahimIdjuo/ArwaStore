@@ -3,10 +3,32 @@ import {Input , Button , Typography , Dialog} from "../MT"
 import { MagnifyingGlassIcon , PlusIcon} from "@heroicons/react/24/solid"
 import AddClientForm from "../components/AddOrderForm"
 import CommandesTable from "./CommandesTable"
-import React from "react"
+
+import { useEffect , useState } from 'react';
 export default function CommandeFeiled(){
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [commandesList , setCommandesList]=useState()
   const handleOpen = () => setOpen((cur) => !cur);
+  const getCommandes = async ()=>{
+    try{
+      const result = await fetch(`/api/espace-commandes`,
+        {
+          method : 'GET'
+        }
+      )
+      const commandesList = await result.json()
+      setCommandesList(commandesList.Commandes)
+      
+    
+    }catch(e){
+      console.log(e); 
+    }
+  }
+  
+  useEffect(()=>{
+    getCommandes();
+  } ,[open])
+
     return (
 <>
     <div className="flex flex-row">
@@ -32,9 +54,8 @@ export default function CommandeFeiled(){
           </Button>
         </div>
     </div>
-    <div>
-        <CommandesTable />
-    </div>
+    
+    <CommandesTable getCommandes={getCommandes} Commandes={commandesList}/>
 
     <Dialog
     id="ajouter-commande"
@@ -43,7 +64,7 @@ export default function CommandeFeiled(){
     handler={handleOpen}
     className="bg-transparent shadow-none dialog"
     >
-    <AddClientForm/>
+    <AddClientForm  />
     </Dialog>
 </>
     )

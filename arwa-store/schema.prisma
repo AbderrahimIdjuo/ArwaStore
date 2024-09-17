@@ -12,9 +12,36 @@ datasource db {
 
 model clients {
   id            String       @default(cuid()) @id
+  createdAt     DateTime?     @default(now())
+  updatedAt     DateTime?     @updatedAt
   name          String?
-  nbrArticls    String?
-  tele          String?   @unique
+  tele          String?      @unique
   ville         String?
   adress        String?
+  commandes     commandes[]
 }
+
+enum Status {
+  PENDING
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
+model commandes {
+  id            String       @default(cuid()) @id
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  nbrArticls    String?
+  description   String?
+  prixInt       String?
+  avance        String?
+  livraison     String?
+  rest          String?
+  clientID      String    
+  client        clients  @relation(fields: [clientID], references: [id])
+  status        Status   @default(PENDING)
+  trakingNbr    String? 
+
+}
+

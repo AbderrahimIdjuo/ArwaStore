@@ -1,18 +1,39 @@
 'use client'
-import React from "react"
+import {useState , useEffect} from "react"
 import {Input , Button , Typography , Dialog} from "../MT"
 import AddClientForm from "../components/AddClientForm"
 import { MagnifyingGlassIcon , PlusIcon} from "@heroicons/react/24/solid"
 import ClientsTable from "./ClientsTable"
-export default function ClientFeiled({Clients}){
-    const [open, setOpen] = React.useState(false);
-    const [searchValue, setSearchValue] = React.useState("");
+export default function ClientFeiled(){
+    const [open, setOpen] = useState(false);
+    const [searchValue, setSearchValue] = useState("");
+    const [clientsList , setClientsList]=useState()
     const handleOpen = () => setOpen((cur) => !cur);
     const HandleChange = (e)=>{
       const value = e.target.value
       setSearchValue(value)  
     }
     
+    const getClients = async ()=>{
+      try{
+        const result = await fetch(`/api/espace-client`,
+          {
+            method : 'GET'
+          }
+        )
+        const clientList = await result.json()
+        setClientsList(clientList.Clients)
+        
+      
+      }catch(e){
+        console.log(e); 
+      }
+    }
+    
+    useEffect(()=>{
+      getClients();
+    } ,[open])
+
     return (
 <>
     <div className="flex flex-row">
@@ -40,7 +61,7 @@ export default function ClientFeiled({Clients}){
           </Button>
         </div>
     </div>
-    <ClientsTable Clients={Clients} searchValue={searchValue} />
+    <ClientsTable getClients={getClients} Clients={clientsList} searchValue={searchValue} />
 
     <Dialog
     id="ajouter-client"

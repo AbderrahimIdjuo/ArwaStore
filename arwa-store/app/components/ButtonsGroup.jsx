@@ -5,8 +5,8 @@ import { useState } from "react"
 import ClientFeiled from "./clienFeiled"
 import CommandeFeiled from "./commandesFeiled "
 import ComptaFeiled from "./comptaFeiled"
-export default function Buttons({Clients}){
-    const [page , setPage]=useState("clients")
+export default function Buttons(){
+    const [page , setPage]=useState("")
     
     
     return(
@@ -26,7 +26,7 @@ export default function Buttons({Clients}){
     </Button>
 </ButtonGroup>
     <div className="content rounded flex flex-col gap-4">
-    {(page === "clients")   && <ClientFeiled Clients={Clients}/> }
+    {(page === "clients")   && <ClientFeiled/> }
     {(page === "commandes") && <CommandeFeiled /> }
     {(page === "compta") && <ComptaFeiled /> }  
   </div>

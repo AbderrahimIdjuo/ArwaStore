@@ -15,7 +15,7 @@ import {
 } from "../MT";
 import SelectClient from "./SelectClient";
 
-export default function AddOrder() {
+export default function UpdateCommande() {
   const Status = [
     { color: "green", label: "DELIVERED" },
     { color: "amber", label: "PENDING" },
@@ -38,7 +38,7 @@ export default function AddOrder() {
       parseInt(data.prixInt) - parseInt(data.avance) + parseInt(data.livraison);
     const rest = restInt.toString();
     const Data = { ...data, rest, clientID, status };
-    //console.log(Data);
+    console.log(Data);
 
     toast.promise(
       (async () => {
@@ -51,13 +51,12 @@ export default function AddOrder() {
         });
 
         if (!response.ok) {
-          throw new Error("Echec de l'ajout ");
+          throw new Error("Echec de l'ajout de la commande");
         }
 
-        console.log("Commande ajouté avec succès", Data);
-        setStatus("");
+        console.log("Commande ajouté avec succès");
         reset();
-        //router.refresh();
+        router.refresh();
       })(),
       {
         loading: "Ajout de la commande...",
@@ -72,12 +71,11 @@ export default function AddOrder() {
 
   return (
     <>
-      <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" color="deep-orange">
-              Ajouter une commande
+              Modifier une commande
             </Typography>
             <div className="flex flex-row justify-evenly">
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
@@ -86,7 +84,7 @@ export default function AddOrder() {
                 </Typography>
                 <SelectClient setClientID={setClientID} />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/5 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Nombre d'articles
                 </Typography>
@@ -99,7 +97,7 @@ export default function AddOrder() {
                   size="md"
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Description
                 </Typography>
@@ -107,6 +105,17 @@ export default function AddOrder() {
                   {...register("description")}
                   color="light-blue"
                   label="Decrire les articles"
+                  size="md"
+                />
+              </div>
+              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+                <Typography className="-mb-2" variant="h6">
+                  Traking Number
+                </Typography>
+                <Input
+                  {...register("trakingNbr")}
+                  color="light-blue"
+                  label="Traking Number"
                   size="md"
                 />
               </div>
@@ -150,7 +159,7 @@ export default function AddOrder() {
                 <Typography className="-mb-2" variant="h6">
                   Status
                 </Typography>
-                <Select value={status} label="Select Version" onChange={HandleStatus}>
+                <Select label="Select Version" color="light-blue" onChange={HandleStatus}>
                   {Status.map((statu) => (
                     <Option value={statu.label}>{statu.label}</Option>
                   ))}
@@ -165,7 +174,7 @@ export default function AddOrder() {
               color="deep-orange"
               variant="gradient"
             >
-              Ajouter
+              Modifier
             </Button>
           </CardFooter>
         </form>

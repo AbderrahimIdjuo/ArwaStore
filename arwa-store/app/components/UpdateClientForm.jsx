@@ -12,8 +12,7 @@ import SelectCity from "./SelectCity"
 import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation";
  
-export default function UpdateClientForm({client}) {
-  console.log(client);
+export default function UpdateClientForm({client , getClients}) {
   const [Client , setClient]=React.useState(client);
 
   const router = useRouter()
@@ -23,7 +22,7 @@ setClient((cur)=>({...cur , [event.target.name] : event.target.value}) )
 const Confirmer = async (e)=>{
   e.preventDefault();
   try {
-   const response = await fetch(`/api/update/${Client.id}`,
+   const response = await fetch(`/api/espace-client/${Client.id}`,
       {
         method : 'PUT',
         headers: {
@@ -51,6 +50,7 @@ const Confirmer = async (e)=>{
     console.log("err code :" + error.code);
     toast.error('Numéro de tele déja exist');
   }
+  getClients()
 }
 
 
@@ -63,7 +63,7 @@ const Confirmer = async (e)=>{
               Modifier un client
             </Typography>
             <div className="flex flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-1/3 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
             <Typography className="-mb-2" variant="h6">
               Nom et Prénom
             </Typography>
@@ -75,12 +75,6 @@ const Confirmer = async (e)=>{
             </Typography>
             <Input name="tele" onChange={HandleChange} color="light-blue" label="télé" size="md" type="tel" value={Client.tele}/> 
             </div>
-            <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
-            <Typography className="-mb-2" variant="h6">
-              Nombre d'articles
-            </Typography>
-            <Input name="nbrArticls" onChange={HandleChange} color="light-blue" label="Nbr d'articles" size="md" type="number" value={Client.nbrArticls} />
-              </div>
             </div>
 
             <div className="flex flex-row justify-evenly">
