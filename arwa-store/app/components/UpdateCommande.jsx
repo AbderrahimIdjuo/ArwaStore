@@ -15,35 +15,41 @@ import {
 } from "../MT";
 import SelectClient from "./SelectClient";
 
-export default function UpdateCommande() {
+export default function UpdateCommande({ commande, client , getCommandes}) {
+
+
+
+
+
   const Status = [
     { color: "green", label: "DELIVERED" },
     { color: "amber", label: "PENDING" },
     { color: "red", label: "CANCELED" },
     { color: "blue", label: "SHIPPED" },
   ];
-  const [clientID, setClientID] = useState(null);
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState(commande.status);
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     getValues,
     formState: { errors, isSubmitting },
   } = useForm();
-
+  
+  
   const onSubmit = async (data) => {
     const restInt =
       parseInt(data.prixInt) - parseInt(data.avance) + parseInt(data.livraison);
     const rest = restInt.toString();
-    const Data = { ...data, rest, clientID, status };
+    const Data = { ...data, rest, status };
     console.log(Data);
 
     toast.promise(
       (async () => {
-        const response = await fetch("/api/espace-commandes", {
-          method: "POST",
+        const response = await fetch(`/api/espace-commandes/${commande.id}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -51,17 +57,18 @@ export default function UpdateCommande() {
         });
 
         if (!response.ok) {
-          throw new Error("Echec de l'ajout de la commande");
+          throw new Error("Échec de la modification");
         }
 
-        console.log("Commande ajouté avec succès");
+        console.log("Commande modifier avec succès");
         reset();
-        router.refresh();
+        getCommandes();
+        //router.refresh();
       })(),
       {
-        loading: "Ajout de la commande...",
-        success: "Commande ajouté avec succès!",
-        error: "Échec de l'ajout de la commande",
+        loading: "Modification en cours...",
+        success: "Commande modifier avec succès!",
+        error: "Échec de la modification",
       }
     );
   };
@@ -71,6 +78,7 @@ export default function UpdateCommande() {
 
   return (
     <>
+      <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
@@ -82,19 +90,25 @@ export default function UpdateCommande() {
                 <Typography className="-mb-2" variant="h6">
                   Client
                 </Typography>
-                <SelectClient setClientID={setClientID} />
+                <Input
+                  {...register("client")}
+                  color="light-blue"
+                  label="Nom et Prénom"
+                  size="md"
+                  value={client.name}
+                  disabled
+                />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Nombre d'articles
                 </Typography>
                 <Input
-                  {...register("nbrArticls", {
-                    required: "Nombre d'articl est obligatoire",
-                  })}
+                  {...register("nbrArticls")}
                   color="light-blue"
                   label="Nbr d'articles"
                   size="md"
+                  defaultValue={commande.nbrArticls}
                 />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
@@ -106,6 +120,7 @@ export default function UpdateCommande() {
                   color="light-blue"
                   label="Decrire les articles"
                   size="md"
+                  defaultValue={commande.description}
                 />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
@@ -131,6 +146,7 @@ export default function UpdateCommande() {
                   color="light-blue"
                   label="Prix total des articles"
                   size="md"
+                  defaultValue={commande.prixInt}
                 />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
@@ -142,6 +158,7 @@ export default function UpdateCommande() {
                   color="light-blue"
                   label="Avance"
                   size="md"
+                  defaultValue={commande.avance}
                 />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
@@ -153,13 +170,19 @@ export default function UpdateCommande() {
                   color="light-blue"
                   label="Frais de livraison"
                   size="md"
+                  defaultValue={commande.livraison}
                 />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Status
                 </Typography>
-                <Select label="Select Version" color="light-blue" onChange={HandleStatus}>
+                <Select
+                  label="Select Version"
+                  color="light-blue"
+                  onChange={HandleStatus}
+                  value={status}
+                >
                   {Status.map((statu) => (
                     <Option value={statu.label}>{statu.label}</Option>
                   ))}

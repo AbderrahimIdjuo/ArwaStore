@@ -61,7 +61,7 @@ export default function ClientFeiled(){
           </Button>
         </div>
     </div>
-    <ClientsTable getClients={getClients} Clients={clientsList} searchValue={searchValue} />
+    <ClientsTable searchValue={searchValue} />
 
     <Dialog
     id="ajouter-client"

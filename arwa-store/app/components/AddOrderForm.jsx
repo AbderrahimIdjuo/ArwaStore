@@ -152,7 +152,7 @@ export default function AddOrder() {
                 <Typography className="-mb-2" variant="h6">
                   Status
                 </Typography>
-                <Select value={status} label="Select Version" onChange={HandleStatus}>
+                <Select value={status} label="Status" onChange={HandleStatus}>
                   {Status.map((statu) => (
                     <Option value={statu.label}>{statu.label}</Option>
                   ))}

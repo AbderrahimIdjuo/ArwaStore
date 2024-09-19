@@ -1,7 +1,7 @@
 import "./globals.css";
 import { NavbarWithSolidBackground as NavBar } from "./components/NavBar1";
 import Buttons from "./components/ButtonsGroup";
-import { Toaster } from "react-hot-toast";
+
 
 export default async function Home() {
   return (

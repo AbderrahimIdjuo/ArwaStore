@@ -3,9 +3,9 @@
 import { Select, Option } from "../MT";
 import { useEffect, useState } from "react";
 
-const SelectClient = ({ setClientID , value}) => {
+const SelectClient = ({ setClientID, value, clientName }) => {
   const [Clients, setClients] = useState([]);
-  
+
   const getClients = async () => {
     try {
       const result = await fetch(`/api/espace-client`, {
@@ -30,7 +30,7 @@ const SelectClient = ({ setClientID , value}) => {
         color="light-blue"
         label="Choisir le client"
         onChange={HandleChange}
-        value={value}
+        value={clientName}
       >
         {Clients.map((client) => (
           <Option key={client.id} value={client.id}>
