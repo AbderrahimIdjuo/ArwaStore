@@ -1,6 +1,19 @@
 "use client";
-import { Card, Typography, IconButton, Dialog } from "../MT";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+  Card,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogBody,
+  DialogHeader,
+  DialogFooter,
+  Button,
+} from "../MT";
+import {
+  PencilIcon,
+  TrashIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/24/solid";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,6 +25,8 @@ export default function ClientsTable({ searchValue }) {
   const [open, setOpen] = useState(false);
   const [clientClicked, setClientClicked] = useState();
   const [clientList, setClientList] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const handleconfirmDelete = () => setConfirmDelete((cur) => !cur);
   const handleOpen = () => setOpen((cur) => !cur);
   const router = useRouter();
 
@@ -51,12 +66,13 @@ export default function ClientsTable({ searchValue }) {
 
   const deletClient = async (clidntId) => {
     try {
-      await fetch(`/api/clients/${clidntId}`, {
+      await fetch(`/api/espace-client/${clidntId}`, {
         method: "DELETE",
       });
       toast("Client supprimer avec succée!", {
         icon: "🗑️",
       });
+      getClients();
       router.refresh();
     } catch (e) {
       console.log(e);
@@ -142,7 +158,10 @@ export default function ClientsTable({ searchValue }) {
                       <PencilIcon className="h-4 w-4" />
                     </IconButton>
                     <IconButton
-                      onClick={() => deletClient(client.id)}
+                      onClick={() => {
+                        setClientClicked(client);
+                        handleconfirmDelete();
+                      }}
                       color="deep-orange"
                       variant="text"
                     >
@@ -161,7 +180,39 @@ export default function ClientsTable({ searchValue }) {
           handler={handleOpen}
           className="bg-transparent shadow-none dialog"
         >
-          <UpdateClientForm client={clientClicked} />
+          <UpdateClientForm getClients={getClients} client={clientClicked} />
+        </Dialog>
+        <Dialog open={confirmDelete} handler={handleconfirmDelete}>
+          <DialogHeader>
+           
+            <Typography variant="h4" color="deep-orange" className="font-normal p-3 flex flex-row gap-2">             
+              <ExclamationCircleIcon className="h-7 w-7" />
+              Warning
+            </Typography>
+          </DialogHeader>
+          <DialogBody>
+            Êtes-vous sûr de vouloir supprimer ce client ? Cette action est
+            irréversible.
+          </DialogBody>
+          <DialogFooter>
+            <Button
+              variant="gradient"
+              color="light-blue"
+              onClick={() => {
+                deletClient(clientClicked.id)
+                handleconfirmDelete();
+              }}
+            >
+              <span>Confirm</span>
+            </Button>
+            <Button
+              color="deep-orange"
+              onClick={handleconfirmDelete}
+              className="ml-2"
+            >
+              <span>Cancel</span>
+            </Button>
+          </DialogFooter>
         </Dialog>
       </Card>
     </>

@@ -18,7 +18,7 @@ model clients {
   tele          String?      @unique
   ville         String?
   adress        String?
-  commandes     commandes[]
+  commandes     commandes[]  
 }
 
 enum Status {
@@ -39,7 +39,7 @@ model commandes {
   livraison     String?
   rest          String?
   clientID      String    
-  client        clients  @relation(fields: [clientID], references: [id])
+  client        clients  @relation(fields: [clientID], references: [id] , onDelete: Cascade)
   status        Status   @default(PENDING)
   trakingNbr    String? 
 

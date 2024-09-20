@@ -5,7 +5,7 @@ import SelectCity from "./SelectCity";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function AddClientForm() {
+export default function AddClientForm({handleOpen}) {
   const [client, setClient] = React.useState({
     name: "",
     tele: "",
@@ -41,7 +41,7 @@ export default function AddClientForm() {
           ville: "",
           adress: "",
         });
-
+        
         router.refresh();
       })(),
       {
@@ -50,6 +50,7 @@ export default function AddClientForm() {
         error: "Échec de l'ajout du client",
       }
     );
+    getClients()
   };
 
   return (
@@ -113,9 +114,12 @@ export default function AddClientForm() {
             </div>
           </div>
         </CardBody>
-        <CardFooter className="pt-0">
-          <Button onClick={Confirmer} color="deep-orange" variant="gradient">
+        <CardFooter className="pt-0 flex flex-row justify-end">
+          <Button onClick={Confirmer} color="light-blue"  >
             Ajouter
+          </Button>
+          <Button className="mx-3" onClick={()=>handleOpen()} color="deep-orange" >
+            Fermer
           </Button>
         </CardFooter>
       </Card>

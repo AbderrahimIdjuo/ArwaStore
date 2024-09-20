@@ -94,10 +94,13 @@ const Confirmer = async (e)=>{
             </div>
             </div>
           </CardBody>
-          <CardFooter className="pt-0">
-            <Button onClick={Confirmer} color="deep-orange" variant="gradient" >
+          <CardFooter className="pt-0 flex flex-row justify-end">
+            <Button onClick={Confirmer} color="light-blue"  >
               Modifier
             </Button>
+            <Button className="mx-3"  color="deep-orange" >
+            Fermer
+          </Button>
           </CardFooter>
         </Card>
     </>
