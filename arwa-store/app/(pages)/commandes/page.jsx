@@ -1,8 +1,10 @@
 "use client";
-import { Input, Button, Typography, Dialog, Select, Option } from "../MT";
+import { Input, Button, Typography, Dialog, Select, Option } from "../../MT";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
-import AddClientForm from "./AddOrderForm";
-import CommandesTable from "./CommandesTable";
+import AddClientForm from "../../components/AddOrderForm";
+import CommandesTable from "../../components/CommandesTable";
+import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
+
 import { useEffect, useState } from "react";
 
 const Status = [
@@ -38,6 +40,9 @@ export default function CommandeFeiled() {
   };
   return (
     <>
+    <NavBar/>
+    <div className="container flex flex-col gap-2">
+    <div className="content rounded flex flex-col gap-4">
       <div className="flex flex-row">
         <div className="flex flex-row gap-2 items-center w-2/3">
           <Input
@@ -56,7 +61,7 @@ export default function CommandeFeiled() {
         <div className="flex flex-row gap-2 justify-end w-1/3">
           <Button
             onClick={handleOpen}
-            className="button2 flex flex-row justfy-center items-center gap-2 rounded p-2"
+            className="button2 flex flex-row justfy-center items-center gap-2 rounded-full px-5"
             color="green"
             size="sm"
           >
@@ -83,6 +88,8 @@ export default function CommandeFeiled() {
       >
         <AddClientForm />
       </Dialog>
+      </div>
+      </div>
     </>
   );
 }

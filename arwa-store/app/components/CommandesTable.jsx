@@ -33,10 +33,7 @@ const statusInfo = {
   CANCELED: { label: "Canceled", color: "red" },
 };
 
-export default function ClientsTable({
-  Commandes,
-  statusFilter,
-}) {
+export default function ClientsTable({ Commandes, statusFilter }) {
   const [Clients, setClients] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -45,7 +42,7 @@ export default function ClientsTable({
   const [commandeList, setCommandeList] = useState(null);
 
   const router = useRouter();
-  
+
   const getCommandes = async () => {
     try {
       const result = await fetch(`/api/espace-commandes`, {
@@ -97,7 +94,6 @@ export default function ClientsTable({
   useEffect(() => {
     HandleCommandesList();
     console.log(statusFilter);
-    
   }, [statusFilter]);
   function HandleCommandesList() {
     if (statusFilter) {
@@ -250,7 +246,7 @@ export default function ClientsTable({
                       color="blue-gray"
                       className="font-normal"
                     >
-                      <Chip value={label} color={color} />
+                      <Chip variant="filled" className="rounded-full text-center" value={label} color={color} />
                     </Typography>
                   </td>
                   <td className={classes}>

@@ -20,20 +20,20 @@ const SelectCity = (props) => {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      borderColor: state.isFocused ? '#29b6f6' : '#ccc', // Border color when focused and unfocused
-      boxShadow: state.isFocused ? '0 0 0 1px #29b6f6' : null, // Optional: Add a shadow when focused
+      borderColor: state.isFocused ? '#688199' : '#ccc', // Border color when focused and unfocused
+      boxShadow: state.isFocused ? '0 0 0 1px #688199' : null, // Optional: Add a shadow when focused
       '&:hover': {
-        borderColor: '#29b6f6', // Border color on hover
+        borderColor: '#688199', // Border color on hover
       },
     }),
 
       dropdownIndicator: (provided , state) => ({
         ...provided,
-        color: state.isFocused ? '#3498db' : '#ccc', 
+        color: state.isFocused ? '#6A8CAD' : '#ccc', 
       }),
       option: (provided, state) => ({
         ...provided,
-        backgroundColor: state.isSelected ? '#3498db' : state.isFocused ? '#aad7f5' : null,
+        backgroundColor: state.isSelected ? '#6A8CAD' : state.isFocused ? '#C3DDF7' : null,
         color: state.isSelected ? 'white' : '#333', // Option text color
       }),
   };

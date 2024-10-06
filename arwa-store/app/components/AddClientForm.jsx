@@ -5,7 +5,7 @@ import SelectCity from "./SelectCity";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function AddClientForm({handleOpen}) {
+export default function AddClientForm({ getClients, handleOpen }) {
   const [client, setClient] = React.useState({
     name: "",
     tele: "",
@@ -41,7 +41,7 @@ export default function AddClientForm({handleOpen}) {
           ville: "",
           adress: "",
         });
-        
+
         router.refresh();
       })(),
       {
@@ -50,7 +50,7 @@ export default function AddClientForm({handleOpen}) {
         error: "Échec de l'ajout du client",
       }
     );
-    getClients()
+    getClients();
   };
 
   return (
@@ -69,7 +69,7 @@ export default function AddClientForm({handleOpen}) {
               <Input
                 name="name"
                 onChange={HandleChange}
-                color="light-blue"
+                color="blue-gray"
                 label="name"
                 size="md"
                 value={client.name}
@@ -82,7 +82,7 @@ export default function AddClientForm({handleOpen}) {
               <Input
                 name="tele"
                 onChange={HandleChange}
-                color="light-blue"
+                color="blue-gray"
                 label="télé"
                 size="md"
                 type="tel"
@@ -106,7 +106,7 @@ export default function AddClientForm({handleOpen}) {
               <Input
                 name="adress"
                 onChange={HandleChange}
-                color="light-blue"
+                color="blue-gray"
                 label="Adress"
                 size="md"
                 value={client.adress}
@@ -114,11 +114,15 @@ export default function AddClientForm({handleOpen}) {
             </div>
           </div>
         </CardBody>
-        <CardFooter className="pt-0 flex flex-row justify-end">
-          <Button onClick={Confirmer} color="light-blue"  >
+        <CardFooter className="pt-0 flex flex-row justify-end ">
+          <Button onClick={Confirmer} color="green" className="rounded-full">
             Ajouter
           </Button>
-          <Button className="mx-3" onClick={()=>handleOpen()} color="deep-orange" >
+          <Button
+            className="mx-3 rounded-full hover-button"
+            onClick={() => handleOpen()}
+            color="deep-orange"
+          >
             Fermer
           </Button>
         </CardFooter>

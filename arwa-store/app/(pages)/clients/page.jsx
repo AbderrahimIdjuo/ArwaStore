@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Input, Button, Typography, Dialog } from "../MT";
-import AddClientForm from "./AddClientForm";
+import { Input, Button, Typography, Dialog } from "../../MT";
+import AddClientForm from "../../components/AddClientForm";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
-import ClientsTable from "./ClientsTable";
+import ClientsTable from "../../components/ClientsTable";
+import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 export default function ClientFeiled() {
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -32,6 +33,9 @@ export default function ClientFeiled() {
 
   return (
     <>
+<NavBar/>
+    <div className="container flex flex-col gap-2">
+    <div className="content rounded flex flex-col gap-4">
       <div className="flex flex-row justify-between">
         <div className="flex flex-row gap-2 items-center w-1/3">
           <Input
@@ -74,6 +78,8 @@ export default function ClientFeiled() {
       >
         <AddClientForm getClients={getClients} handleOpen={handleOpen} />
       </Dialog>
+      </div>
+      </div>
     </>
   );
 }

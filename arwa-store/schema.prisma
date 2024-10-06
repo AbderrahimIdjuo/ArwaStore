@@ -18,6 +18,7 @@ model clients {
   tele          String?      @unique
   ville         String?
   adress        String?
+  sold          Int?
   commandes     commandes[]  
 }
 
@@ -45,3 +46,21 @@ model commandes {
 
 }
 
+model factures {
+  id                  String       @default(cuid()) @id
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  barid               Int?          @default(0)
+  chaabi              Int?          @default(0)
+  cih                 Int?          @default(0)
+  cash                Int?          @default(0)
+  cashPlus            Int?          @default(0)
+  beyou               Int?          @default(0)    
+  fornisseur          Int?          @default(0)
+  credit_negatif      Int?          @default(0)
+  credit_positif      Int?          @default(0)
+  non_paye            Int?          @default(0)
+  non_livre           Int?          @default(0)
+  capital_reel        Int?          @default(0)
+  capital_general     Int?          @default(0)
+}

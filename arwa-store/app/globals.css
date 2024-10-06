@@ -36,3 +36,26 @@ box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
 }
 
 
+/* Styling the button */
+.hover-button {
+    background-color: white; /* Initial button color */
+    color: #f32013;
+    border: 1px solid #f32013;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Hover state to change button color */
+  .hover-button:hover {
+    background-color: #f32013;
+    color: #ffffff; /* Color on hover */
+  }
+
+  .display-compta {
+    border: 2px solid #5e5c69;
+    padding-bottom: 0px;
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
+  }
+
+ 

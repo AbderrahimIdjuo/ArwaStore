@@ -57,7 +57,7 @@ export default function AddOrder() {
 
         console.log("Commande ajouté avec succès", Data);
         setStatus("");
-        setSelectedClient("")
+        setSelectedClient("");
         reset();
         //router.refresh();
       })(),
@@ -86,7 +86,10 @@ export default function AddOrder() {
                 <Typography className="-mb-2" variant="h6">
                   Client
                 </Typography>
-                <SelectClient setClientID={setClientID} value={selectedClient}/>
+                <SelectClient
+                  setClientID={setClientID}
+                  value={selectedClient}
+                />
               </div>
               <div id="Input-feild" className="flex flex-col w-1/5 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">

@@ -117,7 +117,7 @@ export default function ClientsTable({ searchValue }) {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {client.name}
+                      {client.name.toUpperCase()}
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -180,38 +180,49 @@ export default function ClientsTable({ searchValue }) {
           handler={handleOpen}
           className="bg-transparent shadow-none dialog"
         >
-          <UpdateClientForm getClients={getClients} client={clientClicked} />
+          <UpdateClientForm handleOpen={handleOpen} getClients={getClients} client={clientClicked} />
         </Dialog>
         <Dialog open={confirmDelete} handler={handleconfirmDelete}>
-          <DialogHeader>
-           
-            <Typography variant="h4" color="deep-orange" className="font-normal p-3 flex flex-row gap-2">             
+          <DialogHeader className="py-1">
+            <Typography
+              variant="h4"
+              color="red"
+              className="font-normal p-3 flex flex-row gap-2"
+            >
               <ExclamationCircleIcon className="h-7 w-7" />
               Warning
             </Typography>
           </DialogHeader>
           <DialogBody>
-            Êtes-vous sûr de vouloir supprimer ce client ? Cette action est
-            irréversible.
+            <Typography
+              color="blue-gray"
+              className="ml-4 font-normal"
+              variant="paragraph"
+            >
+              Êtes-vous sûr de vouloir supprimer ce client ? Cette action est
+              irréversible.
+            </Typography>
           </DialogBody>
           <DialogFooter>
-            <Button
-              variant="gradient"
-              color="light-blue"
-              onClick={() => {
-                deletClient(clientClicked.id)
-                handleconfirmDelete();
-              }}
-            >
-              <span>Confirm</span>
-            </Button>
-            <Button
-              color="deep-orange"
-              onClick={handleconfirmDelete}
-              className="ml-2"
-            >
-              <span>Cancel</span>
-            </Button>
+            <>
+              <Button
+                color="green"
+                className=" mx-1 rounded-full"
+                onClick={() => {
+                  deletClient(clientClicked.id);
+                  handleconfirmDelete();
+                }}
+              >
+                Oui
+              </Button>
+              <Button
+                color="deep-orange"
+                onClick={handleconfirmDelete}
+                className="mx-1 rounded-full hover-button"
+              >
+                Fermer
+              </Button>
+            </>
           </DialogFooter>
         </Dialog>
       </Card>

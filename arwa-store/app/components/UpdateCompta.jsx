@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function AddComptaForm() {
+export default function UpdateCompta({HandleOpenUpdate , getFactures, facture }) {
   const router = useRouter();
   const {
     register,
@@ -14,16 +14,26 @@ export default function AddComptaForm() {
     reset,
     getValues,
     formState: { errors, isSubmitting },
-  } = useForm();
-
-
+  } = useForm({
+    defaultValues: { 
+      cash : facture.cash ,
+      barid : facture.barid,
+      cih : facture.cih ,
+      cashPlus : facture.cashPlus,
+      chaabi : facture.chaabi,
+      fornisseur : facture.fornisseur,
+      creditPositif : facture.credit_positif,
+      creditNegatif : facture.credit_negatif,
+      nonPaye : facture.non_paye ,
+      nonLivre : facture.non_livre,
+      beyou : facture.beyou
+    }
+  });
   const onSubmit = async (data) => {
-    console.log(data);
-    
     toast.promise(
       (async () => {
-        const response = await fetch("/api/espace-factures", {
-          method: "POST",
+        const response = await fetch(`/api/espace-factures/${facture.id}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,19 +41,21 @@ export default function AddComptaForm() {
         });
 
         if (!response.ok) {
-          throw new Error("Echec de l'ajout ");
+          throw new Error("Échec de la modification");
         }
 
         reset();
+        getFactures();
         router.refresh();
       })(),
       {
-        loading: "Ajout de la facture...",
-        success: "Facture ajouté avec succès!",
-        error: "Échec de l'ajout de la facture",
+        loading: "Modification de la facture...",
+        success: "Facture modifier avec succès!",
+        error: "Échec de la modification",
       }
     );
   };
+
   const Inputs=[
     {title : "Cash" , lable :"cash"},
     {title : "Barid Bank" , lable :"barid"},
@@ -66,7 +78,7 @@ export default function AddComptaForm() {
           <CardBody className="flex flex-col gap-4">
 
             <Typography variant="h4" color="blue-gray">
-              Ajouter une facture
+              Modifier une facture
             </Typography>
             <div className="grid grid-cols-4 gap-3">
             {Inputs.map(element => {
@@ -92,12 +104,18 @@ export default function AddComptaForm() {
               type="submit"
               color="green"
               className="rounded-full"
+              onClick={()=>{
+                HandleOpenUpdate()
+              }}
             >
-              Ajouter
+              Modifier
             </Button>
             <Button
               className="mx-3 rounded-full hover-button"
               color="deep-orange"
+              onClick={()=>{
+                HandleOpenUpdate()
+              }}
             >
               Fermer
             </Button>

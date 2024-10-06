@@ -1,14 +1,19 @@
 "use client";
-import { Input, Button, Typography, Dialog } from "../MT";
+import { Input, Button, Typography, Dialog } from "../../MT";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
-import AddComptaForm from "./AddComptaForm ";
-import CpmtaTable from "./ComptaTable";
+import AddComptaForm from "../../components/AddComptaForm ";
+import CpmtaTable from "../../components/ComptaTable";
+import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
+
 import React from "react";
 export default function ComptaFeiled() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
   return (
     <>
+    <NavBar/>
+    <div className="container flex flex-col gap-2">
+    <div className="content rounded flex flex-col gap-4">
       <div className="flex flex-row">
         <div className="flex flex-row gap-2 items-center w-2/3">
           <Input
@@ -45,6 +50,8 @@ export default function ComptaFeiled() {
       >
         <AddComptaForm />
       </Dialog>
+      </div>
+      </div>
     </>
   );
 }
