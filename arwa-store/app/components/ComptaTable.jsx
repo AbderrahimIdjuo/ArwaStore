@@ -31,8 +31,8 @@ const TABLE_HEAD = [
   "",
 ];
 
-export default function CpmtaTable() {
-  const [facturesList, setFacturesList] = useState([]);
+export default function CpmtaTable({facturesList , getFactures}) {
+ // const [facturesList, setFacturesList] = useState([]);
   const [factureClicked, setFactureClicked] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -46,22 +46,22 @@ export default function CpmtaTable() {
   const HandleOpenUpdate = () => {
     setOpenUpdate((cur) => !cur);
   };
-  const getFactures = async () => {   
-    try {
-      const result = await fetch("/api/espace-factures", {
-        methode: "GET",
-      });
-      const factures = await result.json();
-      setFacturesList(factures.factures);
-      console.log(factures.factures);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    console.log("fetching factures");
-    getFactures();
-  }, []);
+  // const getFactures = async () => {   
+  //   try {
+  //     const result = await fetch("/api/espace-factures", {
+  //       methode: "GET",
+  //     });
+  //     const factures = await result.json();
+  //     setFacturesList(factures.factures);
+  //     console.log(factures.factures);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+  // useEffect(() => {
+  //   console.log("fetching factures");
+  //   getFactures();
+  // }, []);
 
   const deletFacture = async (factureID) => {
     try {
@@ -80,7 +80,7 @@ export default function CpmtaTable() {
   return (
     <>
       <Toaster position="top-center" />
-      <Card className="h-full w-full overflow-scroll">
+      <Card className="h-full w-full">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>

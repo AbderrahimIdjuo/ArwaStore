@@ -67,7 +67,7 @@ export default function FactureDetails({HandleOpenDetails , facture }) {
                 <ListItemSuffix>
                   <Chip
                     value={`${facture.capital_reel} DH`}
-                    variant="gradient"
+                    variant="filled"
                     size="LG"
                     color="green"
                     className="rounded-full"
@@ -85,7 +85,7 @@ export default function FactureDetails({HandleOpenDetails , facture }) {
                 <ListItemSuffix>
                   <Chip
                     value={`${facture.capital_general} DH`}
-                    variant="gradient"
+                    variant="filled"
                     size="lg"
                     color="amber"
                     className="rounded-full"

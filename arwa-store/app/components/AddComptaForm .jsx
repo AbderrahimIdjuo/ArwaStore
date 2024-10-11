@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function AddComptaForm() {
+export default function AddComptaForm({handleOpen , getFactures }) {
   const router = useRouter();
   const {
     register,
@@ -16,10 +16,7 @@ export default function AddComptaForm() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-
   const onSubmit = async (data) => {
-    console.log(data);
-    
     toast.promise(
       (async () => {
         const response = await fetch("/api/espace-factures", {
@@ -36,6 +33,7 @@ export default function AddComptaForm() {
 
         reset();
         router.refresh();
+        getFactures();
       })(),
       {
         loading: "Ajout de la facture...",
@@ -44,19 +42,19 @@ export default function AddComptaForm() {
       }
     );
   };
-  const Inputs=[
-    {title : "Cash" , lable :"cash"},
-    {title : "Barid Bank" , lable :"barid"},
-    {title : "CIH Bank" , lable :"cih"},
-    {title : "Cash Plus" , lable :"cashPlus"},
-    {title : "Chaabi Bank" , lable :"chaabi"},
-    {title : "Fornisseur" , lable :"fornisseur"},
-    {title : "Beyou" , lable :"beyou"},
-    {title : "Crédit positif" , lable :"creditPositif"},
-    {title : "Crédit négatif" , lable :"creditNegatif"},
-    {title : "Non payé" , lable :"nonPaye"},
-    {title : "Non Livré" , lable :"nonLivre"},
-  ]
+  const Inputs = [
+    { title: "Cash", lable: "cash" },
+    { title: "Barid Bank", lable: "barid" },
+    { title: "CIH Bank", lable: "cih" },
+    { title: "Cash Plus", lable: "cashPlus" },
+    { title: "Chaabi Bank", lable: "chaabi" },
+    { title: "Fornisseur", lable: "fornisseur" },
+    { title: "Beyou", lable: "beyou" },
+    { title: "Crédit positif", lable: "creditPositif" },
+    { title: "Crédit négatif", lable: "creditNegatif" },
+    { title: "Non payé", lable: "nonPaye" },
+    { title: "Non Livré", lable: "nonLivre" },
+  ];
 
   return (
     <>
@@ -64,46 +62,45 @@ export default function AddComptaForm() {
       <Card className="mx-auto w-full z-10 pb-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
-
             <Typography variant="h4" color="blue-gray">
               Ajouter une facture
             </Typography>
             <div className="grid grid-cols-4 gap-3">
-            {Inputs.map(element => {
-              return (
-                <div id="Input-feild" className="flex flex-col gap-4 mx-2">
-                <Typography className="-mb-2" variant="h6">
-                  {element.title}
-                </Typography>
-                <Input
-                  {...register(`${element.lable}`)}
-                  color="blue-gray"
-                  size="md"
-                  type="number"
-                  min={0}
-                  label={element.title}
-                />
+              {Inputs.map((element , index) => {
+                return (
+                  <div key={index} id="Input-feild" className="flex flex-col gap-4 mx-2">
+                    <Typography className="-mb-2" variant="h6">
+                      {element.title}
+                    </Typography>
+                    <Input
+                      {...register(`${element.lable}`)}
+                      color="blue-gray"
+                      size="md"
+                      type="number"
+                      min={0}
+                      label={element.title}
+                    />
+                  </div>
+                );
+              })}
+              <div className="flex flex-row items-end justify-end">
+                <Button
+                  disabled={isSubmitting}
+                  type="submit"
+                  color="green"
+                  className="rounded-full"
+                >
+                  Ajouter
+                </Button>
+                <Button
+                  className="mx-3 rounded-full hover-button"
+                  color="deep-orange"
+                  onClick={()=>{handleOpen()}}
+                >
+                  Fermer
+                </Button>
               </div>
-              )
-            })}
-            <div className="flex flex-row items-end justify-end">
-            <Button
-              disabled={isSubmitting}
-              type="submit"
-              color="green"
-              className="rounded-full"
-            >
-              Ajouter
-            </Button>
-            <Button
-              className="mx-3 rounded-full hover-button"
-              color="deep-orange"
-            >
-              Fermer
-            </Button>
             </div>
-            </div>
-
           </CardBody>
         </form>
       </Card>

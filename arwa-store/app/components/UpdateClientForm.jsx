@@ -4,119 +4,184 @@ import { Button, Card, CardBody, CardFooter, Typography, Input } from "../MT";
 import SelectCity from "./SelectCity";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import {
+  ExclamationCircleIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/solid";
 
-export default function UpdateClientForm({handleOpen , client, getClients }) {
-  const [Client, setClient] = React.useState(client);
+export default function UpdateClientForm({ handleOpen, client, getClients }) {
+  const [Client, setClient] = useState(client);
+  const [ville, setVille] = useState(client.ville);
+  const [teleError, setTeleError] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isSubmitting, dirtyFields },
+  } = useForm({ mode: "onChange" });
 
   const router = useRouter();
-  const HandleChange = (event) => {
-    setClient((cur) => ({ ...cur, [event.target.name]: event.target.value }));
-  };
-  const Confirmer = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`/api/espace-client/${Client.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(Client),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to update client");
+  const teleValue = watch("tele");
+  useEffect(() => {
+    setTeleError(null);
+  }, [teleValue]);
+  const onSubmit = async (data) => {
+    const Data = { ...data, ville: ville.name };
+    toast.promise(
+      (async () => {
+        const response = await fetch(`/api/espace-client/${Client.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(Data),
+        });
+        if (response.status === 409) {
+          setTeleError("Phone number already existe!");
+          console.log("response.status === 409");
+        }
+        if (!response.ok) {
+          throw new Error("Failed to add client");
+        }
+
+        console.log("Client ajouté avec succès");
+        reset();
+        handleOpen();
+        router.refresh();
+        getClients();
+      })(),
+      {
+        loading: "Ajout de client...",
+        success: "Client ajouté avec succès!",
+        error: "Échec de l'ajout du client",
       }
-
-      console.log("Client modifier avec succès");
-      toast.success("Client modifier avec succès!");
-
-      setClient({
-        name: "",
-        tele: "",
-        nbrArticls: "",
-        ville: "",
-        adress: "",
-      });
-      router.refresh();
-    } catch (error) {
-      console.log("err code :" + error.code);
-      toast.error("Numéro de tele déja exist");
-    }
-    getClients();
+    );
   };
-
   return (
     <>
       <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10">
-        <CardBody className="flex flex-col gap-4">
-          <Typography variant="h4" color="blue-gray">
-            Modifier un client
-          </Typography>
-          <div className="flex flex-row justify-evenly">
-            <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
-              <Typography className="-mb-2" variant="h6">
-                Nom et Prénom
-              </Typography>
-              <Input
-                name="name"
-                onChange={HandleChange}
-                color="blue-gray"
-                label="name"
-                size="md"
-                value={Client.name}
-              />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CardBody className="flex flex-col gap-4">
+            <Typography variant="h4" color="blue-gray">
+              Modifier un client
+            </Typography>
+            <div className="flex flex-row justify-evenly">
+              <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
+                <Typography className="-mb-2" variant="h6">
+                  Nom et Prénom
+                </Typography>
+                <Input
+                  {...register("name", {
+                    required: "Name is required",
+                  })}
+                  defaultValue={Client.name}
+                  color="blue-gray"
+                  label="name"
+                  size="md"
+                  spellcheck="false"
+                />
+                {errors.name && (
+                  <Typography
+                    color="red"
+                    className="flex flex-row gap-2  text-xs font-normal"
+                  >
+                    <ExclamationCircleIcon className="h-4 w-4" />
+                    {errors.name.message}
+                  </Typography>
+                )}
+              </div>
+              <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
+                <Typography className="-mb-2" variant="h6">
+                  Téléphone
+                </Typography>
+                <Input
+                  {...register("tele", {
+                    required: "Phone number is required",
+                    minLength: {
+                      value: 10,
+                      message: "Phone number must be exactly 10 characters",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "Phone number must be exactly 10 characters",
+                    },
+                  })}
+                  defaultValue={Client.tele}
+                  color="blue-gray"
+                  label="télé"
+                  size="md"
+                  type="tel"
+                />
+                {errors.tele && (
+                  <Typography
+                    color="red"
+                    className="flex flex-row gap-2  text-xs font-normal"
+                  >
+                    <ExclamationCircleIcon className="h-4 w-4" />
+                    {errors.tele.message}
+                  </Typography>
+                )}
+                {teleError && (
+                  <Typography
+                    color="red"
+                    className="flex flex-row gap-2  text-xs font-normal"
+                  >
+                    <ExclamationCircleIcon className="h-4 w-4" />
+                    {teleError}
+                  </Typography>
+                )}
+                {dirtyFields.tele && !errors.tele && !teleError && (
+                  <Typography
+                    color="green"
+                    className="flex flex-row gap-2  text-xs font-normal"
+                  >
+                    <CheckCircleIcon className="h-4 w-4" />
+                    Looks good!
+                  </Typography>
+                )}
+              </div>
             </div>
-            <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
-              <Typography className="-mb-2" variant="h6">
-                Téléphone
-              </Typography>
-              <Input
-                name="tele"
-                onChange={HandleChange}
-                color="blue-gray"
-                label="télé"
-                size="md"
-                type="tel"
-                value={Client.tele}
-              />
-            </div>
-          </div>
 
-          <div className="flex flex-row justify-evenly">
-            <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
-              <Typography className="-mb-2" variant="h6">
-                Ville
-              </Typography>
-              <SelectCity setClient={setClient} value={Client.ville} />
-            </div>
+            <div className="flex flex-row justify-evenly">
+              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+                <Typography className="-mb-2" variant="h6">
+                  Ville
+                </Typography>
+                <SelectCity defaultville={Client.ville} setVille={setVille} />
+              </div>
 
-            <div id="Input-feild" className="flex flex-col w-3/4 gap-4 mx-2">
-              <Typography className="-mb-2" variant="h6">
-                Adress
-              </Typography>
-              <Input
-                name="adress"
-                onChange={HandleChange}
-                color="blue-gray"
-                label="Adress"
-                size="md"
-                value={Client.adress}
-              />
+              <div id="Input-feild" className="flex flex-col w-3/4 gap-4 mx-2">
+                <Typography className="-mb-2" variant="h6">
+                  Adress
+                </Typography>
+                <Input
+                  {...register("adress")}
+                  defaultValue={Client.adress}
+                  name="adress"
+                  color="blue-gray"
+                  label="Adress"
+                  size="md"
+                />
+              </div>
             </div>
-          </div>
-        </CardBody>
-        <CardFooter className="pt-0 flex flex-row justify-end">
-          <Button onClick={Confirmer} color="green" className="rounded-full">
-            Modifier
-          </Button>
-          <Button
-            className="mx-3 rounded-full hover-button"
-            color="deep-orange"
-            onClick={()=>{handleOpen()}}
-          >
-            Fermer
-          </Button>
-        </CardFooter>
+          </CardBody>
+          <CardFooter className="pt-0 flex flex-row justify-end ">
+            <Button type="submit" color="green" className="rounded-full">
+              Modofier
+            </Button>
+            <Button
+              className="mx-3 rounded-full hover-button"
+              onClick={() => handleOpen()}
+              color="deep-orange"
+            >
+              Fermer
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
     </>
   );

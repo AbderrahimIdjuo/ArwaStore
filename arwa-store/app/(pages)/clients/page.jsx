@@ -1,4 +1,5 @@
 "use client";
+import "../../globals.css";
 import { useState, useEffect } from "react";
 import { Input, Button, Typography, Dialog } from "../../MT";
 import AddClientForm from "../../components/AddClientForm";
@@ -15,6 +16,11 @@ export default function ClientFeiled() {
     setSearchValue(value);
   };
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Client-side only code here
+    }
+  }, []);
   const getClients = async () => {
     try {
       const result = await fetch(`/api/espace-client`, {
@@ -67,7 +73,7 @@ export default function ClientFeiled() {
           </Button>
         </div>
       </div>
-      <ClientsTable searchValue={searchValue} />
+      <ClientsTable getClients={getClients} clientList={clientsList} setClientList={setClientsList} searchValue={searchValue} />
 
       <Dialog
         id="ajouter-client"

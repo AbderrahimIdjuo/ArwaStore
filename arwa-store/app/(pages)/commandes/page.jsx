@@ -1,4 +1,5 @@
 "use client";
+import "../../globals.css";
 import { Input, Button, Typography, Dialog, Select, Option } from "../../MT";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
 import AddClientForm from "../../components/AddOrderForm";

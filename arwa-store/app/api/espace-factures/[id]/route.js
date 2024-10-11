@@ -51,3 +51,15 @@ export async function PUT(req , {params}){
     return NextResponse.json(facture)
     
 }
+
+export async function GET(req , {params}){
+    const page = params.id
+    const factures = await prisma.factures.findMany({
+        skip : (page - 1)*5,
+        take : 5 ,
+        orderBy: {
+            updatedAt: 'desc' 
+        }
+    })
+    return NextResponse.json({factures})
+}

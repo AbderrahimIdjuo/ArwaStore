@@ -4,7 +4,7 @@ module.exports = withMT({
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx,html}",
     "node_modules/@material-tailwind/react/components/**/*.{js,ts,jsx,tsx}",
     "node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
@@ -16,6 +16,11 @@ module.exports = withMT({
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
+    colors: {
+      // Include all necessary colors (like 'slate', 'red', etc.) here:
+      ...require("tailwindcss/colors"),
+    },
   },
+
   plugins: [],
 });

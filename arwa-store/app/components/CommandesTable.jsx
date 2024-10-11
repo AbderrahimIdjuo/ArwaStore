@@ -169,31 +169,31 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
+                    <Tooltip
+                      animate={{
+                        mount: { scale: 1, y: 0 },
+                        unmount: { scale: 0, y: 25 },
+                      }}
+                      className="border border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
+                      placement="top"
+                      content={
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {commande.description}
+                        </Typography>
+                      }
                     >
-                      <Tooltip
-                        animate={{
-                          mount: { scale: 1, y: 0 },
-                          unmount: { scale: 0, y: 25 },
-                        }}
-                        className="border border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
-                        placement="top"
-                        content={
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {commande.description}
-                          </Typography>
-                        }
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
                       >
                         {commande.description.slice(0, 15)}
-                      </Tooltip>
-                    </Typography>
+                      </Typography>
+                    </Tooltip>
                   </td>
                   <td className={classes}>
                     <Typography
@@ -246,7 +246,12 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      <Chip variant="filled" className="rounded-full text-center" value={label} color={color} />
+                      <Chip
+                        variant="filled"
+                        className="rounded-full text-center"
+                        value={label}
+                        color={color}
+                      />
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -254,7 +259,6 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                       onClick={() => {
                         setCommandeClicked(commande);
                         setClientClicked(client);
-
                         HandleOpenUpdate();
                       }}
                       variant="text"

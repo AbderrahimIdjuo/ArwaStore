@@ -21,36 +21,21 @@ import UpdateClientForm from "./UpdateClientForm";
 
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse", ""];
 
-export default function ClientsTable({ searchValue }) {
+export default function ClientsTable({clientList , getClients , setClientList, searchValue}) {
   const [open, setOpen] = useState(false);
   const [clientClicked, setClientClicked] = useState();
-  const [clientList, setClientList] = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const handleconfirmDelete = () => setConfirmDelete((cur) => !cur);
   const handleOpen = () => setOpen((cur) => !cur);
   const router = useRouter();
 
-  const getClients = async () => {
-    try {
-      const result = await fetch(`/api/espace-client`, {
-        method: "GET",
-      });
-      const clientList = await result.json();
-      setClientList(clientList.Clients);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    getClients();
-  }, []);
   useEffect(() => {
     HandleClientsList();
   }, [searchValue]);
 
   function HandleClientsList() {
     if (searchValue.length > 1) {
-      const List = clientList.filter((client) => {
+      const List = clientList?.filter((client) => {
         return (
           client.name.toLowerCase().includes(searchValue.toLowerCase()) ||
           client.tele.includes(searchValue) ||
@@ -69,9 +54,37 @@ export default function ClientsTable({ searchValue }) {
       await fetch(`/api/espace-client/${clidntId}`, {
         method: "DELETE",
       });
-      toast("Client supprimer avec succée!", {
-        icon: "🗑️",
-      });
+      toast.custom((t) => {
+        setTimeout(() => {
+          toast.dismiss(t.id);
+        }, 1500);
+return(
+        <div
+          className={`${
+            t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-center">
+              <div className="flex-shrink-0 pt-0.5">
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src="https://img.freepik.com/vecteurs-libre/illustration-icone-corbeille_53876-5598.jpg?t=st=1728593013~exp=1728596613~hmac=307cc5863cc614a6daeeff1cc90d694a794e36e1b5719a9a69b59d10d9114eb1&w=826"
+                  alt=""
+                />
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-gray-900">
+                  {clientClicked.name.toUpperCase()}
+                </p>
+                <p className="mt-1 text-sm text-gray-500">
+                  à été supprimer avec succée!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )})
       getClients();
       router.refresh();
     } catch (e) {
@@ -199,7 +212,7 @@ export default function ClientsTable({ searchValue }) {
               className="ml-4 font-normal"
               variant="paragraph"
             >
-              Êtes-vous sûr de vouloir supprimer ce client ? Cette action est
+              Êtes-vous sûr de vouloir supprimer <span className="font-bold">{clientClicked?.name.toUpperCase()}</span>  ? Cette action est
               irréversible.
             </Typography>
           </DialogBody>
