@@ -156,8 +156,8 @@ export default function AddOrder() {
                   Status
                 </Typography>
                 <Select value={status} label="Status" onChange={HandleStatus}>
-                  {Status.map((statu) => (
-                    <Option value={statu.label}>{statu.label}</Option>
+                  {Status.map((statu , index) => (
+                    <Option key={index} value={statu.label}>{statu.label}</Option>
                   ))}
                 </Select>
               </div>

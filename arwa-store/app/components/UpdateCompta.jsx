@@ -81,9 +81,9 @@ export default function UpdateCompta({HandleOpenUpdate , getFactures, facture })
               Modifier une facture
             </Typography>
             <div className="grid grid-cols-4 gap-3">
-            {Inputs.map(element => {
+            {Inputs.map((element , index) => {
               return (
-                <div id="Input-feild" className="flex flex-col gap-4 mx-2">
+                <div key={index} id="Input-feild" className="flex flex-col gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   {element.title}
                 </Typography>

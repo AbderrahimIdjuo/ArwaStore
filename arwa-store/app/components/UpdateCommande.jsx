@@ -183,8 +183,8 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                   onChange={HandleStatus}
                   value={status}
                 >
-                  {Status.map((statu) => (
-                    <Option value={statu.label}>{statu.label}</Option>
+                  {Status.map((statu , index) => (
+                    <Option key={index} value={statu.label}>{statu.label}</Option>
                   ))}
                 </Select>
               </div>

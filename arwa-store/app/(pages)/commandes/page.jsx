@@ -54,8 +54,8 @@ export default function CommandeFeiled() {
             icon={<MagnifyingGlassIcon color="blue-gray" className="h-6 w-6" />}
           />
           <Select value={status} label="Status" onChange={HandleStatus}>
-            {Status.map((statu) => (
-              <Option value={statu.label}>{statu.label}</Option>
+            {Status.map((statu,index) => (
+              <Option key={index} value={statu.label}>{statu.label}</Option>
             ))}
           </Select>
         </div>
