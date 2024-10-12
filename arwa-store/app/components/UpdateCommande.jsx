@@ -101,7 +101,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
-                  Nombre d'articles
+                  Nombre d&apos;articles
                 </Typography>
                 <Input
                   {...register("nbrArticls")}

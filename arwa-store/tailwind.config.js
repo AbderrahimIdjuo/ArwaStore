@@ -10,6 +10,13 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+      colors: {
+        sky: require('tailwindcss/colors').sky,
+        stone: require('tailwindcss/colors').stone,
+        neutral: require('tailwindcss/colors').neutral,
+        gray: require('tailwindcss/colors').gray,
+        slate: require('tailwindcss/colors').slate,
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

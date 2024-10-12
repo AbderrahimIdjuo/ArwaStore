@@ -91,10 +91,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
     }
   };
 
-  useEffect(() => {
-    HandleCommandesList();
-    console.log(statusFilter);
-  }, [statusFilter , HandleCommandesList]);
+
   const handleCommandesList = useCallback(() => {
     if (statusFilter) {
       const list = Commandes.filter((commande) => {
@@ -109,7 +106,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
   useEffect(() => {
     handleCommandesList();
     console.log(statusFilter);
-  }, [statusFilter, handleCommandesList]);
+  }, [statusFilter]);
 
   return (
     <>

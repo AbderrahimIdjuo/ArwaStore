@@ -49,7 +49,7 @@ export default function ClientsTable({clientList , getClients , setClientList, s
     } else {
       getClients(); // Make sure this resets the client list as needed
     }
-  }, [searchValue, clientList]); // Include clientList as a dependency
+  }, [searchValue, clientList , getClients , setClientList]); // Include clientList as a dependency
 
   const deletClient = async (clidntId) => {
     try {
