@@ -28,7 +28,7 @@ export default function ComptaFeiled() {
   useEffect(() => {
     console.log("fetching factures");
     getFactures();
-  }, [page]);
+  }, [page , getFactures]);
   return (
     <>
       <NavBar />

@@ -18,6 +18,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import UpdateClientForm from "./UpdateClientForm";
+import Image from "next/image";
 
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse", ""];
 
@@ -31,7 +32,7 @@ export default function ClientsTable({clientList , getClients , setClientList, s
 
   useEffect(() => {
     HandleClientsList();
-  }, [searchValue]);
+  }, [searchValue , HandleClientsList]);
 
   function HandleClientsList() {
     if (searchValue.length > 1) {
@@ -67,7 +68,7 @@ return(
           <div className="flex-1 w-0 p-4">
             <div className="flex items-center">
               <div className="flex-shrink-0 pt-0.5">
-                <img
+                <Image
                   className="h-10 w-10 rounded-full"
                   src="https://img.freepik.com/vecteurs-libre/illustration-icone-corbeille_53876-5598.jpg?t=st=1728593013~exp=1728596613~hmac=307cc5863cc614a6daeeff1cc90d694a794e36e1b5719a9a69b59d10d9114eb1&w=826"
                   alt=""

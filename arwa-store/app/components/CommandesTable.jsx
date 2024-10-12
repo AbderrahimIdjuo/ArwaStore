@@ -94,7 +94,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
   useEffect(() => {
     HandleCommandesList();
     console.log(statusFilter);
-  }, [statusFilter]);
+  }, [statusFilter , HandleCommandesList]);
   function HandleCommandesList() {
     if (statusFilter) {
       const List = Commandes.filter((commande) => {
