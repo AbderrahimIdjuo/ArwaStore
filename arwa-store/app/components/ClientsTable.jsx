@@ -34,21 +34,22 @@ export default function ClientsTable({clientList , getClients , setClientList, s
     HandleClientsList();
   }, [searchValue , HandleClientsList]);
 
-  function HandleClientsList() {
+  const HandleClientsList = useCallback(() => {
     if (searchValue.length > 1) {
-      const List = clientList?.filter((client) => {
+      const filteredList = clientList?.filter((client) => {
         return (
           client.name.toLowerCase().includes(searchValue.toLowerCase()) ||
           client.tele.includes(searchValue) ||
           client.ville.toLowerCase().includes(searchValue.toLowerCase()) ||
           client.adress.toLowerCase().includes(searchValue.toLowerCase())
         );
-      });
-      setClientList(List);
+      }) || []; // Default to an empty array if clientList is undefined
+
+      setClientList(filteredList);
     } else {
-      getClients();
+      getClients(); // Make sure this resets the client list as needed
     }
-  }
+  }, [searchValue, clientList]); // Include clientList as a dependency
 
   const deletClient = async (clidntId) => {
     try {

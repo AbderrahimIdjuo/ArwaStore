@@ -4,27 +4,31 @@ import { Input, Button, Typography, Dialog } from "../../MT";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
 import AddComptaForm from "../../components/AddComptaForm ";
 import CpmtaTable from "../../components/ComptaTable";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useCallback } from "react";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 
-import React from "react";
 export default function ComptaFeiled() {  
   const [facturesList, setFacturesList] = useState([]);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
-  const getFactures = async () => {
+  const getFactures = useCallback(async () => {
     try {
       const result = await fetch(`/api/espace-factures/${page}`, {
-        methode: "GET",
+        method: "GET", 
       });
+      
+      if (!result.ok) {
+        throw new Error(`Error: ${result.status}`);
+      }
+
       const factures = await result.json();
       setFacturesList(factures.factures);
       console.log("get factures working!");
     } catch (e) {
-      console.log(e);
+      console.error(e); 
     }
-  };
+  }, [page]);
   useEffect(() => {
     console.log("fetching factures");
     getFactures();

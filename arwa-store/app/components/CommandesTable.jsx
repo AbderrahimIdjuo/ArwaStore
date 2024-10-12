@@ -8,7 +8,7 @@ import {
   Dialog,
 } from "../MT";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useCallback  } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import ClientInfo from "./ClientInfo";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
   const [openUpdate, setOpenUpdate] = useState(false);
   const [clientClicked, setClientClicked] = useState(null);
   const [commandeClicked, setCommandeClicked] = useState(null);
-  const [commandeList, setCommandeList] = useState(null);
+  const [commandeList, setCommandeList] = useState([]);
 
   const router = useRouter();
 
@@ -95,16 +95,21 @@ export default function ClientsTable({ Commandes, statusFilter }) {
     HandleCommandesList();
     console.log(statusFilter);
   }, [statusFilter , HandleCommandesList]);
-  function HandleCommandesList() {
+  const handleCommandesList = useCallback(() => {
     if (statusFilter) {
-      const List = Commandes.filter((commande) => {
+      const list = Commandes.filter((commande) => {
         return commande.status === statusFilter;
       });
-      setCommandeList(List);
+      setCommandeList(list);
     } else {
-      getCommandes();
+      getCommandes(); // Fetch all commandes if no filter is set
     }
-  }
+  }, [statusFilter, Commandes]); // Include Commandes in the dependency array
+
+  useEffect(() => {
+    handleCommandesList();
+    console.log(statusFilter);
+  }, [statusFilter, handleCommandesList]);
 
   return (
     <>
