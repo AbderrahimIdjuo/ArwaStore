@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const withMT = require("@material-tailwind/react/utils/withMT");
+const colors = require('tailwindcss/colors');
+
 module.exports = withMT({
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,23 +13,17 @@ module.exports = withMT({
   theme: {
     extend: {
       colors: {
-        neutral: require('tailwindcss/colors').neutral,
-        gray: require('tailwindcss/colors').gray,
-        slate: require('tailwindcss/colors').slate,
-        sky: require('tailwindcss/colors').sky,
-        stone: require('tailwindcss/colors').stone,
+        neutral: colors.neutral,
+        gray: colors.gray,
+        slate: colors.slate,
+        sky: colors.sky,
+        stone: colors.stone,
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
-    colors: {
-      // Include all necessary colors (like 'slate', 'red', etc.) here:
-      ...require("tailwindcss/colors"),
-    },
   },
-
   plugins: [],
 });
