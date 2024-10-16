@@ -16,25 +16,35 @@ import {
 } from "@heroicons/react/24/solid";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState , forwardRef, useImperativeHandle }from "react";
 import UpdateClientForm from "./UpdateClientForm";
 import Image from "next/image";
+import { resolve } from "styled-jsx/css";
 
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse", ""];
-
-export default function ClientsTable({clientList , getClients , setClientList, searchValue}) {
+const ClientsTable = forwardRef(({clientList , getClients , setClientList, searchValue}, ref)=>{
   const [open, setOpen] = useState(false);
   const [clientClicked, setClientClicked] = useState();
+  const [list, setList] = useState([]);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const handleconfirmDelete = () => setConfirmDelete((cur) => !cur);
   const handleOpen = () => setOpen((cur) => !cur);
   const router = useRouter();
 
-  useEffect(() => {
-    HandleClientsList();
-  }, [searchValue , HandleClientsList]);
+  
 
-  const HandleClientsList = useCallback(() => {
+  
+  // useEffect(() => {
+  //   HandleClientsList();
+  // }, []);
+
+  useImperativeHandle(ref, () => ({
+    callFunction: HandleClientsList,
+  }));
+
+  const HandleClientsList = () => {
+    console.log("handel click was clicked! ");
+    
     if (searchValue.length > 1) {
       const filteredList = clientList?.filter((client) => {
         return (
@@ -43,13 +53,12 @@ export default function ClientsTable({clientList , getClients , setClientList, s
           client.ville.toLowerCase().includes(searchValue.toLowerCase()) ||
           client.adress.toLowerCase().includes(searchValue.toLowerCase())
         );
-      }) || []; // Default to an empty array if clientList is undefined
-
+      }) || [];
       setClientList(filteredList);
     } else {
-      getClients(); // Make sure this resets the client list as needed
+      getClients();
     }
-  }, [searchValue, clientList , getClients , setClientList]); // Include clientList as a dependency
+  }
 
   const deletClient = async (clidntId) => {
     try {
@@ -243,4 +252,5 @@ return(
       </Card>
     </>
   );
-}
+})
+export default ClientsTable
