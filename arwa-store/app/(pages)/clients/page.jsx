@@ -17,12 +17,9 @@ export default function ClientFeiled() {
     setSearchValue(value);
   };
   const HandlSearchClick = () => {
-
-      if(childRef.current){
-        childRef.current.callFunction()
-      }
-      
-  
+    if (childRef.current) {
+      childRef.current.callFunction();
+    }
   };
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -64,7 +61,7 @@ export default function ClientFeiled() {
               />
               <Button
                 size="sm"
-                color={searchValue ? "gray" : "blue-gray"}
+                color={searchValue ? "gray" : "slate"}
                 disabled={!searchValue}
                 className="!absolute right-1 top-1 rounded mb-2"
                 onClick={HandlSearchClick}

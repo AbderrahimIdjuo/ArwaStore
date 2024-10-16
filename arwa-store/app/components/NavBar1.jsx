@@ -34,7 +34,7 @@ export function NavbarWithSolidBackground() {
           <Typography
             as="li"
             variant="small"
-            color="blue-gray"
+            color="slate"
             className="p-1 font-normal"
           >
             Clients
@@ -43,30 +43,30 @@ export function NavbarWithSolidBackground() {
         </Button>
       </Link>
       <Link href="/commandes">
-      <Button variant="text" className="flex items-center gap-2" size="sm">
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          Commandes
-        </Typography>
-        <ShoppingBagIcon className="h-6 w-6" />
-      </Button>
+        <Button variant="text" className="flex items-center gap-2" size="sm">
+          <Typography
+            as="li"
+            variant="small"
+            color="slate"
+            className="p-1 font-normal"
+          >
+            Commandes
+          </Typography>
+          <ShoppingBagIcon className="h-6 w-6" />
+        </Button>
       </Link>
       <Link href="/factures">
-      <Button variant="text" className="flex items-center gap-2" size="sm">
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
-        >
-          Comptabilité
-        </Typography>
-        <BanknotesIcon className="h-6 w-6" />
-      </Button>
+        <Button variant="text" className="flex items-center gap-2" size="sm">
+          <Typography
+            as="li"
+            variant="small"
+            color="slate"
+            className="p-1 font-normal"
+          >
+            Comptabilité
+          </Typography>
+          <BanknotesIcon className="h-6 w-6" />
+        </Button>
       </Link>
     </ul>
   );
@@ -74,7 +74,7 @@ export function NavbarWithSolidBackground() {
   return (
     <div className="-m-6 max-h-[768px] w-[calc(100%+48px)] bg-[#263238]">
       <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 border-0">
-        <div className="flex items-center justify-between text-blue-gray-900 pt-4">
+        <div className="flex items-center justify-between text-slate-900 pt-4">
           <Typography
             as="a"
             href="#"

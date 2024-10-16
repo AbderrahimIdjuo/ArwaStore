@@ -27,7 +27,7 @@ const SelectClient = ({ setClientID, value, clientName }) => {
   return (
     <div>
       <Select
-        color="light-blue"
+        color="sky"
         label="Choisir le client"
         onChange={HandleChange}
         value={clientName}

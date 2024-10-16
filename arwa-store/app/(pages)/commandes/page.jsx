@@ -41,55 +41,57 @@ export default function CommandeFeiled() {
   };
   return (
     <>
-    <NavBar/>
-    <div className="container flex flex-col gap-2">
-    <div className="content rounded flex flex-col gap-4">
-      <div className="flex flex-row">
-        <div className="flex flex-row gap-2 items-center w-2/3">
-          <Input
-            name="search"
-            color="blue-gray"
-            label="Chercher une commandes"
-            size="md"
-            icon={<MagnifyingGlassIcon color="blue-gray" className="h-6 w-6" />}
+      <NavBar />
+      <div className="container flex flex-col gap-2">
+        <div className="content rounded flex flex-col gap-4">
+          <div className="flex flex-row">
+            <div className="flex flex-row gap-2 items-center w-2/3">
+              <Input
+                name="search"
+                color="slate"
+                label="Chercher une commandes"
+                size="md"
+                icon={<MagnifyingGlassIcon color="slate" className="h-6 w-6" />}
+              />
+              <Select value={status} label="Status" onChange={HandleStatus}>
+                {Status.map((statu, index) => (
+                  <Option key={index} value={statu.label}>
+                    {statu.label}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+            <div className="flex flex-row gap-2 justify-end w-1/3">
+              <Button
+                onClick={handleOpen}
+                className="button2 flex flex-row justfy-center items-center gap-2 rounded-full px-5"
+                color="green"
+                size="sm"
+              >
+                <PlusIcon color="white" className="h-6 w-6" />
+                <Typography variant="paragraph" color="white">
+                  Ajouter une commande
+                </Typography>
+              </Button>
+            </div>
+          </div>
+
+          <CommandesTable
+            statusFilter={status}
+            getCommandes={getCommandes}
+            Commandes={commandesList}
           />
-          <Select value={status} label="Status" onChange={HandleStatus}>
-            {Status.map((statu,index) => (
-              <Option key={index} value={statu.label}>{statu.label}</Option>
-            ))}
-          </Select>
-        </div>
-        <div className="flex flex-row gap-2 justify-end w-1/3">
-          <Button
-            onClick={handleOpen}
-            className="button2 flex flex-row justfy-center items-center gap-2 rounded-full px-5"
-            color="green"
-            size="sm"
+
+          <Dialog
+            id="ajouter-commande"
+            size="xl"
+            open={open}
+            handler={handleOpen}
+            className="bg-transparent shadow-none dialog"
           >
-            <PlusIcon color="white" className="h-6 w-6" />
-            <Typography variant="paragraph" color="white">
-              Ajouter une commande
-            </Typography>
-          </Button>
+            <AddClientForm />
+          </Dialog>
         </div>
-      </div>
-
-      <CommandesTable
-        statusFilter={status}
-        getCommandes={getCommandes}
-        Commandes={commandesList}
-      />
-
-      <Dialog
-        id="ajouter-commande"
-        size="xl"
-        open={open}
-        handler={handleOpen}
-        className="bg-transparent shadow-none dialog"
-      >
-        <AddClientForm />
-      </Dialog>
-      </div>
       </div>
     </>
   );

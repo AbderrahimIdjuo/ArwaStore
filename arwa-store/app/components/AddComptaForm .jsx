@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-export default function AddComptaForm({handleOpen , getFactures }) {
+export default function AddComptaForm({ handleOpen, getFactures }) {
   const router = useRouter();
   const {
     register,
@@ -62,19 +62,23 @@ export default function AddComptaForm({handleOpen , getFactures }) {
       <Card className="mx-auto w-full z-10 pb-4">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="blue-gray">
+            <Typography variant="h4" color="slate">
               Ajouter une facture
             </Typography>
             <div className="grid grid-cols-4 gap-3">
-              {Inputs.map((element , index) => {
+              {Inputs.map((element, index) => {
                 return (
-                  <div key={index} id="Input-feild" className="flex flex-col gap-4 mx-2">
+                  <div
+                    key={index}
+                    id="Input-feild"
+                    className="flex flex-col gap-4 mx-2"
+                  >
                     <Typography className="-mb-2" variant="h6">
                       {element.title}
                     </Typography>
                     <Input
                       {...register(`${element.lable}`)}
-                      color="blue-gray"
+                      color="slate"
                       size="md"
                       type="number"
                       min={0}
@@ -95,7 +99,9 @@ export default function AddComptaForm({handleOpen , getFactures }) {
                 <Button
                   className="mx-3 rounded-full hover-button"
                   color="deep-orange"
-                  onClick={()=>{handleOpen()}}
+                  onClick={() => {
+                    handleOpen();
+                  }}
                 >
                   Fermer
                 </Button>

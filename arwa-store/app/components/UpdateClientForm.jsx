@@ -66,7 +66,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="blue-gray">
+            <Typography variant="h4" color="slate">
               Modifier un client
             </Typography>
             <div className="flex flex-row justify-evenly">
@@ -79,7 +79,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
                     required: "Name is required",
                   })}
                   defaultValue={Client.name}
-                  color="blue-gray"
+                  color="slate"
                   label="name"
                   size="md"
                   spellcheck="false"
@@ -111,7 +111,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
                     },
                   })}
                   defaultValue={Client.tele}
-                  color="blue-gray"
+                  color="slate"
                   label="télé"
                   size="md"
                   type="tel"
@@ -162,7 +162,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
                   {...register("adress")}
                   defaultValue={Client.adress}
                   name="adress"
-                  color="blue-gray"
+                  color="slate"
                   label="Adress"
                   size="md"
                 />

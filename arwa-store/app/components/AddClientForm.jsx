@@ -65,7 +65,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="blue-gray">
+            <Typography variant="h4" color="slate">
               Ajouter un client
             </Typography>
             <div className="flex flex-row justify-evenly">
@@ -77,7 +77,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
                   {...register("name", {
                     required: "Nom obligatoire",
                   })}
-                  color="blue-gray"
+                  color="slate"
                   spellcheck="false"
                   label="nom "
                   size="md"
@@ -108,7 +108,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
                       message: "Phone number must be exactly 10 characters",
                     },
                   })}
-                  color="blue-gray"
+                  color="slate"
                   label="télé"
                   size="md"
                   type="tel"
@@ -158,7 +158,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
                 <Input
                   {...register("adress")}
                   name="adress"
-                  color="blue-gray"
+                  color="slate"
                   label="Adress"
                   size="md"
                 />

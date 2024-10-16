@@ -99,7 +99,7 @@ export default function AddOrder() {
                   {...register("nbrArticls", {
                     required: "Nombre d'articl est obligatoire",
                   })}
-                  color="light-blue"
+                  color=""
                   label="Nbr d'articles"
                   size="md"
                 />
@@ -110,7 +110,7 @@ export default function AddOrder() {
                 </Typography>
                 <Input
                   {...register("description")}
-                  color="light-blue"
+                  color="sky"
                   label="Decrire les articles"
                   size="md"
                 />
@@ -124,7 +124,7 @@ export default function AddOrder() {
                 </Typography>
                 <Input
                   {...register("prixInt")}
-                  color="light-blue"
+                  color="sky"
                   label="Prix total des articles"
                   size="md"
                 />
@@ -135,7 +135,7 @@ export default function AddOrder() {
                 </Typography>
                 <Input
                   {...register("avance")}
-                  color="light-blue"
+                  color="sky"
                   label="Avance"
                   size="md"
                 />
@@ -146,7 +146,7 @@ export default function AddOrder() {
                 </Typography>
                 <Input
                   {...register("livraison")}
-                  color="light-blue"
+                  color="sky"
                   label="Frais de livraison"
                   size="md"
                 />
@@ -156,8 +156,10 @@ export default function AddOrder() {
                   Status
                 </Typography>
                 <Select value={status} label="Status" onChange={HandleStatus}>
-                  {Status.map((statu , index) => (
-                    <Option key={index} value={statu.label}>{statu.label}</Option>
+                  {Status.map((statu, index) => (
+                    <Option key={index} value={statu.label}>
+                      {statu.label}
+                    </Option>
                   ))}
                 </Select>
               </div>

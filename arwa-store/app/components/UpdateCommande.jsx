@@ -15,12 +15,7 @@ import {
 } from "../MT";
 import SelectClient from "./SelectClient";
 
-export default function UpdateCommande({ commande, client , getCommandes}) {
-
-
-
-
-
+export default function UpdateCommande({ commande, client, getCommandes }) {
   const Status = [
     { color: "green", label: "DELIVERED" },
     { color: "amber", label: "PENDING" },
@@ -37,8 +32,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
     getValues,
     formState: { errors, isSubmitting },
   } = useForm();
-  
-  
+
   const onSubmit = async (data) => {
     const restInt =
       parseInt(data.prixInt) - parseInt(data.avance) + parseInt(data.livraison);
@@ -92,7 +86,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Input
                   {...register("client")}
-                  color="light-blue"
+                  color="sky"
                   label="Nom et Prénom"
                   size="md"
                   value={client.name}
@@ -101,11 +95,11 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
               </div>
               <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
-                {`Nombre d'articles`}
+                  {`Nombre d'articles`}
                 </Typography>
                 <Input
                   {...register("nbrArticls")}
-                  color="light-blue"
+                  color="sky"
                   label="Nbr d'articles"
                   size="md"
                   defaultValue={commande.nbrArticls}
@@ -117,7 +111,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Input
                   {...register("description")}
-                  color="light-blue"
+                  color="sky"
                   label="Decrire les articles"
                   size="md"
                   defaultValue={commande.description}
@@ -129,7 +123,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Input
                   {...register("trakingNbr")}
-                  color="light-blue"
+                  color="sky"
                   label="Traking Number"
                   size="md"
                 />
@@ -143,7 +137,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Input
                   {...register("prixInt")}
-                  color="light-blue"
+                  color="sky"
                   label="Prix total des articles"
                   size="md"
                   defaultValue={commande.prixInt}
@@ -155,7 +149,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Input
                   {...register("avance")}
-                  color="light-blue"
+                  color="sky"
                   label="Avance"
                   size="md"
                   defaultValue={commande.avance}
@@ -167,7 +161,7 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Input
                   {...register("livraison")}
-                  color="light-blue"
+                  color="sky"
                   label="Frais de livraison"
                   size="md"
                   defaultValue={commande.livraison}
@@ -179,12 +173,14 @@ export default function UpdateCommande({ commande, client , getCommandes}) {
                 </Typography>
                 <Select
                   label="Select Version"
-                  color="light-blue"
+                  color="sky"
                   onChange={HandleStatus}
                   value={status}
                 >
-                  {Status.map((statu , index) => (
-                    <Option key={index} value={statu.label}>{statu.label}</Option>
+                  {Status.map((statu, index) => (
+                    <Option key={index} value={statu.label}>
+                      {statu.label}
+                    </Option>
                   ))}
                 </Select>
               </div>

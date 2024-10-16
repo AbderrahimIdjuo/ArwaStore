@@ -8,12 +8,15 @@ import {
   Chip,
   DialogHeader,
   DialogBody,
-  DialogFooter ,
+  DialogFooter,
   Button,
 } from "../MT";
 import { useState, useEffect } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { InformationCircleIcon  , ExclamationCircleIcon} from "@heroicons/react/24/outline";
+import {
+  InformationCircleIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/24/outline";
 import FactureDetails from "./FactureDetails";
 import { Toaster, toast } from "react-hot-toast";
 import UpdateCompta from "./UpdateCompta";
@@ -31,8 +34,8 @@ const TABLE_HEAD = [
   "",
 ];
 
-export default function CpmtaTable({facturesList , getFactures}) {
- // const [facturesList, setFacturesList] = useState([]);
+export default function CpmtaTable({ facturesList, getFactures }) {
+  // const [facturesList, setFacturesList] = useState([]);
   const [factureClicked, setFactureClicked] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -46,7 +49,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
   const HandleOpenUpdate = () => {
     setOpenUpdate((cur) => !cur);
   };
-  // const getFactures = async () => {   
+  // const getFactures = async () => {
   //   try {
   //     const result = await fetch("/api/espace-factures", {
   //       methode: "GET",
@@ -76,7 +79,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
       console.log(e);
     }
   };
- 
+
   return (
     <>
       <Toaster position="top-center" />
@@ -87,11 +90,11 @@ export default function CpmtaTable({facturesList , getFactures}) {
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                  className="border-b border-slate-100 bg-slate-50 p-4"
                 >
                   <Typography
                     variant="small"
-                    color="blue-gray"
+                    color="slate"
                     className="font-normal leading-none opacity-70 "
                   >
                     {head}
@@ -103,9 +106,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
           <tbody>
             {facturesList?.map((facture, index) => {
               const isLast = index === facturesList.length - 1;
-              const classes = isLast
-                ? "p-4"
-                : "p-4 border-b border-blue-gray-50";
+              const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
               //const date = new Date(facture.createdAt).toISOString().split('T')[0];
               const date = new Intl.DateTimeFormat("en-GB").format(
                 new Date(facture.createdAt)
@@ -116,7 +117,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="Roboto"
                     >
                       {date}
@@ -143,7 +144,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {facture.cash} DH
@@ -152,7 +153,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {facture.beyou} DH
@@ -161,7 +162,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {facture.fornisseur} DH
@@ -170,7 +171,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {facture.barid} DH
@@ -179,7 +180,7 @@ export default function CpmtaTable({facturesList , getFactures}) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {facture.cih} DH
@@ -201,12 +202,12 @@ export default function CpmtaTable({facturesList , getFactures}) {
                           mount: { scale: 1, y: 0 },
                           unmount: { scale: 0, y: 25 },
                         }}
-                        className="border border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
+                        className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
                         placement="top"
                         content={
                           <Typography
                             variant="small"
-                            color="blue-gray"
+                            color="slate"
                             className="font-normal"
                           >
                             Détails
@@ -217,21 +218,24 @@ export default function CpmtaTable({facturesList , getFactures}) {
                       </Tooltip>
                     </IconButton>
                     {/* modifier */}
-                    <IconButton onClick={()=>{
-                      setFactureClicked(facture)
-                      HandleOpenUpdate()
-                    }} variant="text">
+                    <IconButton
+                      onClick={() => {
+                        setFactureClicked(facture);
+                        HandleOpenUpdate();
+                      }}
+                      variant="text"
+                    >
                       <Tooltip
                         animate={{
                           mount: { scale: 1, y: 0 },
                           unmount: { scale: 0, y: 25 },
                         }}
-                        className="border border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
+                        className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
                         placement="top"
                         content={
                           <Typography
                             variant="small"
-                            color="blue-gray"
+                            color="slate"
                             className="font-normal"
                           >
                             Modifier
@@ -244,8 +248,8 @@ export default function CpmtaTable({facturesList , getFactures}) {
                     {/* supprimer */}
                     <IconButton
                       onClick={() => {
-                        setFactureClicked(facture)
-                        HandleconfirmDelete()
+                        setFactureClicked(facture);
+                        HandleconfirmDelete();
                       }}
                       color="deep-orange"
                       variant="text"
@@ -255,12 +259,12 @@ export default function CpmtaTable({facturesList , getFactures}) {
                           mount: { scale: 1, y: 0 },
                           unmount: { scale: 0, y: 25 },
                         }}
-                        className="border border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
+                        className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
                         placement="top"
                         content={
                           <Typography
                             variant="small"
-                            color="blue-gray"
+                            color="slate"
                             className="font-normal"
                           >
                             Supprimer
@@ -284,7 +288,10 @@ export default function CpmtaTable({facturesList , getFactures}) {
         handler={HandleOpenDetails}
         className="bg-transparent shadow-none dialog"
       >
-        <FactureDetails HandleOpenDetails={HandleOpenDetails} facture={factureClicked} />
+        <FactureDetails
+          HandleOpenDetails={HandleOpenDetails}
+          facture={factureClicked}
+        />
       </Dialog>
       <Dialog
         id="ajouter-commande"
@@ -293,51 +300,57 @@ export default function CpmtaTable({facturesList , getFactures}) {
         handler={HandleOpenUpdate}
         className="bg-transparent shadow-none dialog"
       >
-        <UpdateCompta HandleOpenUpdate={HandleOpenUpdate} getFactures={getFactures} facture={factureClicked} />
+        <UpdateCompta
+          HandleOpenUpdate={HandleOpenUpdate}
+          getFactures={getFactures}
+          facture={factureClicked}
+        />
       </Dialog>
       <Dialog open={confirmDelete} handler={HandleconfirmDelete}>
-          <DialogHeader className="py-1">
-            <Typography
-              variant="h4"
-              color="red"
-              className="font-normal p-3 flex flex-row gap-2"
+        <DialogHeader className="py-1">
+          <Typography
+            variant="h4"
+            color="red"
+            className="font-normal p-3 flex flex-row gap-2"
+          >
+            <ExclamationCircleIcon className="h-7 w-7" />
+            Warning
+          </Typography>
+        </DialogHeader>
+        <DialogBody>
+          <Typography
+            color="slate"
+            className="ml-4 font-normal"
+            variant="paragraph"
+          >
+            Êtes-vous sûr de vouloir supprimer cette facture ? Cette action est
+            irréversible.
+          </Typography>
+        </DialogBody>
+        <DialogFooter>
+          <>
+            <Button
+              color="green"
+              className=" mx-1 rounded-full"
+              onClick={() => {
+                deletFacture(factureClicked.id);
+                HandleconfirmDelete();
+              }}
             >
-              <ExclamationCircleIcon className="h-7 w-7" />
-              Warning
-            </Typography>
-          </DialogHeader>
-          <DialogBody>
-            <Typography
-              color="blue-gray"
-              className="ml-4 font-normal"
-              variant="paragraph"
+              Oui
+            </Button>
+            <Button
+              color="deep-orange"
+              onClick={() => {
+                HandleconfirmDelete();
+              }}
+              className="mx-1 rounded-full hover-button"
             >
-              Êtes-vous sûr de vouloir supprimer cette facture ? Cette action est
-              irréversible.
-            </Typography>
-          </DialogBody>
-          <DialogFooter>
-            <>
-              <Button
-                color="green"
-                className=" mx-1 rounded-full"
-                onClick={() => {
-                  deletFacture(factureClicked.id);
-                  HandleconfirmDelete();
-                }}
-              >
-                Oui
-              </Button>
-              <Button
-                color="deep-orange"
-                onClick={()=>{HandleconfirmDelete()}}
-                className="mx-1 rounded-full hover-button"
-              >
-                Fermer
-              </Button>
-            </>
-          </DialogFooter>
-        </Dialog>
+              Fermer
+            </Button>
+          </>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }

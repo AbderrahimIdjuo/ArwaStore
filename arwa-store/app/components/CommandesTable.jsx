@@ -8,7 +8,7 @@ import {
   Dialog,
 } from "../MT";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect , useCallback  } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import ClientInfo from "./ClientInfo";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ const statusInfo = {
   CANCELED: { label: "Canceled", color: "red" },
 };
 
-export default function ClientsTable({ Commandes, statusFilter }) {
+export default function CommandesTable({ Commandes, statusFilter }) {
   const [Clients, setClients] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -91,22 +91,21 @@ export default function ClientsTable({ Commandes, statusFilter }) {
     }
   };
 
+  // const handleCommandesList = () => {
+  //   if (statusFilter) {
+  //     const list = Commandes.filter((commande) => {
+  //       return commande.status === statusFilter;
+  //     });
+  //     setCommandeList(list);
+  //   } else {
+  //     getCommandes();
+  //   }
+  // }
 
-  const handleCommandesList = useCallback(() => {
-    if (statusFilter) {
-      const list = Commandes.filter((commande) => {
-        return commande.status === statusFilter;
-      });
-      setCommandeList(list);
-    } else {
-      getCommandes(); // Fetch all commandes if no filter is set
-    }
-  }, [statusFilter, Commandes]); // Include Commandes in the dependency array
+  // useEffect(() => {
+  //   handleCommandesList();
 
-  useEffect(() => {
-    handleCommandesList();
-    console.log(statusFilter);
-  }, [statusFilter]);
+  // }, [statusFilter , handleCommandesList]);
 
   return (
     <>
@@ -118,11 +117,11 @@ export default function ClientsTable({ Commandes, statusFilter }) {
               {TABLE_HEAD.map((head) => (
                 <th
                   key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                  className="border-b border-slate-100 bg-slate-50 p-4"
                 >
                   <Typography
                     variant="small"
-                    color="blue-gray"
+                    color="slate"
                     className="font-normal leading-none opacity-70"
                   >
                     {head}
@@ -134,9 +133,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
           <tbody>
             {commandeList?.map((commande, index) => {
               const isLast = index === commandeList.length - 1;
-              const classes = isLast
-                ? "p-4"
-                : "p-4 border-b border-blue-gray-50";
+              const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
               const client = Clients?.find(
                 (client) => client.id === commande.clientID
               );
@@ -154,7 +151,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                     >
                       <Typography
                         variant="small"
-                        color="blue-gray"
+                        color="slate"
                         className="font-normal text-left"
                       >
                         {client?.name}
@@ -164,7 +161,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {commande.nbrArticls}
@@ -176,12 +173,12 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                         mount: { scale: 1, y: 0 },
                         unmount: { scale: 0, y: 25 },
                       }}
-                      className="border border-blue-gray-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
+                      className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
                       placement="top"
                       content={
                         <Typography
                           variant="small"
-                          color="blue-gray"
+                          color="slate"
                           className="font-normal"
                         >
                           {commande.description}
@@ -190,7 +187,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                     >
                       <Typography
                         variant="small"
-                        color="blue-gray"
+                        color="slate"
                         className="font-normal"
                       >
                         {commande.description.slice(0, 15)}
@@ -200,7 +197,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {commande.avance} DH
@@ -209,7 +206,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {commande.prixInt} DH
@@ -218,7 +215,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {commande.rest} DH
@@ -227,7 +224,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {commande.livraison} DH
@@ -236,7 +233,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       {commande.trakingNbr}
@@ -245,7 +242,7 @@ export default function ClientsTable({ Commandes, statusFilter }) {
                   <td className={classes}>
                     <Typography
                       variant="small"
-                      color="blue-gray"
+                      color="slate"
                       className="font-normal"
                     >
                       <Chip
