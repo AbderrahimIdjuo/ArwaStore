@@ -62,14 +62,14 @@ export default function AddClientForm({ getClients, handleOpen }) {
   return (
     <>
       <Toaster position="top-center" />
-      <Card className="mx-auto w-full z-10">
+      <Card className="mx-auto w-full z-10 ">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" color="slate">
               Ajouter un client
             </Typography>
-            <div className="flex flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
+            <div className="flex flex-col justify-evenly md:flex-row gap-6">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/2 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Nom et Prénom
                 </Typography>
@@ -92,7 +92,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
                   </Typography>
                 )}
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/2 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col md:w-1/2 w-full gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Téléphone
                 </Typography>
@@ -143,15 +143,15 @@ export default function AddClientForm({ getClients, handleOpen }) {
               </div>
             </div>
 
-            <div className="flex flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+            <div className="flex flex-col justify-evenly md:flex-row gap-6">
+              <div id="Input-feild" className="flex flex-col md:w-1/4 w-full gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Ville
                 </Typography>
                 <SelectCity ville={ville} setVille={setVille} />
               </div>
 
-              <div id="Input-feild" className="flex flex-col w-3/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-3/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Adress
                 </Typography>
@@ -165,12 +165,12 @@ export default function AddClientForm({ getClients, handleOpen }) {
               </div>
             </div>
           </CardBody>
-          <CardFooter className="pt-0 flex flex-row justify-end ">
+          <CardFooter className="pt-0 flex flex-row justify-start ">
             <Button type="submit" color="green" className="rounded-full">
               Ajouter
             </Button>
             <Button
-              className="mx-3 rounded-full hover-button"
+              className="ml-3 rounded-full hover-button"
               onClick={() => handleOpen()}
               color="deep-orange"
             >

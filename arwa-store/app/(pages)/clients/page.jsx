@@ -69,8 +69,8 @@ export default function ClientFeiled() {
                 <MagnifyingGlassIcon className="h-4 w-4" />
               </Button>
             </div>
-            <div>
-              <Typography variant="h5" className="flex flex-col items-center">
+            <div className="hidden md:block">
+              <Typography variant="h5" className=" flex flex-col items-center">
                 Clients {clientsList?.length}
               </Typography>
             </div>
@@ -82,7 +82,7 @@ export default function ClientFeiled() {
                 size="sm"
               >
                 <PlusIcon color="white" className="h-6 w-6" />
-                <Typography variant="paragraph" color="white">
+                <Typography className="hidden md:block" variant="paragraph" color="white">
                   Ajouter un client
                 </Typography>
               </Button>

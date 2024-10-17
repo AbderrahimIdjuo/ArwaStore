@@ -76,11 +76,11 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="deep-orange">
+            <Typography variant="h4" color="slate">
               Modifier une commande
             </Typography>
-            <div className="flex flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+            <div className="flex flex-col md:flex-row justify-evenly">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Client
                 </Typography>
@@ -93,7 +93,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
                   disabled
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   {`Nombre d'articles`}
                 </Typography>
@@ -105,7 +105,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
                   defaultValue={commande.nbrArticls}
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Description
                 </Typography>
@@ -117,7 +117,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
                   defaultValue={commande.description}
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Traking Number
                 </Typography>
@@ -130,8 +130,8 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
               </div>
             </div>
 
-            <div className="flex flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+            <div className="flex flex-col md:flex-row justify-evenly">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Prix total
                 </Typography>
@@ -143,7 +143,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
                   defaultValue={commande.prixInt}
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Avance
                 </Typography>
@@ -155,7 +155,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
                   defaultValue={commande.avance}
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Livraison
                 </Typography>
@@ -167,7 +167,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
                   defaultValue={commande.livraison}
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-1/4 gap-4 mx-2">
+              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
                 <Typography className="-mb-2" variant="h6">
                   Status
                 </Typography>
@@ -186,14 +186,20 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
               </div>
             </div>
           </CardBody>
-          <CardFooter className="pt-0">
-            <Button
+          <CardFooter className="pt-0 flex flex-row justify-start ">
+          <Button
               disabled={isSubmitting}
               type="submit"
-              color="deep-orange"
-              variant="gradient"
+              color="green"
+              className="rounded-full"
             >
               Modifier
+            </Button>
+            <Button
+              className="ml-3 rounded-full hover-button"
+              color="deep-orange"
+            >
+              Fermer
             </Button>
           </CardFooter>
         </form>
