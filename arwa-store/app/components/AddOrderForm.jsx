@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Toaster, toast } from "react-hot-toast";
@@ -13,9 +13,9 @@ import {
   Select,
   Option,
 } from "../MT";
-import SelectClient from "./SelectClient";
+import SelectClients from "./SelectClients";
 
-export default function AddOrder() {
+export default function AddOrder({ handleOpen, getCommandes }) {
   const Status = [
     { color: "green", label: "DELIVERED" },
     { color: "amber", label: "PENDING" },
@@ -25,6 +25,7 @@ export default function AddOrder() {
   const [clientID, setClientID] = useState(null);
   const [status, setStatus] = useState(null);
   const [selectedClient, setSelectedClient] = useState();
+  const [clientsList, setClientsList] = useState([]);
   const {
     register,
     handleSubmit,
@@ -33,6 +34,24 @@ export default function AddOrder() {
     getValues,
     formState: { errors, isSubmitting },
   } = useForm();
+
+  const getClients = async () => {
+    console.log("get clients is triggred");
+
+    try {
+      const result = await fetch(`/api/espace-client`, {
+        method: "GET",
+      });
+      const { Clients } = await result.json();
+      setClientsList(Clients);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getClients();
+  }, []);
 
   const onSubmit = async (data) => {
     const restInt =
@@ -56,10 +75,13 @@ export default function AddOrder() {
         }
 
         console.log("Commande ajouté avec succès", Data);
+        
         setStatus("");
         setSelectedClient("");
         reset();
-        //router.refresh();
+        getCommandes();
+        //router.refresh()
+
       })(),
       {
         loading: "Ajout de la commande...",
@@ -82,16 +104,22 @@ export default function AddOrder() {
               Ajouter une commande
             </Typography>
             <div className="flex flex-col md:flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/4 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   Client
                 </Typography>
-                <SelectClient
+                <SelectClients
                   setClientID={setClientID}
-                  value={selectedClient}
+                  clientsList={clientsList}
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/5 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/5 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   {`Nombre d'articles`}
                 </Typography>
@@ -104,7 +132,10 @@ export default function AddOrder() {
                   size="md"
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/2 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/2 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   Description
                 </Typography>
@@ -118,7 +149,10 @@ export default function AddOrder() {
             </div>
 
             <div className="flex flex-col md:flex-row justify-evenly">
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/4 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   Prix total
                 </Typography>
@@ -129,7 +163,10 @@ export default function AddOrder() {
                   size="md"
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/4 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   Avance
                 </Typography>
@@ -140,7 +177,10 @@ export default function AddOrder() {
                   size="md"
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/4 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   Livraison
                 </Typography>
@@ -151,7 +191,10 @@ export default function AddOrder() {
                   size="md"
                 />
               </div>
-              <div id="Input-feild" className="flex flex-col w-full md:w-1/4 gap-4 mx-2">
+              <div
+                id="Input-feild"
+                className="flex flex-col w-full md:w-1/4 gap-4 mx-2"
+              >
                 <Typography className="-mb-2" variant="h6">
                   Status
                 </Typography>
@@ -166,7 +209,7 @@ export default function AddOrder() {
             </div>
           </CardBody>
           <CardFooter className="pt-0 flex flex-row justify-start ">
-          <Button
+            <Button
               disabled={isSubmitting}
               type="submit"
               color="green"
@@ -177,6 +220,9 @@ export default function AddOrder() {
             <Button
               className="ml-3 rounded-full hover-button"
               color="deep-orange"
+              onClick={() => {
+                handleOpen();
+              }}
             >
               Fermer
             </Button>

@@ -28,3 +28,20 @@ export async function PUT(req , {params}){
     return NextResponse.json(client)
     
 }
+
+
+export async function GET(req , {params}) {
+  const page = params.id
+  const clientsPerPage = 6
+  const Clients = await prisma.clients.findMany({
+    skip : (page - 1)*clientsPerPage,
+    take : clientsPerPage ,
+    orderBy: {
+        updatedAt: 'desc' 
+    }
+})
+  const totalClients = await prisma.clients.count(); 
+  const totalPage = Math.ceil(totalClients /clientsPerPage)
+  return NextResponse.json({Clients , totalPage})
+
+}

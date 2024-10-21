@@ -6,9 +6,12 @@ import {
   Tooltip,
   Chip,
   Dialog,
+  DialogHeader,
+  DialogFooter,
+  DialogBody
 } from "../MT";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect, useCallback } from "react";
+import { PencilIcon, TrashIcon ,ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { useState, useEffect } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import ClientInfo from "./ClientInfo";
 import { useRouter } from "next/navigation";
@@ -40,6 +43,8 @@ export default function CommandesTable({ Commandes, statusFilter }) {
   const [clientClicked, setClientClicked] = useState(null);
   const [commandeClicked, setCommandeClicked] = useState(null);
   const [commandeList, setCommandeList] = useState([]);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const handleconfirmDelete = () => setConfirmDelete((cur) => !cur);
 
   const router = useRouter();
 
@@ -62,7 +67,6 @@ export default function CommandesTable({ Commandes, statusFilter }) {
       });
       const clientList = await result.json();
       setClients(clientList.Clients);
-      console.log(clientList.Clients);
     } catch (e) {
       console.log(e);
     }
@@ -83,7 +87,7 @@ export default function CommandesTable({ Commandes, statusFilter }) {
         method: "DELETE",
       });
       getCommandes();
-      toast("Commande supprimer avec succée!", {
+      toast(`la commande de ${clientClicked?.name.toUpperCase()} a été supprimer avec succée!`, {
         icon: "🗑️",
       });
     } catch (e) {
@@ -131,8 +135,8 @@ export default function CommandesTable({ Commandes, statusFilter }) {
             </tr>
           </thead>
           <tbody>
-            {commandeList?.map((commande, index) => {
-              const isLast = index === commandeList.length - 1;
+            {Commandes?.map((commande, index) => {
+              const isLast = index === Commandes.length - 1;
               const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
               const client = Clients?.find(
                 (client) => client.id === commande.clientID
@@ -178,7 +182,7 @@ export default function CommandesTable({ Commandes, statusFilter }) {
                       content={
                         <Typography
                           variant="small"
-                          color="slate"
+                          color="blue-gray"
                           className="font-normal"
                         >
                           {commande.description}
@@ -266,7 +270,10 @@ export default function CommandesTable({ Commandes, statusFilter }) {
                     </IconButton>
                     <IconButton
                       onClick={() => {
-                        deletCommande(commande.id);
+                        setCommandeClicked(commande);
+                        setClientClicked(client);
+                        handleconfirmDelete();
+                        
                       }}
                       color="deep-orange"
                       variant="text"
@@ -305,7 +312,54 @@ export default function CommandesTable({ Commandes, statusFilter }) {
           commande={commandeClicked}
           client={clientClicked}
           getCommandes={getCommandes}
+          HandleOpenUpdate={HandleOpenUpdate}
         />
+      </Dialog>
+      <Dialog open={confirmDelete} handler={handleconfirmDelete}>
+        <DialogHeader className="py-1">
+          <Typography
+            variant="h4"
+            color="red"
+            className="font-normal p-3 flex flex-row gap-2"
+          >
+            <ExclamationCircleIcon className="h-7 w-7" />
+            Warning
+          </Typography>
+        </DialogHeader>
+        <DialogBody>
+          <Typography
+            color="slate"
+            className="ml-4 font-normal"
+            variant="paragraph"
+          >
+            Êtes-vous sûr de vouloir supprimer la commande de, {" "}
+            <span className="font-bold">
+              {clientClicked?.name.toUpperCase()}
+            </span>{" "}
+            ? Cette action est irréversible.
+          </Typography>
+        </DialogBody>
+        <DialogFooter>
+          <>
+            <Button
+              color="green"
+              className=" mx-1 rounded-full"
+              onClick={() => {
+                deletCommande(commandeClicked.id);
+                handleconfirmDelete();
+              }}
+            >
+              Oui
+            </Button>
+            <Button
+              color="deep-orange"
+              onClick={handleconfirmDelete}
+              className="mx-1 rounded-full hover-button"
+            >
+              Fermer
+            </Button>
+          </>
+        </DialogFooter>
       </Dialog>
     </>
   );

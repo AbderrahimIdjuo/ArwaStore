@@ -3,7 +3,7 @@
 import { Select, Option } from "../MT";
 import { useEffect, useState } from "react";
 
-const SelectClient = ({ setClientID, value, clientName }) => {
+const SelectClient = ({ setClientID, clientName }) => {
   const [Clients, setClients] = useState([]);
 
   const getClients = async () => {

@@ -21,6 +21,7 @@ import UpdateClientForm from "./UpdateClientForm";
 import Image from "next/image";
 import { resolve } from "styled-jsx/css";
 
+
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse", ""];
 const ClientsTable = forwardRef(
   ({ clientList, getClients, setClientList, searchValue }, ref) => {
@@ -64,37 +65,8 @@ const ClientsTable = forwardRef(
         await fetch(`/api/espace-client/${clidntId}`, {
           method: "DELETE",
         });
-        toast.custom((t) => {
-          setTimeout(() => {
-            toast.dismiss(t.id);
-          }, 1500);
-          return (
-            <div
-              className={`${
-                t.visible ? "animate-enter" : "animate-leave"
-              } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-            >
-              <div className="flex-1 w-0 p-4">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0 pt-0.5">
-                    <Image
-                      className="h-10 w-10 rounded-full"
-                      src="https://img.freepik.com/vecteurs-libre/illustration-icone-corbeille_53876-5598.jpg?t=st=1728593013~exp=1728596613~hmac=307cc5863cc614a6daeeff1cc90d694a794e36e1b5719a9a69b59d10d9114eb1&w=826"
-                      alt=""
-                    />
-                  </div>
-                  <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      {clientClicked.name.toUpperCase()}
-                    </p>
-                    <p className="mt-1 text-sm text-gray-500">
-                      à été supprimer avec succée!
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
+        toast(`Le client ${clientClicked?.name.toUpperCase()} a été supprimer avec succée!`, {
+          icon: "🗑️",
         });
         getClients();
         router.refresh();
@@ -128,7 +100,7 @@ const ClientsTable = forwardRef(
             </thead>
             <tbody>
               {clientList?.map((client, index) => {
-                const isLast = index === clientList.length - 1;
+                const isLast = index === clientList?.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
 
                 return (

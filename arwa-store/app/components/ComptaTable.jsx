@@ -10,6 +10,7 @@ import {
   DialogBody,
   DialogFooter,
   Button,
+  CardHeader,
 } from "../MT";
 import { useState, useEffect } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
@@ -83,8 +84,9 @@ export default function CpmtaTable({ facturesList, getFactures }) {
   return (
     <>
       <Toaster position="top-center" />
-      <Card className="h-full w-full">
-        <table className="w-full min-w-max table-auto text-left">
+
+      <Card className="h-full w-full overflow-scroll">
+        <table className="w-full min-w-max table-auto text-left ">
           <thead>
             <tr>
               {TABLE_HEAD.map((head) => (
@@ -207,7 +209,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                         content={
                           <Typography
                             variant="small"
-                            color="slate"
+                            color="blue-gray"
                             className="font-normal"
                           >
                             Détails
@@ -235,7 +237,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                         content={
                           <Typography
                             variant="small"
-                            color="slate"
+                            color="blue-gray"
                             className="font-normal"
                           >
                             Modifier
@@ -264,7 +266,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                         content={
                           <Typography
                             variant="small"
-                            color="slate"
+                            color="blue-gray"
                             className="font-normal"
                           >
                             Supprimer

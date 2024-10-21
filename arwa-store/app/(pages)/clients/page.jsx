@@ -1,79 +1,107 @@
 "use client";
 import "../../globals.css";
-import { useState, useEffect, useRef } from "react";
-import { Input, Button, Typography, Dialog } from "../../MT";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Input, Button, Typography, Dialog, IconButton } from "../../MT";
 import AddClientForm from "../../components/AddClientForm";
-import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
+import {
+  PlusIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+} from "@heroicons/react/24/solid";
 import ClientsTable from "../../components/ClientsTable";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
+import SearchBar from "@/app/components/SearchBar";
 export default function ClientFeiled() {
-  const childRef = useRef();
+  const [source] = useState("clients");
+  const [clientPage] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState();
   const [open, setOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
   const [clientsList, setClientsList] = useState();
+
   const handleOpen = () => setOpen((cur) => !cur);
-  const HandleChange = (e) => {
-    const value = e.target.value;
-    setSearchValue(value);
-  };
-  const HandlSearchClick = () => {
-    if (childRef.current) {
-      childRef.current.callFunction();
-    }
-  };
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Client-side only code here
-    }
-  }, []);
-  const getClients = async () => {
+
+  const search = async (searchValue) => {
     try {
-      const result = await fetch(`/api/espace-client`, {
+      const result = await fetch(`/api/search-client/${searchValue}`, {
         method: "GET",
       });
-      const clientList = await result.json();
-      setClientsList(clientList.Clients);
+
+      if (!result.ok) {
+        console.log("Client not found.");
+        setClientsList([]);
+        return;
+      }
+
+      const clientSearched = await result.json();
+      console.log("searched clients : ", clientSearched);
+
+      setClientsList(clientSearched);
+    } catch (e) {
+      console.error("Error fetching clients:", e);
+      console.log("Something went wrong.");
+    }
+  };
+
+  const getClients = useCallback(async () => {
+    try {
+      const result = await fetch(`/api/espace-client/${page}`, {
+        method: "GET",
+      });
+      const { Clients, totalPage} = await result.json();
+      setClientsList(Clients);
+      setTotalPages(totalPage);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, [page]);
 
   useEffect(() => {
     getClients();
-  }, [open]);
+  }, [open, page]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const maxVisiblePages = 3;
+    let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(
+        <IconButton
+          key={i}
+          onClick={() => handlePageChange(i)}
+          variant={page === i ? "filled" : "outlined"}
+          size="sm"
+          className="min-w-[1rem] rounded-full"
+        >
+          {i}
+        </IconButton>
+      );
+    }
+
+    return pageNumbers;
+  };
 
   return (
     <>
-      <NavBar />
+      <NavBar clientPage={clientPage} />
       <div className="container flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
           <div className="flex flex-row justify-between">
-            <div className="relative flex w-full max-w-[24rem]">
-              <Input
-                type="Search"
-                label="Chercher un client"
-                value={searchValue}
-                onChange={HandleChange}
-                className="pr-20"
-                containerProps={{
-                  className: "min-w-0",
-                }}
-              />
-              <Button
-                size="sm"
-                color={searchValue ? "gray" : "slate"}
-                disabled={!searchValue}
-                className="!absolute right-1 top-1 rounded mb-2"
-                onClick={HandlSearchClick}
-              >
-                <MagnifyingGlassIcon className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="hidden md:block">
-              <Typography variant="h5" className=" flex flex-col items-center">
-                Clients {clientsList?.length}
-              </Typography>
-            </div>
+            <SearchBar
+              search={search}
+              getClients={getClients}
+              source={source}
+            />
             <div className="flex flex-row gap-2 justify-end w-1/3">
               <Button
                 onClick={handleOpen}
@@ -82,7 +110,11 @@ export default function ClientFeiled() {
                 size="sm"
               >
                 <PlusIcon color="white" className="h-6 w-6" />
-                <Typography className="hidden md:block" variant="paragraph" color="white">
+                <Typography
+                  className="hidden md:block"
+                  variant="paragraph"
+                  color="white"
+                >
                   Ajouter un client
                 </Typography>
               </Button>
@@ -92,8 +124,6 @@ export default function ClientFeiled() {
             getClients={getClients}
             clientList={clientsList}
             setClientList={setClientsList}
-            searchValue={searchValue}
-            ref={childRef}
           />
 
           <Dialog
@@ -105,6 +135,29 @@ export default function ClientFeiled() {
           >
             <AddClientForm getClients={getClients} handleOpen={handleOpen} />
           </Dialog>
+          <div className="flex justify-center items-center gap-2">
+            <Button
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1}
+              variant="text"
+              size="sm"
+              className="flex items-center gap-2 rounded-full"
+            >
+              <ArrowLeftIcon className="h-4 w-4" />
+              Prev
+            </Button>
+            {renderPageNumbers()}
+            <Button
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages}
+              variant="text"
+              size="sm"
+              className="flex items-center gap-2 rounded-full"
+            >
+              Next
+              <ArrowRightIcon className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </>

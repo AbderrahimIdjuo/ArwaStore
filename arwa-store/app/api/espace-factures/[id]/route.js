@@ -54,12 +54,15 @@ export async function PUT(req , {params}){
 
 export async function GET(req , {params}){
     const page = params.id
+    const facturesPerPage = 6
     const factures = await prisma.factures.findMany({
-        skip : (page - 1)*5,
-        take : 5 ,
+        skip : (page - 1)*facturesPerPage,
+        take : facturesPerPage ,
         orderBy: {
             updatedAt: 'desc' 
         }
     })
-    return NextResponse.json({factures})
+    const totalFactures = await prisma.factures.count(); 
+    const totalPage = Math.ceil(totalFactures /facturesPerPage)
+    return NextResponse.json({factures , totalPage})
 }

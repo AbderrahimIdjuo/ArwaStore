@@ -15,7 +15,7 @@ import {
 } from "../MT";
 import SelectClient from "./SelectClient";
 
-export default function UpdateCommande({ commande, client, getCommandes }) {
+export default function UpdateCommande({HandleOpenUpdate , commande, client, getCommandes }) {
   const Status = [
     { color: "green", label: "DELIVERED" },
     { color: "amber", label: "PENDING" },
@@ -198,6 +198,7 @@ export default function UpdateCommande({ commande, client, getCommandes }) {
             <Button
               className="ml-3 rounded-full hover-button"
               color="deep-orange"
+              onClick={()=>{HandleOpenUpdate()}}
             >
               Fermer
             </Button>

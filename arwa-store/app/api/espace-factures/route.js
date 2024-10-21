@@ -39,13 +39,3 @@ export async function POST(req){
     return NextResponse.json({result})
 }
 
-export async function GET(req){
-    const factures = await prisma.factures.findMany({
-        skip : 5,
-        take : 5 ,
-        orderBy: {
-            updatedAt: 'desc' 
-        }
-    })
-    return NextResponse.json({factures})
-}

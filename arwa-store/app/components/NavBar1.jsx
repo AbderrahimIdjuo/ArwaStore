@@ -17,7 +17,7 @@ import {
 import { BuildingStorefrontIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
-export function NavbarWithSolidBackground() {
+export function NavbarWithSolidBackground({clientPage , commandePage , facturePage}) {
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
@@ -30,7 +30,7 @@ export function NavbarWithSolidBackground() {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Link href="/clients">
-        <Button variant="text" className="flex items-center gap-2" size="sm">
+        <Button  variant={clientPage ? "filled" : "text"} className="flex items-center gap-2" size="sm">
           <Typography
             as="li"
             variant="small"
@@ -43,7 +43,7 @@ export function NavbarWithSolidBackground() {
         </Button>
       </Link>
       <Link href="/commandes">
-        <Button variant="text" className="flex items-center gap-2" size="sm">
+        <Button variant={commandePage ? "filled" : "text"} className="flex items-center gap-2" size="sm">
           <Typography
             as="li"
             variant="small"
@@ -56,7 +56,7 @@ export function NavbarWithSolidBackground() {
         </Button>
       </Link>
       <Link href="/factures">
-        <Button variant="text" className="flex items-center gap-2" size="sm">
+        <Button variant={facturePage ? "filled" : "text"} className="flex items-center gap-2" size="sm">
           <Typography
             as="li"
             variant="small"

@@ -10,6 +10,7 @@ import {
   CardFooter,
   IconButton,
   Button,
+  CardHeader,
 } from "../MT";
 import {
   XMarkIcon,
@@ -42,6 +43,18 @@ export default function FactureDetails({ HandleOpenDetails, facture }) {
     <>
       <Card className="mx-auto w-full z-10">
         <CardBody>
+        <div className="p-0 flex flex-row justify-end ">
+        <IconButton
+            size="md"
+            color="deep-orange"
+            className="rounded-full hover-button"
+            onClick={() => {
+              HandleOpenDetails();
+            }}
+          >
+            <XMarkIcon className="h-5 w-5" />
+          </IconButton>
+        </div>
           <div className="flex flex-col  gap-4 ">
             <div className="flex flex-row justify-center items-center gap-4 ">
               <Typography
@@ -115,18 +128,6 @@ export default function FactureDetails({ HandleOpenDetails, facture }) {
             </div>
           </div>
         </CardBody>
-        <CardFooter className="pt-0 flex flex-row justify-end ">
-          <IconButton
-            size="md"
-            color="deep-orange"
-            className="rounded-full hover-button"
-            onClick={() => {
-              HandleOpenDetails();
-            }}
-          >
-            <XMarkIcon className="h-5 w-5" />
-          </IconButton>
-        </CardFooter>
       </Card>
     </>
   );

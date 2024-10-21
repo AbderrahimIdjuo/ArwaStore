@@ -39,3 +39,19 @@ export async function PUT(req, { params }) {
   });
   return NextResponse.json(commande);
 }
+
+export async function GET(req , {params}) {
+  const page = params.id
+  const commandesPerPage = 6
+  const Commandes = await prisma.commandes.findMany({
+    skip : (page - 1)*commandesPerPage,
+    take : commandesPerPage ,
+    orderBy: {
+        updatedAt: 'desc' 
+    }
+})
+  const totalCommandes = await prisma.commandes.count(); 
+  const totalPage = Math.ceil(totalCommandes /commandesPerPage)
+  return NextResponse.json({Commandes , totalPage})
+
+}
