@@ -1,13 +1,10 @@
 "use client";
 import "../../globals.css";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { Input, Button, Typography, Dialog, IconButton } from "../../MT";
+import { useState, useEffect, useCallback } from "react";
+import { Button, Typography, Dialog } from "../../MT";
 import AddClientForm from "../../components/AddClientForm";
-import {
-  PlusIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-} from "@heroicons/react/24/solid";
+import Pagination from "../../components/Pagination";
+import { PlusIcon } from "@heroicons/react/24/solid";
 import ClientsTable from "../../components/ClientsTable";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 import SearchBar from "@/app/components/SearchBar";
@@ -36,13 +33,13 @@ export default function ClientFeiled() {
         return;
       }
 
-      const {client , totalPage} = await result.json();
+      const { client, totalPage } = await result.json();
       console.log("searched clients : ", client);
 
       setClientsList(client);
-      setTotalPages(totalPage)
-      console.log('clientSearched.clients : ', client)
-      console.log('total pages search', totalPage)
+      setTotalPages(totalPage);
+      console.log("clientSearched.clients : ", client);
+      console.log("total pages search", totalPage);
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -54,7 +51,7 @@ export default function ClientFeiled() {
       const result = await fetch(`/api/espace-client/${page}`, {
         method: "GET",
       });
-      const { Clients, totalPage} = await result.json();
+      const { Clients, totalPage } = await result.json();
       setClientsList(Clients);
       setTotalPages(totalPage);
     } catch (e) {
@@ -63,43 +60,12 @@ export default function ClientFeiled() {
   }, [page]);
 
   useEffect(() => {
-    if(!searching){
+    if (!searching) {
       getClients();
-    }else{
-      search(inputValue)
-    }   
+    } else {
+      search(inputValue);
+    }
   }, [open, page]);
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
-
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    const maxVisiblePages = 3;
-    let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <IconButton
-          key={i}
-          onClick={() => handlePageChange(i)}
-          variant={page === i ? "filled" : "outlined"}
-          size="sm"
-          className="min-w-[1rem] rounded-full"
-        >
-          {i}
-        </IconButton>
-      );
-    }
-
-    return pageNumbers;
-  };
 
   return (
     <>
@@ -148,29 +114,7 @@ export default function ClientFeiled() {
           >
             <AddClientForm getClients={getClients} handleOpen={handleOpen} />
           </Dialog>
-          <div className="flex justify-center items-center gap-2">
-            <Button
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-              variant="text"
-              size="sm"
-              className="flex items-center gap-2 rounded-full"
-            >
-              <ArrowLeftIcon className="h-4 w-4" />
-              Prev
-            </Button>
-            {renderPageNumbers()}
-            <Button
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages}
-              variant="text"
-              size="sm"
-              className="flex items-center gap-2 rounded-full"
-            >
-              Next
-              <ArrowRightIcon className="h-4 w-4" />
-            </Button>
-          </div>
+          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </div>
     </>

@@ -1,17 +1,21 @@
 "use client";
 import "../../globals.css";
-import { Input, Button, Typography, Dialog , IconButton } from "../../MT";
-import { MagnifyingGlassIcon, PlusIcon , ArrowLeftIcon , ArrowRightIcon } from "@heroicons/react/24/solid";
+import { Input, Button, Typography, Dialog} from "../../MT";
+import {
+  MagnifyingGlassIcon,
+  PlusIcon,
+} from "@heroicons/react/24/solid";
 import AddComptaForm from "../../components/AddComptaForm ";
 import CpmtaTable from "../../components/ComptaTable";
 import { useState, useEffect, useCallback } from "react";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
+import Pagination from "../../components/Pagination";
 
 export default function ComptaFeiled() {
   const [facturesList, setFacturesList] = useState([]);
-  const [facturePage]=useState(true)
+  const [facturePage] = useState(true);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(1);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
   const getFactures = useCallback(async () => {
@@ -24,10 +28,10 @@ export default function ComptaFeiled() {
         throw new Error(`Error: ${result.status}`);
       }
 
-      const {factures , totalPage} = await result.json();
+      const { factures, totalPage } = await result.json();
       setFacturesList(factures);
-      setTotalPages(totalPage)
-     
+      setTotalPages(totalPage);
+
       console.log("get factures working!");
     } catch (e) {
       console.error(e);
@@ -37,37 +41,6 @@ export default function ComptaFeiled() {
     console.log("fetching factures");
     getFactures();
   }, [page, getFactures]);
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage)
-  }
-
-  const renderPageNumbers = () => {
-    const pageNumbers = []
-    const maxVisiblePages = 3
-    let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2))
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
-
-    if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(1, endPage - maxVisiblePages + 1)
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <IconButton
-          key={i}
-          onClick={() => handlePageChange(i)}
-          variant={page === i ? "filled" : "outlined"}
-          size="sm"
-          className="min-w-[1rem] rounded-full"
-        >
-          {i}
-        </IconButton>
-      )
-    }
-
-    return pageNumbers
-  }
 
   return (
     <>
@@ -92,7 +65,11 @@ export default function ComptaFeiled() {
                 size="sm"
               >
                 <PlusIcon color="white" className="h-6 w-6" />
-                <Typography className="hidden md:block" variant="paragraph" color="white">
+                <Typography
+                  className="hidden md:block"
+                  variant="paragraph"
+                  color="white"
+                >
                   Ajouter une facture
                 </Typography>
               </Button>
@@ -110,31 +87,7 @@ export default function ComptaFeiled() {
           >
             <AddComptaForm handleOpen={handleOpen} getFactures={getFactures} />
           </Dialog>
-          <div className="flex justify-center items-center gap-2">
-            <Button
-              onClick={() => handlePageChange(page - 1)}
-              disabled={page === 1}
-              variant="text"
-              size="sm" 
-              className="flex items-center gap-2 rounded-full"
-            >
-              <ArrowLeftIcon className="h-4 w-4" />
-              Prev
-            </Button>
-            {renderPageNumbers()}
-            <Button
-              onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages}
-              variant="text"
-              size="sm"
-              className="flex items-center gap-2 rounded-full"
-
-            > 
-
-              Next
-              <ArrowRightIcon className="h-4 w-4" />
-            </Button>
-          </div>
+          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </div>
     </>
