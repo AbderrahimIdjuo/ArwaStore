@@ -16,6 +16,9 @@ export default function ClientFeiled() {
   const [clientPage] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
+  const [searching, setSearching] = useState(false);
+  const [inputValue, setInputValue] = useState(null);
+
   const [open, setOpen] = useState(false);
   const [clientsList, setClientsList] = useState();
 
@@ -23,7 +26,7 @@ export default function ClientFeiled() {
 
   const search = async (searchValue) => {
     try {
-      const result = await fetch(`/api/search-client/${searchValue}`, {
+      const result = await fetch(`/api/search-client/${searchValue}/${page}`, {
         method: "GET",
       });
 
@@ -33,10 +36,13 @@ export default function ClientFeiled() {
         return;
       }
 
-      const clientSearched = await result.json();
-      console.log("searched clients : ", clientSearched);
+      const {client , totalPage} = await result.json();
+      console.log("searched clients : ", client);
 
-      setClientsList(clientSearched);
+      setClientsList(client);
+      setTotalPages(totalPage)
+      console.log('clientSearched.clients : ', client)
+      console.log('total pages search', totalPage)
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -57,7 +63,11 @@ export default function ClientFeiled() {
   }, [page]);
 
   useEffect(() => {
-    getClients();
+    if(!searching){
+      getClients();
+    }else{
+      search(inputValue)
+    }   
   }, [open, page]);
 
   const handlePageChange = (newPage) => {
@@ -101,6 +111,9 @@ export default function ClientFeiled() {
               search={search}
               getClients={getClients}
               source={source}
+              setSearching={setSearching}
+              setInputValue={setInputValue}
+              setPage={setPage}
             />
             <div className="flex flex-row gap-2 justify-end w-1/3">
               <Button

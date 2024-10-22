@@ -13,6 +13,7 @@ import SearchBar from "../../components/SearchBar";
 import { useEffect, useState , useCallback } from "react";
 
 const Status = [
+  { color: "", label: "All" },
   { color: "green", label: "DELIVERED" },
   { color: "amber", label: "PENDING" },
   { color: "red", label: "CANCELED" },
@@ -22,8 +23,9 @@ export default function CommandeFeiled() {
   const [commandePage] = useState(true);
   const [source] = useState("commandes");
   const [open, setOpen] = useState(false);
+  const [status, setSatus] = useState("All");
+  const [searching, setSearching] = useState(null);
   const [commandesList, setCommandesList] = useState();
-  const [status, setStatus] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
 
@@ -42,36 +44,73 @@ export default function CommandeFeiled() {
   },[page])
 
   useEffect(() => {
-    getCommandes();
+    if(status==="All"){
+      getCommandes();
+    }else{
+      getCommandesByStatus(status)
+    }
   }, [open , page]);
 
+
   const HandleStatus = (value) => {
-    setStatus(value);
-    getCommandesByStatus(value)
+
+    setPage(1)
+    setSatus(value)
+   if(value === "All"){
+    getCommandes();  
+   }else {
+     getCommandesByStatus(value)
+   }
   };
   const search = async (searchValue) => {
-    try {
-      const result = await fetch(`/api/search-commande/${searchValue}`, {
-        method: "GET",
-      });
-
-      if (!result.ok) {
-        console.log("Commande not found.");
-        setCommandesList([]);
-        return;
+    if(status==="All" || searchValue === null){
+      try {
+        const result = await fetch(`/api/search-commande/${searchValue}`, {
+          method: "GET",
+        });
+  
+        if (!result.ok) {
+          console.log("Commande not found.");
+          setCommandesList([]);
+          return;
+        }
+  
+        const commandesearched = await result.json();
+        console.log("searched clients : ", commandesearched);
+  
+        setCommandesList(commandesearched);
+        setTotalPages(commandesearched.length)
+        console.log('commandesearched.length : ', commandesearched.length) 
+      } catch (e) {
+        console.error("Error fetching clients:", e);
+        console.log("Something went wrong.");
       }
-
-      const commandesearched = await result.json();
-      console.log("searched clients : ", commandesearched);
-
-      setCommandesList(commandesearched);
-      setTotalPages(commandesearched.length)
-      console.log('commandesearched.length : ', commandesearched.length)
-    } catch (e) {
-      console.error("Error fetching clients:", e);
-      console.log("Something went wrong.");
+    }else{
+      try {
+        const result = await fetch(`/api/search-commande-status/${status}/${searchValue}`, {
+          method: "GET",
+        });
+  
+        if (!result.ok) {
+          console.log("Commande not found.");
+          setCommandesList([]);
+          return;
+        }
+  
+        const commandesearched = await result.json();
+        console.log("searched clients : ", commandesearched);
+  
+        setCommandesList(commandesearched);
+        setTotalPages(commandesearched.length)
+        console.log('commandesearched.length : ', commandesearched.length) 
+      } catch (e) {
+        console.error("Error fetching clients:", e);
+        console.log("Something went wrong.");
     }
-  };
+
+  }};
+
+
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
@@ -105,7 +144,7 @@ export default function CommandeFeiled() {
 
   const getCommandesByStatus = async (status) => {
     try {
-      const result = await fetch(`/api/espace-commandes/status/${status}`, {
+      const result = await fetch(`/api/espace-commandes/status/${status}/${page}`, {
         method: "GET",
       });
 
@@ -115,11 +154,15 @@ export default function CommandeFeiled() {
         return;
       }
 
-      const commandesByStatus = await result.json();
-      console.log("commandes by status : ", commandesByStatus);
+      const {Commandes , totalPage} = await result.json();
+      console.log("commandes by status : ", Commandes);
 
-      setCommandesList(commandesByStatus);
-    
+      setCommandesList(Commandes);
+      setTotalPages(totalPage)
+      console.log('Commandes from get by status', Commandes)
+
+      console.log('total page from get by status', totalPage)
+
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -132,9 +175,9 @@ export default function CommandeFeiled() {
         <div className="content rounded flex flex-col gap-4">
           <div className="flex flex-row">
             <div className="flex flex-col md:flex-row gap-2 items-center w-2/3">
-              <SearchBar  source={source} search={search} getCommandes={getCommandes} />
+              <SearchBar  source={source} search={search} getCommandes={getCommandes} setSearching={setSearching} />
               <div className="focus:!border-gray-500 w-1/3">
-              <Select color="green" value={status} label="statut de livraison" onChange={HandleStatus}>
+              <Select color="green"  label="statut de livraison" onChange={HandleStatus}>
                 {Status.map((statu, index) => (
                   <Option key={index} value={statu.label}>
                     {statu.label}
@@ -163,7 +206,6 @@ export default function CommandeFeiled() {
           </div>
 
           <CommandesTable
-            statusFilter={status}
             getCommandes={getCommandes}
             Commandes={commandesList}
           />

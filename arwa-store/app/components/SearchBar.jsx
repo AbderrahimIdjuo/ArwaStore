@@ -4,20 +4,28 @@ import { MagnifyingGlassIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Input } from "../MT";
 import { debounce } from "lodash";
-export default function SearchBar({ search, getClients , getCommandes , source}) {
+export default function SearchBar({
+  search,
+  getClients,
+  getCommandes,
+  source,
+  setSearching,
+  setInputValue,
+  setPage,
+}) {
   const [isFocused, setIsFocused] = useState(false);
-  const [searchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState(null);
   const inputRef = useRef(null);
 
   const HandleChange = useCallback(
     debounce((value) => {
       if (value === "") {
-        if(source === "commandes"){
-          getCommandes()
-        }else if (source === "clients"){
+        setSearching(false);
+        if (source === "commandes") {
+          getCommandes();
+        } else if (source === "clients") {
           getClients();
         }
-        
       }
       setSearchValue(value);
     }, 300),
@@ -29,6 +37,7 @@ export default function SearchBar({ search, getClients , getCommandes , source})
   }, [HandleChange]);
 
   const HandleInputChange = (e) => {
+    setSearching(true);
     HandleChange(e.target.value);
     setSearchValue(e.target.value);
   };
@@ -37,11 +46,13 @@ export default function SearchBar({ search, getClients , getCommandes , source})
   };
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
+      setPage(1)
       search(searchValue);
+      setInputValue(searchValue);
     }
   };
   const handleBlur = () => {
-    if (searchValue === "") {
+    if (searchValue === "" || searchValue === null) {
       setIsFocused(false);
     }
   };
@@ -82,7 +93,7 @@ export default function SearchBar({ search, getClients , getCommandes , source})
       >
         <div className="relative w-5 h-5">
           <MagnifyingGlassIcon
-          color="gray"
+            color="gray"
             className={`w-5 h-5 absolute transition-all duration-300 ease-in-out ${
               isFocused
                 ? "opacity-0 -translate-x-2"
@@ -90,8 +101,9 @@ export default function SearchBar({ search, getClients , getCommandes , source})
             }`}
           />
           <ArrowLeftIcon
-          color="green"
+            color="green"
             onClick={() => {
+              setPage(1)
               search(searchValue);
             }}
             className={`w-5 h-5 absolute transition-all duration-300 ease-in-out ${

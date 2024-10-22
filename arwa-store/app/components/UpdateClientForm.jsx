@@ -171,7 +171,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
           </CardBody>
           <CardFooter className="pt-0 flex flex-row justify-start ">
             <Button type="submit" color="green" className="rounded-full">
-              Modofier
+              Modifier
             </Button>
             <Button
               className="ml-3 rounded-full hover-button"

@@ -77,7 +77,7 @@ export function NavbarWithSolidBackground({clientPage , commandePage , facturePa
         <div className="flex items-center justify-between text-slate-900 pt-4">
           <Typography
             as="a"
-            href="#"
+            href="/"
             className="mr-4 cursor-pointer py-1.5 font-medium flex flex-row justify-center items-center gap-2 ml-3"
             variant="h5"
           >

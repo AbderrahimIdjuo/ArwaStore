@@ -99,7 +99,7 @@ const ClientsTable = forwardRef(
               </tr>
             </thead>
             <tbody>
-              {clientList?.map((client, index) => {
+              {clientList?.length > 0 ? (clientList?.map((client, index) => {
                 const isLast = index === clientList?.length - 1;
                 const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
 
@@ -164,7 +164,15 @@ const ClientsTable = forwardRef(
                     </td>
                   </tr>
                 );
-              })}
+              })) :(<tr>
+                <td
+                  colSpan={5}
+                  className="border border-gray-300 px-4 py-2 text-center text-gray-500"
+                >
+                  Aucun client trouvé
+                </td>
+              </tr>)}
+              
             </tbody>
           </table>
           <Dialog
