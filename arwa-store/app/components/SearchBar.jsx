@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Input } from "../MT";
+import { Input, Spinner } from "../MT";
 import { debounce } from "lodash";
 export default function SearchBar({
   search,
@@ -12,6 +12,9 @@ export default function SearchBar({
   setSearching,
   setInputValue,
   setPage,
+  setIsLoading,
+  status,
+  searchClient
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const [searchValue, setSearchValue] = useState(null);
@@ -21,6 +24,7 @@ export default function SearchBar({
     debounce((value) => {
       if (value === "") {
         setSearching(false);
+        setIsLoading(true)
         if (source === "commandes") {
           getCommandes();
         } else if (source === "clients") {
@@ -46,8 +50,14 @@ export default function SearchBar({
   };
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      setPage(1)
-      search(searchValue);
+      setPage(1);
+      if(searchClient){
+        searchClient(searchValue)
+      }else if(search){
+        search(status , searchValue);
+      }
+      
+      
       setInputValue(searchValue);
     }
   };
@@ -103,8 +113,12 @@ export default function SearchBar({
           <ArrowLeftIcon
             color="green"
             onClick={() => {
-              setPage(1)
-              search(searchValue);
+              setPage(1);
+              if(searchClient){
+                searchClient(searchValue)
+              }else if(search){
+                search(status , searchValue);
+              }
             }}
             className={`w-5 h-5 absolute transition-all duration-300 ease-in-out ${
               isFocused

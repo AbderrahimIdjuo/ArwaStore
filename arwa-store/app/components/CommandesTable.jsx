@@ -8,7 +8,8 @@ import {
   Dialog,
   DialogHeader,
   DialogFooter,
-  DialogBody
+  DialogBody,
+  Spinner
 } from "../MT";
 import { PencilIcon, TrashIcon ,ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import { useState, useEffect } from "react";
@@ -36,7 +37,7 @@ const statusInfo = {
   CANCELED: { label: "Canceled", color: "red" },
 };
 
-export default function CommandesTable({ Commandes, getCommandes}) {
+export default function CommandesTable({ Commandes, getCommandes , isLoading}) {
   const [Clients, setClients] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -109,319 +110,182 @@ export default function CommandesTable({ Commandes, getCommandes}) {
           </thead>
           <tbody>
 
-
-
-          {Commandes?.length > 0 ? (
-             Commandes?.map((commande, index) => {
-              const isLast = index === Commandes.length - 1;
-              const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
-              const client = Clients?.find(
-                (client) => client.id === commande.clientID
-              );
-              const { label, color } = statusInfo[commande.status];
-              return (
-                <tr key={commande.id}>
-                  <td className={classes}>
-                    <Button
-                      className="w-full"
-                      onClick={() => {
-                        setClientClicked(client);
-                        HandleOpenInfo();
-                      }}
-                      variant="text"
-                    >
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal text-left"
-                      >
-                        {client?.name}
-                      </Typography>
-                    </Button>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.nbrArticls}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Tooltip
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                      className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
-                      placement="top"
-                      content={
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {commande.description}
-                        </Typography>
-                      }
-                    >
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal"
-                      >
-                        {commande.description.slice(0, 15)}
-                      </Typography>
-                    </Tooltip>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.avance} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.prixInt} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.rest} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.livraison} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.trakingNbr}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      <Chip
-                        variant="filled"
-                        className="rounded-full text-center"
-                        value={label}
-                        color={color}
-                      />
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <IconButton
-                      onClick={() => {
-                        setCommandeClicked(commande);
-                        setClientClicked(client);
-                        HandleOpenUpdate();
-                      }}
-                      variant="text"
-                    >
-                      <PencilIcon className="h-4 w-4" />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {
-                        setCommandeClicked(commande);
-                        setClientClicked(client);
-                        handleconfirmDelete();
-                        
-                      }}
-                      color="deep-orange"
-                      variant="text"
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </IconButton>
+          {isLoading ? (
+                <tr>
+                  <td
+                    colSpan={10}
+                    className="border border-gray-300 px-4 py-8 text-center text-gray-500"
+                  >
+                    <div className="flex items-center justify-center">
+                      <Spinner color="blue-gray" size="lg" />
+                    </div>
                   </td>
                 </tr>
-              );
-            }
-            )) : (
-            <tr>
-              <td
-                colSpan={10}
-                className="border border-gray-300 px-4 py-2 text-center text-gray-500"
-              >
-                Aucune commande trouvé
-              </td>
-            </tr>
-          )}
+              ) : (Commandes?.length > 0 ? (
+                Commandes?.map((commande, index) => {
+                 const isLast = index === Commandes.length - 1;
+                 const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
+                 const client = Clients?.find(
+                   (client) => client.id === commande.clientID
+                 );
+                 const { label, color } = statusInfo[commande.status];
+                 return (
+                   <tr key={commande.id}>
+                     <td className={classes}>
+                       <Button
+                         className="w-full"
+                         onClick={() => {
+                           setClientClicked(client);
+                           HandleOpenInfo();
+                         }}
+                         variant="text"
+                       >
+                         <Typography
+                           variant="small"
+                           color="slate"
+                           className="font-normal text-left"
+                         >
+                           {client?.name}
+                         </Typography>
+                       </Button>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         {commande.nbrArticls}
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <Tooltip
+                         animate={{
+                           mount: { scale: 1, y: 0 },
+                           unmount: { scale: 0, y: 25 },
+                         }}
+                         className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
+                         placement="top"
+                         content={
+                           <Typography
+                             variant="small"
+                             color="blue-gray"
+                             className="font-normal"
+                           >
+                             {commande.description}
+                           </Typography>
+                         }
+                       >
+                         <Typography
+                           variant="small"
+                           color="slate"
+                           className="font-normal"
+                         >
+                           {commande.description.slice(0, 15)}
+                         </Typography>
+                       </Tooltip>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         {commande.avance} DH
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         {commande.prixInt} DH
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         {commande.rest} DH
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         {commande.livraison} DH
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         {commande.trakingNbr}
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <Typography
+                         variant="small"
+                         color="slate"
+                         className="font-normal"
+                       >
+                         <Chip
+                           variant="filled"
+                           className="rounded-full text-center"
+                           value={label}
+                           color={color}
+                         />
+                       </Typography>
+                     </td>
+                     <td className={classes}>
+                       <IconButton
+                         onClick={() => {
+                           setCommandeClicked(commande);
+                           setClientClicked(client);
+                           HandleOpenUpdate();
+                         }}
+                         variant="text"
+                       >
+                         <PencilIcon className="h-4 w-4" />
+                       </IconButton>
+                       <IconButton
+                         onClick={() => {
+                           setCommandeClicked(commande);
+                           setClientClicked(client);
+                           handleconfirmDelete();
+                           
+                         }}
+                         color="deep-orange"
+                         variant="text"
+                       >
+                         <TrashIcon className="h-4 w-4" />
+                       </IconButton>
+                     </td>
+                   </tr>
+                 );
+               }
+               )) : (
+               <tr>
+                 <td
+                   colSpan={10}
+                   className="border border-gray-300 px-4 py-2 text-center text-gray-500"
+                 >
+                   Aucune commande trouvé
+                 </td>
+               </tr>
+             ))}
+
+          
 
 
-            {/* {Commandes?.map((commande, index) => {
-              const isLast = index === Commandes.length - 1;
-              const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
-              const client = Clients?.find(
-                (client) => client.id === commande.clientID
-              );
-              const { label, color } = statusInfo[commande.status];
-              return (
-                <tr key={commande.id}>
-                  <td className={classes}>
-                    <Button
-                      className="w-full"
-                      onClick={() => {
-                        setClientClicked(client);
-                        HandleOpenInfo();
-                      }}
-                      variant="text"
-                    >
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal text-left"
-                      >
-                        {client?.name}
-                      </Typography>
-                    </Button>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.nbrArticls}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Tooltip
-                      animate={{
-                        mount: { scale: 1, y: 0 },
-                        unmount: { scale: 0, y: 25 },
-                      }}
-                      className="border border-slate-50 bg-white px-4 py-3 shadow-xl shadow-black/10"
-                      placement="top"
-                      content={
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {commande.description}
-                        </Typography>
-                      }
-                    >
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal"
-                      >
-                        {commande.description.slice(0, 15)}
-                      </Typography>
-                    </Tooltip>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.avance} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.prixInt} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.rest} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.livraison} DH
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      {commande.trakingNbr}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal"
-                    >
-                      <Chip
-                        variant="filled"
-                        className="rounded-full text-center"
-                        value={label}
-                        color={color}
-                      />
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <IconButton
-                      onClick={() => {
-                        setCommandeClicked(commande);
-                        setClientClicked(client);
-                        HandleOpenUpdate();
-                      }}
-                      variant="text"
-                    >
-                      <PencilIcon className="h-4 w-4" />
-                    </IconButton>
-                    <IconButton
-                      onClick={() => {
-                        setCommandeClicked(commande);
-                        setClientClicked(client);
-                        handleconfirmDelete();
-                        
-                      }}
-                      color="deep-orange"
-                      variant="text"
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </IconButton>
-                  </td>
-                </tr>
-              );
-            })} */}
+
           </tbody>
         </table>
       </Card>

@@ -15,6 +15,8 @@ export default function ClientFeiled() {
   const [totalPages, setTotalPages] = useState();
   const [searching, setSearching] = useState(false);
   const [inputValue, setInputValue] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const [open, setOpen] = useState(false);
   const [clientsList, setClientsList] = useState();
@@ -22,6 +24,7 @@ export default function ClientFeiled() {
   const handleOpen = () => setOpen((cur) => !cur);
 
   const search = async (searchValue) => {
+    setIsLoading(true)
     try {
       const result = await fetch(`/api/search-client/${searchValue}/${page}`, {
         method: "GET",
@@ -38,8 +41,7 @@ export default function ClientFeiled() {
 
       setClientsList(client);
       setTotalPages(totalPage);
-      console.log("clientSearched.clients : ", client);
-      console.log("total pages search", totalPage);
+      setIsLoading(false)
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -47,6 +49,7 @@ export default function ClientFeiled() {
   };
 
   const getClients = useCallback(async () => {
+    setIsLoading(true)
     try {
       const result = await fetch(`/api/espace-client/${page}`, {
         method: "GET",
@@ -54,6 +57,7 @@ export default function ClientFeiled() {
       const { Clients, totalPage } = await result.json();
       setClientsList(Clients);
       setTotalPages(totalPage);
+      setIsLoading(false)
     } catch (e) {
       console.log(e);
     }
@@ -74,12 +78,13 @@ export default function ClientFeiled() {
         <div className="content rounded flex flex-col gap-4">
           <div className="flex flex-row justify-between">
             <SearchBar
-              search={search}
+              searchClient={search}
               getClients={getClients}
               source={source}
               setSearching={setSearching}
               setInputValue={setInputValue}
               setPage={setPage}
+              setIsLoading={setIsLoading}
             />
             <div className="flex flex-row gap-2 justify-end w-1/3">
               <Button
@@ -103,6 +108,7 @@ export default function ClientFeiled() {
             getClients={getClients}
             clientList={clientsList}
             setClientList={setClientsList}
+            isLoading={isLoading}
           />
 
           <Dialog

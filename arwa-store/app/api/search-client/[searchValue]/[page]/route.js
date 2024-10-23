@@ -4,7 +4,7 @@ import { ceil } from "lodash";
 
 export async function GET(req, { params }) {
   const {searchValue , page}  = params;
-  const clientPerPage = 3
+  const clientPerPage = 6
   
   try {
     const client = await prisma.clients.findMany({

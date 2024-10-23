@@ -25,9 +25,14 @@ export default function CommandeFeiled() {
   const [commandesList, setCommandesList] = useState();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [inputValue, setInputValue] = useState(null);
+  
+
 
   const handleOpen = () => setOpen((cur) => !cur);
   const getCommandes = useCallback(async () => {
+    setIsLoading(true)
     try {
       const result = await fetch(`/api/espace-commandes/${page}`, {
         method: "GET",
@@ -35,6 +40,7 @@ export default function CommandeFeiled() {
       const { Commandes, totalPage } = await result.json();
       setCommandesList(Commandes);
       setTotalPages(totalPage);
+      setIsLoading(false)
     } catch (e) {
       console.log(e);
     }
@@ -49,16 +55,16 @@ export default function CommandeFeiled() {
   }, [open, page]);
 
   const HandleStatus = (value) => {
+    setIsLoading(true)
     setPage(1);
     setSatus(value);
-    if (value === "All") {
-      getCommandes();
-    } else {
-      getCommandesByStatus(value);
-    }
+    search(value , inputValue)
   };
-  const search = async (searchValue) => {
-    if (status === "All" || searchValue === null) {
+  const search = async (status ,searchValue) => {
+    setIsLoading(true)
+    if (status === "All" && searchValue) {
+      console.log("status === 'All' && searchValue");
+      
       try {
         const result = await fetch(`/api/search-commande/${searchValue}`, {
           method: "GET",
@@ -67,6 +73,7 @@ export default function CommandeFeiled() {
         if (!result.ok) {
           console.log("Commande not found.");
           setCommandesList([]);
+          //setIsLoading(false)
           return;
         }
 
@@ -75,40 +82,56 @@ export default function CommandeFeiled() {
 
         setCommandesList(commandesearched);
         setTotalPages(commandesearched.length);
-        console.log("commandesearched.length : ", commandesearched.length);
+        setIsLoading(false)
       } catch (e) {
         console.error("Error fetching clients:", e);
         console.log("Something went wrong.");
       }
-    } else {
-      try {
-        const result = await fetch(
-          `/api/search-commande-status/${status}/${searchValue}`,
-          {
-            method: "GET",
-          }
-        );
+    } else if (status !== "All" && searchValue) {
+      console.log("status !== 'All' && searchValue");
+      getCommandesByStatusSearchValue(status , searchValue)
+    }
+    else if(status === "All" && !searchValue){
+      console.log("status === 'All' && !searchValue");
+      getCommandes();
+    }
+    if (status !== "All" && !searchValue) {
+      console.log("status !== 'All' && !searchValue");
+      getCommandesByStatus(status);
+    }
+  };
 
-        if (!result.ok) {
-          console.log("Commande not found.");
-          setCommandesList([]);
-          return;
+  
+  const getCommandesByStatusSearchValue = async (status , searchValue) => {
+    try {
+      const result = await fetch(
+        `/api/search-commande-status/${status}/${searchValue}`,
+        {
+          method: "GET",
         }
+      );
 
-        const commandesearched = await result.json();
-        console.log("searched clients : ", commandesearched);
-
-        setCommandesList(commandesearched);
-        setTotalPages(commandesearched.length);
-        console.log("commandesearched.length : ", commandesearched.length);
-      } catch (e) {
-        console.error("Error fetching clients:", e);
-        console.log("Something went wrong.");
+      if (!result.ok) {
+        console.log("Commande not found.");
+        setCommandesList([]);
+        return;
       }
+
+      const commandesearched = await result.json();
+      console.log("searched clients : ", commandesearched);
+
+      setCommandesList(commandesearched);
+      setTotalPages(commandesearched.length);
+      setIsLoading(false)
+
+    } catch (e) {
+      console.error("Error fetching clients:", e);
+      console.log("Something went wrong.");
     }
   };
 
   const getCommandesByStatus = async (status) => {
+    setIsLoading(true)
     try {
       const result = await fetch(
         `/api/espace-commandes/status/${status}/${page}`,
@@ -128,9 +151,7 @@ export default function CommandeFeiled() {
 
       setCommandesList(Commandes);
       setTotalPages(totalPage);
-      console.log("Commandes from get by status", Commandes);
-
-      console.log("total page from get by status", totalPage);
+setIsLoading(false)
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -148,6 +169,10 @@ export default function CommandeFeiled() {
                 search={search}
                 getCommandes={getCommandes}
                 setSearching={setSearching}
+                setIsLoading={setIsLoading}
+                setPage={setPage}
+                setInputValue={setInputValue}
+                status={status}
               />
               <div className="focus:!border-gray-500 w-1/3">
                 <Select
@@ -185,6 +210,7 @@ export default function CommandeFeiled() {
           <CommandesTable
             getCommandes={getCommandes}
             Commandes={commandesList}
+            isLoading={isLoading}
           />
 
           <Dialog

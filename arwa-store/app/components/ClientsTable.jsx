@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogFooter,
   Button,
+  Spinner,
 } from "../MT";
 import {
   PencilIcon,
@@ -21,10 +22,9 @@ import UpdateClientForm from "./UpdateClientForm";
 import Image from "next/image";
 import { resolve } from "styled-jsx/css";
 
-
 const TABLE_HEAD = ["Name", "Tele", "Ville", "Adresse", ""];
 const ClientsTable = forwardRef(
-  ({ clientList, getClients, setClientList, searchValue }, ref) => {
+  ({ clientList, getClients, setClientList, searchValue, isLoading }, ref) => {
     const [open, setOpen] = useState(false);
     const [clientClicked, setClientClicked] = useState();
     const [list, setList] = useState([]);
@@ -65,9 +65,12 @@ const ClientsTable = forwardRef(
         await fetch(`/api/espace-client/${clidntId}`, {
           method: "DELETE",
         });
-        toast(`Le client ${clientClicked?.name.toUpperCase()} a été supprimer avec succée!`, {
-          icon: "🗑️",
-        });
+        toast(
+          `Le client ${clientClicked?.name.toUpperCase()} a été supprimer avec succée!`,
+          {
+            icon: "🗑️",
+          }
+        );
         getClients();
         router.refresh();
       } catch (e) {
@@ -99,80 +102,96 @@ const ClientsTable = forwardRef(
               </tr>
             </thead>
             <tbody>
-              {clientList?.length > 0 ? (clientList?.map((client, index) => {
-                const isLast = index === clientList?.length - 1;
-                const classes = isLast ? "p-4" : "p-4 border-b border-slate-50";
+              {isLoading ? (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="border border-gray-300 px-4 py-8 text-center text-gray-500"
+                  >
+                    <div className="flex items-center justify-center">
+                      <Spinner color="blue-gray" size="lg" />
+                    </div>
+                  </td>
+                </tr>
+              ) : clientList?.length > 0 ? (
+                clientList?.map((client, index) => {
+                  const isLast = index === clientList?.length - 1;
+                  const classes = isLast
+                    ? "p-4"
+                    : "p-4 border-b border-slate-50";
 
-                return (
-                  <tr key={client.id}>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal"
-                      >
-                        {client.name.toUpperCase()}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal"
-                      >
-                        {client.tele}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal"
-                      >
-                        {client.ville}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="slate"
-                        className="font-normal"
-                      >
-                        {client.adress}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <IconButton
-                        onClick={() => {
-                          setClientClicked(client);
-                          handleOpen();
-                        }}
-                        variant="text"
-                      >
-                        <PencilIcon className="h-4 w-4" />
-                      </IconButton>
-                      <IconButton
-                        onClick={() => {
-                          setClientClicked(client);
-                          handleconfirmDelete();
-                        }}
-                        color="deep-orange"
-                        variant="text"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </IconButton>
-                    </td>
-                  </tr>
-                );
-              })) :(<tr>
-                <td
-                  colSpan={5}
-                  className="border border-gray-300 px-4 py-2 text-center text-gray-500"
-                >
-                  Aucun client trouvé
-                </td>
-              </tr>)}
-              
+                  return (
+                    <tr key={client.id}>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="slate"
+                          className="font-normal"
+                        >
+                          {client.name.toUpperCase()}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="slate"
+                          className="font-normal"
+                        >
+                          {client.tele}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="slate"
+                          className="font-normal"
+                        >
+                          {client.ville}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="slate"
+                          className="font-normal"
+                        >
+                          {client.adress}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <IconButton
+                          onClick={() => {
+                            setClientClicked(client);
+                            handleOpen();
+                          }}
+                          variant="text"
+                        >
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            setClientClicked(client);
+                            handleconfirmDelete();
+                          }}
+                          color="deep-orange"
+                          variant="text"
+                        >
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td
+                    colSpan={5}
+                    className="border border-gray-300 px-4 py-8 text-center text-gray-500"
+                  >
+                    <p>Aucun client trouvé</p>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
           <Dialog
