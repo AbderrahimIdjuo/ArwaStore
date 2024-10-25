@@ -65,20 +65,20 @@ export default function AddClientForm({ getClients, handleOpen }) {
       <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10 ">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="slate">
+          <CardBody className="flex flex-col gap-4 text-[#37474f] ">
+            <Typography variant="h4" >
               Ajouter un client
             </Typography>
             <div className="flex flex-col justify-evenly md:flex-row gap-6">
               <div id="Input-feild" className="flex flex-col w-full md:w-1/2 gap-4 mx-2">
-                <Typography className="-mb-2" variant="h6">
+                <Typography className="-mb-2 " variant="h6">
                   Nom et Prénom
                 </Typography>
                 <Input
                   {...register("name", {
                     required: "Nom obligatoire",
                   })}
-                  color="slate"
+                  color="blue-gray"
                   spellcheck="false"
                   label="nom "
                   size="md"
@@ -109,7 +109,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
                       message: "Phone number must be exactly 10 characters",
                     },
                   })}
-                  color="slate"
+                  color="blue-gray"
                   label="télé"
                   size="md"
                   type="tel"
@@ -159,7 +159,7 @@ export default function AddClientForm({ getClients, handleOpen }) {
                 <Input
                   {...register("adress")}
                   name="adress"
-                  color="slate"
+                  color="blue-gray"
                   label="Adress"
                   size="md"
                 />
@@ -167,13 +167,12 @@ export default function AddClientForm({ getClients, handleOpen }) {
             </div>
           </CardBody>
           <CardFooter className="pt-0 flex flex-row justify-start ">
-            <Button type="submit" color="green" className="rounded-full">
+            <Button type="submit" color="blue" className="rounded-full">
               Ajouter
             </Button>
             <Button
               className="ml-3 rounded-full hover-button"
               onClick={() => handleOpen()}
-              color="deep-orange"
             >
               Fermer
             </Button>

@@ -1,6 +1,13 @@
 "use client";
 import "../../globals.css";
-import { Button, Typography, Dialog, Select, Option } from "../../MT";
+import {
+  Button,
+  Typography,
+  Dialog,
+  Select,
+  Option,
+  IconButton,
+} from "../../MT";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import AddCommandeForm from "../../components/AddOrderForm";
 import CommandesTable from "../../components/CommandesTable";
@@ -8,9 +15,10 @@ import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 import SearchBar from "../../components/SearchBar";
 import { useEffect, useState, useCallback } from "react";
 import Pagination from "../../components/Pagination";
+import AddButton from "@/app/components/AddButton";
 
 const Status = [
-  { color: "", label: "All" },
+  { color: "blue-gray", label: "All" },
   { color: "green", label: "DELIVERED" },
   { color: "amber", label: "PENDING" },
   { color: "red", label: "CANCELED" },
@@ -20,19 +28,17 @@ export default function CommandeFeiled() {
   const [commandePage] = useState(true);
   const [source] = useState("commandes");
   const [open, setOpen] = useState(false);
-  const [status, setSatus] = useState("All");
+  const [status, setStatus] = useState("All");
   const [searching, setSearching] = useState(null);
   const [commandesList, setCommandesList] = useState();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [inputValue, setInputValue] = useState(null);
-  
-
+  const [searchValue, setsearchValue] = useState(null);
 
   const handleOpen = () => setOpen((cur) => !cur);
   const getCommandes = useCallback(async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await fetch(`/api/espace-commandes/${page}`, {
         method: "GET",
@@ -40,7 +46,7 @@ export default function CommandeFeiled() {
       const { Commandes, totalPage } = await result.json();
       setCommandesList(Commandes);
       setTotalPages(totalPage);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -49,22 +55,24 @@ export default function CommandeFeiled() {
   useEffect(() => {
     if (status === "All") {
       getCommandes();
-    } else {
+    } else if (status !== "All" && searchValue === null) {
       getCommandesByStatus(status);
+    } else if (status !== "All" && searchValue !== null) {
+      getCommandesByStatusSearchValue(status, searchValue);
     }
-  }, [open, page]);
+  }, [page]);
 
   const HandleStatus = (value) => {
-    setIsLoading(true)
+    setIsLoading(true);
     setPage(1);
-    setSatus(value);
-    search(value , inputValue)
+    setStatus(value);
+    search(value, searchValue);
   };
-  const search = async (status ,searchValue) => {
-    setIsLoading(true)
+  const search = async (status, searchValue) => {
+    setIsLoading(true);
     if (status === "All" && searchValue) {
-      console.log("status === 'All' && searchValue");
-      
+      console.log("status =", status, " && searchValue = ", searchValue);
+
       try {
         const result = await fetch(`/api/search-commande/${searchValue}`, {
           method: "GET",
@@ -82,30 +90,31 @@ export default function CommandeFeiled() {
 
         setCommandesList(commandesearched);
         setTotalPages(commandesearched.length);
-        setIsLoading(false)
+        setIsLoading(false);
       } catch (e) {
         console.error("Error fetching clients:", e);
         console.log("Something went wrong.");
       }
     } else if (status !== "All" && searchValue) {
-      console.log("status !== 'All' && searchValue");
-      getCommandesByStatusSearchValue(status , searchValue)
-    }
-    else if(status === "All" && !searchValue){
-      console.log("status === 'All' && !searchValue");
+      console.log("status =", status, " && searchValue = ", searchValue);
+
+      getCommandesByStatusSearchValue(status, searchValue);
+    } else if (status === "All" && !searchValue) {
+      console.log("status =", status, " && searchValue = ", searchValue);
+
       getCommandes();
     }
     if (status !== "All" && !searchValue) {
-      console.log("status !== 'All' && !searchValue");
+      console.log("status =", status, " && searchValue = ", searchValue);
+
       getCommandesByStatus(status);
     }
   };
 
-  
-  const getCommandesByStatusSearchValue = async (status , searchValue) => {
+  const getCommandesByStatusSearchValue = async (status, searchValue) => {
     try {
       const result = await fetch(
-        `/api/search-commande-status/${status}/${searchValue}`,
+        `/api/search-commande-status/${status}/${searchValue}/${page}`,
         {
           method: "GET",
         }
@@ -117,13 +126,12 @@ export default function CommandeFeiled() {
         return;
       }
 
-      const commandesearched = await result.json();
-      console.log("searched clients : ", commandesearched);
+      const { commande, totalPage } = await result.json();
+      console.log("searched clients : ", commande);
 
-      setCommandesList(commandesearched);
-      setTotalPages(commandesearched.length);
-      setIsLoading(false)
-
+      setCommandesList(commande);
+      setTotalPages(totalPage);
+      setIsLoading(false);
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -131,7 +139,7 @@ export default function CommandeFeiled() {
   };
 
   const getCommandesByStatus = async (status) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await fetch(
         `/api/espace-commandes/status/${status}/${page}`,
@@ -151,7 +159,7 @@ export default function CommandeFeiled() {
 
       setCommandesList(Commandes);
       setTotalPages(totalPage);
-setIsLoading(false)
+      setIsLoading(false);
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -168,43 +176,41 @@ setIsLoading(false)
                 source={source}
                 search={search}
                 getCommandes={getCommandes}
-                setSearching={setSearching}
                 setIsLoading={setIsLoading}
                 setPage={setPage}
-                setInputValue={setInputValue}
+                setInputValue={setsearchValue}
+                getCommandesByStatus={getCommandesByStatus}
                 status={status}
               />
-              <div className="focus:!border-gray-500 w-1/3">
+              <div className=" w-1/3 ">
                 <Select
-                  color="green"
-                  label="statut de livraison"
+                className="bg-white"
+                  color="blue-gray"
+                  label="Statut de livraison"
                   onChange={HandleStatus}
                 >
                   {Status.map((statu, index) => (
                     <Option key={index} value={statu.label}>
-                      {statu.label}
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="flex flex-row items-center justify-start gap-2 font-normal"
+                      >
+                        <IconButton
+                        style={{ pointerEvents: "none" }}
+                          variant="ghost"
+                          color={statu.color}
+                          size="sm"
+                          className="rounded-full h-3 w-3"
+                        ></IconButton>
+                        {statu.label}
+                      </Typography>
                     </Option>
                   ))}
                 </Select>
               </div>
             </div>
-            <div className="flex flex-row gap-2 justify-end w-1/3  mx-1 rounded-full round-button">
-              <Button
-                onClick={handleOpen}
-                className="button2 flex flex-row justfy-center items-center gap-2 rounded-full px-5"
-                color="green"
-                size="sm"
-              >
-                <PlusIcon color="white" className="h-6 w-6" />
-                <Typography
-                  className="hidden md:block"
-                  variant="paragraph"
-                  color="white"
-                >
-                  Ajouter une commande
-                </Typography>
-              </Button>
-            </div>
+            <AddButton handleOpen={handleOpen} title={"Ajouter une commande"} />
           </div>
 
           <CommandesTable

@@ -65,8 +65,8 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
       <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="slate">
+          <CardBody className="flex flex-col gap-4 text-[#37474f]">
+            <Typography variant="h4" >
               Modifier un client
             </Typography>
             <div className="flex flex-col justify-evenly md:flex-row gap-6">
@@ -78,8 +78,8 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
                   {...register("name", {
                     required: "Name is required",
                   })}
-                  defaultValue={Client.name}
-                  color="slate"
+                  defaultValue={Client.name.toUpperCase()}
+                  color="blue-gray"
                   label="name"
                   size="md"
                   spellcheck="false"
@@ -111,7 +111,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
                     },
                   })}
                   defaultValue={Client.tele}
-                  color="slate"
+                  color="blue-gray"
                   label="télé"
                   size="md"
                   type="tel"
@@ -162,7 +162,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
                   {...register("adress")}
                   defaultValue={Client.adress}
                   name="adress"
-                  color="slate"
+                  color="blue-gray"
                   label="Adress"
                   size="md"
                 />
@@ -170,7 +170,7 @@ export default function UpdateClientForm({ handleOpen, client, getClients }) {
             </div>
           </CardBody>
           <CardFooter className="pt-0 flex flex-row justify-start ">
-            <Button type="submit" color="green" className="rounded-full">
+            <Button type="submit" color="blue" className="rounded-full">
               Modifier
             </Button>
             <Button

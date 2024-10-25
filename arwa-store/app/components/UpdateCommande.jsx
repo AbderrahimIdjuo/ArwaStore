@@ -12,6 +12,7 @@ import {
   Input,
   Select,
   Option,
+  IconButton
 } from "../MT";
 import SelectClient from "./SelectClient";
 
@@ -75,8 +76,8 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
       <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="slate">
+          <CardBody className="flex flex-col gap-4 text-[#37474f]">
+            <Typography variant="h4" >
               Modifier une commande
             </Typography>
             <div className="flex flex-col md:flex-row justify-evenly">
@@ -86,10 +87,10 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("client")}
-                  color="sky"
+                  color="blue-gray"
                   label="Nom et Prénom"
                   size="md"
-                  value={client.name}
+                  value={client.name.toUpperCase()}
                   disabled
                 />
               </div>
@@ -99,7 +100,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("nbrArticls")}
-                  color="sky"
+                  color="blue-gray"
                   label="Nbr d'articles"
                   size="md"
                   defaultValue={commande.nbrArticls}
@@ -111,7 +112,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("description")}
-                  color="sky"
+                  color="blue-gray"
                   label="Decrire les articles"
                   size="md"
                   defaultValue={commande.description}
@@ -123,7 +124,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("trakingNbr")}
-                  color="sky"
+                  color="blue-gray"
                   label="Traking Number"
                   size="md"
                 />
@@ -137,7 +138,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("prixInt")}
-                  color="sky"
+                  color="blue-gray"
                   label="Prix total des articles"
                   size="md"
                   defaultValue={commande.prixInt}
@@ -149,7 +150,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("avance")}
-                  color="sky"
+                  color="blue-gray"
                   label="Avance"
                   size="md"
                   defaultValue={commande.avance}
@@ -161,7 +162,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                 </Typography>
                 <Input
                   {...register("livraison")}
-                  color="sky"
+                  color="blue-gray"
                   label="Frais de livraison"
                   size="md"
                   defaultValue={commande.livraison}
@@ -172,8 +173,34 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                   Status
                 </Typography>
                 <Select
+                  className="bg-white"
+                  color="blue-gray"
+                  label="Statut de livraison"
+                  onChange={HandleStatus}
+                  value={status}
+                >
+                  {Status.map((statu, index) => (
+                    <Option key={index} value={statu.label}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="flex flex-row items-center justify-start gap-2 font-normal"
+                      >
+                        <IconButton
+                          style={{ pointerEvents: "none" }}
+                          variant="ghost"
+                          color={statu.color}
+                          size="sm"
+                          className="rounded-full h-3 w-3"
+                        ></IconButton>
+                        {statu.label}
+                      </Typography>
+                    </Option>
+                  ))}
+                </Select>
+                {/* <Select
                   label="Select Version"
-                  color="sky"
+                  color="blue-gray"
                   onChange={HandleStatus}
                   value={status}
                 >
@@ -182,7 +209,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
                       {statu.label}
                     </Option>
                   ))}
-                </Select>
+                </Select> */}
               </div>
             </div>
           </CardBody>
@@ -190,7 +217,7 @@ export default function UpdateCommande({HandleOpenUpdate , commande, client, get
           <Button
               disabled={isSubmitting}
               type="submit"
-              color="green"
+              color="blue"
               className="rounded-full"
             >
               Modifier

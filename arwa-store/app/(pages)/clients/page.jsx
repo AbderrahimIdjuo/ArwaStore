@@ -8,6 +8,7 @@ import { PlusIcon } from "@heroicons/react/24/solid";
 import ClientsTable from "../../components/ClientsTable";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 import SearchBar from "@/app/components/SearchBar";
+import AddButton from "@/app/components/AddButton";
 export default function ClientFeiled() {
   const [source] = useState("clients");
   const [clientPage] = useState(true);
@@ -16,6 +17,7 @@ export default function ClientFeiled() {
   const [searching, setSearching] = useState(false);
   const [inputValue, setInputValue] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+ const [refresh, setRefresh] = useState(false);
 
 
   const [open, setOpen] = useState(false);
@@ -69,13 +71,13 @@ export default function ClientFeiled() {
     } else {
       search(inputValue);
     }
-  }, [open, page]);
+  }, [page]);
 
   return (
     <>
       <NavBar clientPage={clientPage} />
       <div className="container flex flex-col gap-2">
-        <div className="content rounded flex flex-col gap-4">
+        <div className="content  flex flex-col gap-4">
           <div className="flex flex-row justify-between">
             <SearchBar
               searchClient={search}
@@ -86,23 +88,7 @@ export default function ClientFeiled() {
               setPage={setPage}
               setIsLoading={setIsLoading}
             />
-            <div className="flex flex-row gap-2 justify-end w-1/3">
-              <Button
-                onClick={handleOpen}
-                className="button2 flex flex-row justfy-center items-center gap-2 rounded-full px-5"
-                color="green"
-                size="sm"
-              >
-                <PlusIcon color="white" className="h-6 w-6" />
-                <Typography
-                  className="hidden md:block"
-                  variant="paragraph"
-                  color="white"
-                >
-                  Ajouter un client
-                </Typography>
-              </Button>
-            </div>
+            <AddButton handleOpen={handleOpen}  title={"Ajouter un client"}/>
           </div>
           <ClientsTable
             getClients={getClients}
@@ -118,7 +104,7 @@ export default function ClientFeiled() {
             handler={handleOpen}
             className="bg-transparent shadow-none dialog"
           >
-            <AddClientForm getClients={getClients} handleOpen={handleOpen} />
+            <AddClientForm getClients={getClients} handleOpen={handleOpen}  />
           </Dialog>
           <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         </div>

@@ -9,10 +9,10 @@ export default function SearchBar({
   getClients,
   getCommandes,
   source,
-  setSearching,
   setInputValue,
   setPage,
   setIsLoading,
+  getCommandesByStatus,
   status,
   searchClient
 }) {
@@ -23,42 +23,55 @@ export default function SearchBar({
   const HandleChange = useCallback(
     debounce((value) => {
       if (value === "") {
-        setSearching(false);
+        setInputValue(null)
         setIsLoading(true)
         if (source === "commandes") {
-          getCommandes();
+          console.log('#######  status :', status , '#######  searchValue :', searchValue)
+          search(status , searchValue);
         } else if (source === "clients") {
           getClients();
         }
       }
       setSearchValue(value);
     }, 300),
-    []
+    [ searchValue , source , status]
   );
 
   useEffect(() => {
     return () => HandleChange.cancel();
   }, [HandleChange]);
 
-  const HandleInputChange = (e) => {
-    setSearching(true);
-    HandleChange(e.target.value);
+  const HandleInputChange = (e) => { 
+    if (e.target.value === "") {
+      setInputValue(null)
+      setIsLoading(true)
+      if (source === "commandes") {
+        console.log('#######  status :', status , '#######  searchValue :', searchValue)
+        search(status , null);
+      } else if (source === "clients") {
+        getClients();
+      }
+    }
     setSearchValue(e.target.value);
+    console.log('handleInputChange',searchValue )
   };
   const handleFocus = () => {
     setIsFocused(true);
   };
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+
+  const handleSearch = () => {
+    console.log('handleSearch', status , searchValue)
       setPage(1);
       if(searchClient){
         searchClient(searchValue)
       }else if(search){
         search(status , searchValue);
-      }
-      
-      
+      }  
       setInputValue(searchValue);
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch()
     }
   };
   const handleBlur = () => {
@@ -89,8 +102,8 @@ export default function SearchBar({
         containerProps={{
           className: "min-w-0",
         }}
-        className={`!border !border-gray-300 focus:!border-green-500 focus:!shadow-md focus:!shadow-green-300/50 pl-10 pr-4 py-2 w-full rounded-full transition-all duration-300 ease-in-out ${
-          isFocused ? "bg-white " : "bg-gray-100"
+        className={`!bg-white !border !border-[1.2px] !border-gray-300 focus:!border-[#78909c] focus:!shadow-md focus:!shadow-[#37474f] pl-10 pr-4 py-2 w-full rounded-full transition-all duration-300 ease-in-out ${
+          isFocused ? " !border-[3px]" : "bg-gray-100"
         }`}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -103,24 +116,21 @@ export default function SearchBar({
       >
         <div className="relative w-5 h-5">
           <MagnifyingGlassIcon
+          style={{ stroke: 'currentcolor', strokeWidth: 1.2 }}
             color="gray"
-            className={`w-5 h-5 absolute transition-all duration-300 ease-in-out ${
+            className={` w-5 h-5 absolute transition-all duration-300 ease-in-out ${
               isFocused
                 ? "opacity-0 -translate-x-2"
                 : "opacity-100 translate-x-0"
             }`}
           />
           <ArrowLeftIcon
-            color="green"
+            
+            style={{ stroke: 'currentcolor', strokeWidth: 1.2 }}
             onClick={() => {
-              setPage(1);
-              if(searchClient){
-                searchClient(searchValue)
-              }else if(search){
-                search(status , searchValue);
-              }
+              handleSearch()
             }}
-            className={`w-5 h-5 absolute transition-all duration-300 ease-in-out ${
+            className={`text-[#78909c] w-5 h-5 absolute transition-all duration-300 ease-in-out ${
               isFocused
                 ? "opacity-100 translate-x-0"
                 : "opacity-0 translate-x-2"

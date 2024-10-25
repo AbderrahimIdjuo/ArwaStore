@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    background-color: whitesmoke;
+    background-color: rgb(255, 255, 255);
 }
 
 .header{
@@ -23,11 +23,12 @@ margin-bottom: 2rem;
     height: 100vh;            /* Full viewport height */
 }
 .content{
-background-color: white;
+background-color: #eceff1;
 width:100%;
 height: fit-content;
 padding: 1rem;
 box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
+border-radius: 1rem;
 }
 
 .button2:hover {
@@ -38,8 +39,8 @@ box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
 /* Styling the button */
 .hover-button {
     background-color: white; /* Initial button color */
-    color: #f32013;
-    border: 1px solid #f32013;
+    color: #ff3d00;
+    border: 1px solid #ff3d00;
     padding: 10px 20px;
     cursor: pointer;
     transition: background-color 0.3s ease; /* Smooth transition */
@@ -52,7 +53,7 @@ box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
   
   /* Hover state to change button color */
   .hover-button:hover {
-    background-color: #f32013;
+    background-color: #ff3d00;
     color: #ffffff; /* Color on hover */
   }
 

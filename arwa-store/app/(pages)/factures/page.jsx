@@ -1,16 +1,19 @@
 "use client";
 import "../../globals.css";
-import { Input, Button, Typography, Dialog} from "../../MT";
-import {
-  MagnifyingGlassIcon,
-  PlusIcon,
-} from "@heroicons/react/24/solid";
+import { Input, Button, Typography, Dialog , Select , Option } from "../../MT";
+import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/solid";
 import AddComptaForm from "../../components/AddComptaForm ";
 import CpmtaTable from "../../components/ComptaTable";
 import { useState, useEffect, useCallback } from "react";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 import Pagination from "../../components/Pagination";
+import AddButton from '@/app/components/AddButton'
 
+const DateFilters = [
+  { label: "Dernier mois", value: "this_month" },
+  { label: "Les 3 mois dernier", value: "last_month" },
+  { label: "Cette année", value: "this_year" },
+];
 export default function ComptaFeiled() {
   const [facturesList, setFacturesList] = useState([]);
   const [facturePage] = useState(true);
@@ -47,34 +50,31 @@ export default function ComptaFeiled() {
       <NavBar facturePage={facturePage} />
       <div className="container flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
-          <div className="flex flex-row">
-            <div className="flex flex-row gap-2 items-center w-2/3">
-              <Input
-                name="search"
-                color="slate"
-                label="Chercher une facture"
-                size="md"
-                icon={<MagnifyingGlassIcon color="slate" className="h-6 w-6" />}
-              />
-            </div>
-            <div className="flex flex-row gap-2 justify-end w-1/3">
-              <Button
-                onClick={handleOpen}
-                className="button2 flex flex-row justfy-center items-center gap-2 rounded-full px-5"
-                color="green"
-                size="sm"
-              >
-                <PlusIcon color="white" className="h-6 w-6" />
-                <Typography
-                  className="hidden md:block"
-                  variant="paragraph"
-                  color="white"
+        <div className="flex flex-row">
+            <div className="flex flex-col md:flex-row gap-2 items-center w-2/3">
+              <div className=" w-1/3 ">
+                <Select
+                className="bg-white"
+                  color="blue-gray"
+                  label="Filtrer par date"
                 >
-                  Ajouter une facture
-                </Typography>
-              </Button>
+                  {DateFilters.map((date, index) => (
+                    <Option key={index} value={date.value}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="flex flex-row items-center justify-start gap-2 font-normal"
+                      >
+                        {date.label}
+                      </Typography>
+                    </Option>
+                  ))}
+                </Select>
+              </div>
             </div>
+            <AddButton handleOpen={handleOpen} title={"Ajouter une facture"} />
           </div>
+
 
           <CpmtaTable facturesList={facturesList} getFactures={getFactures} />
 

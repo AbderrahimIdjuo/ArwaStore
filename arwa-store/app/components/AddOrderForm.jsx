@@ -12,6 +12,7 @@ import {
   Input,
   Select,
   Option,
+  IconButton
 } from "../MT";
 import SelectClients from "./SelectClients";
 
@@ -75,13 +76,12 @@ export default function AddOrder({ handleOpen, getCommandes }) {
         }
 
         console.log("Commande ajouté avec succès", Data);
-        
+
         setStatus("");
         setSelectedClient("");
         reset();
         getCommandes();
         //router.refresh()
-
       })(),
       {
         loading: "Ajout de la commande...",
@@ -99,10 +99,8 @@ export default function AddOrder({ handleOpen, getCommandes }) {
       <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="slate">
-              Ajouter une commande
-            </Typography>
+          <CardBody className="flex flex-col gap-4 text-[#37474f]">
+            <Typography variant="h4">Ajouter une commande</Typography>
             <div className="flex flex-col md:flex-row justify-evenly">
               <div
                 id="Input-feild"
@@ -127,7 +125,7 @@ export default function AddOrder({ handleOpen, getCommandes }) {
                   {...register("nbrArticls", {
                     required: "Nombre d'articl est obligatoire",
                   })}
-                  color=""
+                  color="blue-gray"
                   label="Nbr d'articles"
                   size="md"
                 />
@@ -141,7 +139,7 @@ export default function AddOrder({ handleOpen, getCommandes }) {
                 </Typography>
                 <Input
                   {...register("description")}
-                  color="sky"
+                  color="blue-gray"
                   label="Decrire les articles"
                   size="md"
                 />
@@ -158,7 +156,7 @@ export default function AddOrder({ handleOpen, getCommandes }) {
                 </Typography>
                 <Input
                   {...register("prixInt")}
-                  color="sky"
+                  color="blue-gray"
                   label="Prix total des articles"
                   size="md"
                 />
@@ -172,7 +170,7 @@ export default function AddOrder({ handleOpen, getCommandes }) {
                 </Typography>
                 <Input
                   {...register("avance")}
-                  color="sky"
+                  color="blue-gray"
                   label="Avance"
                   size="md"
                 />
@@ -186,7 +184,7 @@ export default function AddOrder({ handleOpen, getCommandes }) {
                 </Typography>
                 <Input
                   {...register("livraison")}
-                  color="sky"
+                  color="blue-gray"
                   label="Frais de livraison"
                   size="md"
                 />
@@ -198,10 +196,29 @@ export default function AddOrder({ handleOpen, getCommandes }) {
                 <Typography className="-mb-2" variant="h6">
                   Status
                 </Typography>
-                <Select value={status} label="Status" onChange={HandleStatus}>
+                <Select
+                  className="bg-white"
+                  color="blue-gray"
+                  label="Statut de livraison"
+                  onChange={HandleStatus}
+                  value={status}
+                >
                   {Status.map((statu, index) => (
                     <Option key={index} value={statu.label}>
-                      {statu.label}
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="flex flex-row items-center justify-start gap-2 font-normal"
+                      >
+                        <IconButton
+                          style={{ pointerEvents: "none" }}
+                          variant="ghost"
+                          color={statu.color}
+                          size="sm"
+                          className="rounded-full h-3 w-3"
+                        ></IconButton>
+                        {statu.label}
+                      </Typography>
                     </Option>
                   ))}
                 </Select>
@@ -212,7 +229,7 @@ export default function AddOrder({ handleOpen, getCommandes }) {
             <Button
               disabled={isSubmitting}
               type="submit"
-              color="green"
+              color="blue"
               className="rounded-full"
             >
               Ajouter

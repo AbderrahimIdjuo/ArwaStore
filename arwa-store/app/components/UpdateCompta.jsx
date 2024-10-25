@@ -79,8 +79,8 @@ export default function UpdateCompta({
       <Toaster position="top-center" />
       <Card className="mx-auto w-full z-10 pb-4">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <CardBody className="flex flex-col gap-4">
-            <Typography variant="h4" color="slate">
+          <CardBody className="flex flex-col gap-4 text-[#37474f]">
+            <Typography variant="h4" >
               Modifier une facture
             </Typography>
             <div className="grid grid-cols-4 gap-3">
@@ -96,7 +96,7 @@ export default function UpdateCompta({
                     </Typography>
                     <Input
                       {...register(`${element.lable}`)}
-                      color="slate"
+                      color="blue-gray"
                       size="md"
                       type="number"
                       min={0}
@@ -109,7 +109,7 @@ export default function UpdateCompta({
                 <Button
                   disabled={isSubmitting}
                   type="submit"
-                  color="green"
+                  color="blue"
                   className="rounded-full"
                   onClick={() => {
                     HandleOpenUpdate();
