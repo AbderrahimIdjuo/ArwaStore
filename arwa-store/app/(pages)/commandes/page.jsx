@@ -29,7 +29,6 @@ export default function CommandeFeiled() {
   const [source] = useState("commandes");
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState("All");
-  const [searching, setSearching] = useState(null);
   const [commandesList, setCommandesList] = useState();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState();
@@ -53,13 +52,14 @@ export default function CommandeFeiled() {
   }, [page]);
 
   useEffect(() => {
-    if (status === "All") {
-      getCommandes();
-    } else if (status !== "All" && searchValue === null) {
-      getCommandesByStatus(status);
-    } else if (status !== "All" && searchValue !== null) {
-      getCommandesByStatusSearchValue(status, searchValue);
-    }
+    // if (status === "All") {
+    //   getCommandes();
+    // } else if (status !== "All" && searchValue === null) {
+    //   getCommandesByStatus(status);
+    // } else if (status !== "All" && searchValue !== null) {
+    //   getCommandesByStatusSearchValue(status, searchValue);
+    // }
+    search(status , searchValue)
   }, [page]);
 
   const HandleStatus = (value) => {
@@ -74,7 +74,7 @@ export default function CommandeFeiled() {
       console.log("status =", status, " && searchValue = ", searchValue);
 
       try {
-        const result = await fetch(`/api/search-commande/${searchValue}`, {
+        const result = await fetch(`/api/search-commande/${searchValue}/${page}`, {
           method: "GET",
         });
 
@@ -85,11 +85,11 @@ export default function CommandeFeiled() {
           return;
         }
 
-        const commandesearched = await result.json();
-        console.log("searched clients : ", commandesearched);
+        const {commandes , totalPage} = await result.json();
+        console.log("searched clients : ", commandes);
 
-        setCommandesList(commandesearched);
-        setTotalPages(commandesearched.length);
+        setCommandesList(commandes);
+        setTotalPages(totalPage);
         setIsLoading(false);
       } catch (e) {
         console.error("Error fetching clients:", e);

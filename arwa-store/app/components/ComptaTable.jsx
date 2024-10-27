@@ -43,13 +43,12 @@ const TABLE_HEAD = [
   "",
 ];
 
-export default function CpmtaTable({ facturesList, getFactures }) {
+export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
   // const [facturesList, setFacturesList] = useState([]);
   const [factureClicked, setFactureClicked] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const HandleOpenDetails = () => {
     setOpenDetails((cur) => !cur);
   };
@@ -123,7 +122,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                       tabIndex={-1}
                       key={facture.id}
                     >
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         <Typography
                           variant="small"
                           color="slate"
@@ -132,7 +131,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           {date}
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2" align="left">
                         <Chip
                           value={`${facture.capital_reel} DH`}
                           variant="ghost"
@@ -141,7 +140,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           className="rounded-full w-[fit-content]"
                         />
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2" align="left">
                         <Chip
                           value={`${facture.capital_general} DH`}
                           variant="ghost"
@@ -150,7 +149,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           className="rounded-full w-[fit-content]"
                         />
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         <Typography
                           variant="small"
                           color="slate"
@@ -159,7 +158,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           {facture.cash} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         <Typography
                           variant="small"
                           color="slate"
@@ -168,7 +167,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           {facture.beyou} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         <Typography
                           variant="small"
                           color="slate"
@@ -177,7 +176,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           {facture.fornisseur} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         <Typography
                           variant="small"
                           color="slate"
@@ -186,7 +185,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           {facture.barid} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         <Typography
                           variant="small"
                           color="slate"
@@ -195,7 +194,7 @@ export default function CpmtaTable({ facturesList, getFactures }) {
                           {facture.cih} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell className="!py-2"  align="left">
                         {/* détails */}
                         <IconButton
                           onClick={() => {
