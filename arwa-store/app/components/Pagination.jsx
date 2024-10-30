@@ -2,7 +2,7 @@ import React from "react";
 import { IconButton, Button } from "../MT";
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/solid";
 
-export default function Pagination({ page, totalPages, setPage }) {
+export default function Pagination({ page, totalPages, setPage , pagination }) {
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
@@ -37,7 +37,7 @@ export default function Pagination({ page, totalPages, setPage }) {
     return pageNumbers;
   };
   return (
-    <div className="flex justify-center items-center gap-2">
+    <div className={`flex justify-center items-center gap-2 ${!pagination  ? "hidden" : null}`}>
       <Button
         onClick={() => handlePageChange(page - 1)}
         disabled={page === 1}

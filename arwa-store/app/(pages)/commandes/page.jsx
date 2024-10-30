@@ -7,8 +7,7 @@ import {
   Select,
   Option,
   IconButton,
-} from "../../MT";
-import { PlusIcon } from "@heroicons/react/24/solid";
+} from "@/app/MT";
 import AddCommandeForm from "../../components/AddOrderForm";
 import CommandesTable from "../../components/CommandesTable";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
@@ -34,10 +33,13 @@ export default function CommandeFeiled() {
   const [totalPages, setTotalPages] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setsearchValue] = useState(null);
+  const [pagination, setPagination] = useState(true);
 
   const handleOpen = () => setOpen((cur) => !cur);
   const getCommandes = useCallback(async () => {
+    setPagination(true)
     setIsLoading(true);
+    
     try {
       const result = await fetch(`/api/espace-commandes/${page}`, {
         method: "GET",
@@ -45,6 +47,9 @@ export default function CommandeFeiled() {
       const { Commandes, totalPage } = await result.json();
       setCommandesList(Commandes);
       setTotalPages(totalPage);
+      if(totalPage===0){
+        setPagination(false)
+      }
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -52,13 +57,6 @@ export default function CommandeFeiled() {
   }, [page]);
 
   useEffect(() => {
-    // if (status === "All") {
-    //   getCommandes();
-    // } else if (status !== "All" && searchValue === null) {
-    //   getCommandesByStatus(status);
-    // } else if (status !== "All" && searchValue !== null) {
-    //   getCommandesByStatusSearchValue(status, searchValue);
-    // }
     search(status , searchValue)
   }, [page]);
 
@@ -81,7 +79,6 @@ export default function CommandeFeiled() {
         if (!result.ok) {
           console.log("Commande not found.");
           setCommandesList([]);
-          //setIsLoading(false)
           return;
         }
 
@@ -90,6 +87,9 @@ export default function CommandeFeiled() {
 
         setCommandesList(commandes);
         setTotalPages(totalPage);
+        if(totalPage===0){
+          setPagination(false)
+        }
         setIsLoading(false);
       } catch (e) {
         console.error("Error fetching clients:", e);
@@ -131,6 +131,9 @@ export default function CommandeFeiled() {
 
       setCommandesList(commande);
       setTotalPages(totalPage);
+      if(totalPage===0){
+        setPagination(false)
+      }
       setIsLoading(false);
     } catch (e) {
       console.error("Error fetching clients:", e);
@@ -159,6 +162,9 @@ export default function CommandeFeiled() {
 
       setCommandesList(Commandes);
       setTotalPages(totalPage);
+      if(totalPage===0){
+        setPagination(false)
+      }
       setIsLoading(false);
     } catch (e) {
       console.error("Error fetching clients:", e);
@@ -231,7 +237,7 @@ export default function CommandeFeiled() {
               getCommandes={getCommandes}
             />
           </Dialog>
-          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          <Pagination pagination={pagination} page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </div>
     </>

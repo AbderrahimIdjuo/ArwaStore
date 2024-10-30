@@ -177,14 +177,17 @@ const ClientsTable = forwardRef(
                     </TableRow>
                   ))
                 ) : (
+                  <>
                   <TableRow>
                     <TableCell
                       colSpan={5}
                       className="border border-gray-300 px-4 py-8 text-center text-gray-500"
                     >
-                      <h2>Aucun client trouvé</h2>
+                    Aucun client trouvé
                     </TableCell>
                   </TableRow>
+                  
+                  </>
                 )}
               </TableBody>
             </Table>
@@ -192,118 +195,6 @@ const ClientsTable = forwardRef(
         </Paper>
 
         <Card className="hidden h-full w-full overflow-scroll">
-          {/* <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
-                {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-b border-slate-100 bg-slate-50 p-4"
-                  >
-                    <Typography
-                      variant="small"
-                      color="slate"
-                      className="font-normal leading-none opacity-70"
-                    >
-                      {head}
-                    </Typography>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr>
-                  <td
-                    colSpan={5}
-                    className="border border-gray-300 px-4 py-8 text-center text-gray-500"
-                  >
-                    <div className="flex items-center justify-center">
-                      <Spinner color="blue-gray" size="lg" />
-                    </div>
-                  </td>
-                </tr>
-              ) : clientList?.length > 0 ? (
-                clientList?.map((client, index) => {
-                  const isLast = index === clientList?.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-slate-50";
-
-                  return (
-                    <tr key={client.id}>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="slate"
-                          className="font-normal"
-                        >
-                          {client.name.toUpperCase()}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="slate"
-                          className="font-normal"
-                        >
-                          {client.tele}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="slate"
-                          className="font-normal"
-                        >
-                          {client.ville}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="slate"
-                          className="font-normal"
-                        >
-                          {client.adress}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <IconButton
-                          onClick={() => {
-                            setClientClicked(client);
-                            handleOpen();
-                          }}
-                          variant="text"
-                        >
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            setClientClicked(client);
-                            handleconfirmDelete();
-                          }}
-                          color="deep-orange"
-                          variant="text"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </IconButton>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td
-                    colSpan={5}
-                    className="border border-gray-300 px-4 py-8 text-center text-gray-500"
-                  >
-                    <p>Aucun client trouvé</p>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table> */}
           <Dialog
             id="ajouter-client"
             size="xl"

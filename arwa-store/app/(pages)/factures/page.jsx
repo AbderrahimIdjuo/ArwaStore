@@ -26,8 +26,10 @@ export default function ComptaFeiled() {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [date, setDate] = useState();
+  const [pagination, setPagination] = useState(true);
   const handleOpen = () => setOpen((cur) => !cur);
   const getFactures = useCallback(async () => {
+    setPagination(true)
     try {
       const result = await fetch(`/api/espace-factures/${page}`, {
         method: "GET",
@@ -40,6 +42,9 @@ export default function ComptaFeiled() {
       const { factures, totalPage } = await result.json();
       setFacturesList(factures);
       setTotalPages(totalPage);
+      if(totalPage === 0 ){
+        setPagination(false)
+      }
       setIsLoading(false);
 
       console.log("get factures working!");
@@ -81,8 +86,9 @@ export default function ComptaFeiled() {
       const { Factures, totalPage } = await result.json();
       setFacturesList(Factures);
       setTotalPages(totalPage);
-      console.log("factures", Factures);
-      console.log("totalPage", totalPage);
+      if(totalPage === 0 ){
+        setPagination(false)
+      }
       setIsLoading(false);
 
       console.log("get factures working!");
@@ -154,7 +160,7 @@ export default function ComptaFeiled() {
           >
             <AddComptaForm handleOpen={handleOpen} getFactures={getFactures} />
           </Dialog>
-          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          <Pagination pagination={pagination} page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </div>
     </>

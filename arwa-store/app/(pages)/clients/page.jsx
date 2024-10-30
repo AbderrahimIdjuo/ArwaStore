@@ -17,7 +17,8 @@ export default function ClientFeiled() {
   const [searching, setSearching] = useState(false);
   const [inputValue, setInputValue] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
- const [refresh, setRefresh] = useState(false);
+ const [pagination, setPagination] = useState(true);
+
 
 
   const [open, setOpen] = useState(false);
@@ -35,6 +36,7 @@ export default function ClientFeiled() {
       if (!result.ok) {
         console.log("Client not found.");
         setClientsList([]);
+        
         return;
       }
 
@@ -43,6 +45,9 @@ export default function ClientFeiled() {
 
       setClientsList(client);
       setTotalPages(totalPage);
+      if(totalPage===0){
+        setPagination(false)
+      }
       setIsLoading(false)
     } catch (e) {
       console.error("Error fetching clients:", e);
@@ -51,6 +56,7 @@ export default function ClientFeiled() {
   };
 
   const getClients = useCallback(async () => {
+    setPagination(true)
     setIsLoading(true)
     try {
       const result = await fetch(`/api/espace-client/${page}`, {
@@ -106,7 +112,7 @@ export default function ClientFeiled() {
           >
             <AddClientForm getClients={getClients} handleOpen={handleOpen}  />
           </Dialog>
-          <Pagination page={page} totalPages={totalPages} setPage={setPage} />
+          <Pagination pagination={pagination} page={page} totalPages={totalPages} setPage={setPage} />
         </div>
       </div>
     </>
