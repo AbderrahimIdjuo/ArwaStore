@@ -58,7 +58,7 @@ export default function CommandeFeiled() {
 
   useEffect(() => {
     search(status , searchValue)
-  }, [page]);
+  }, [page , status , searchValue]);
 
   const HandleStatus = (value) => {
     setIsLoading(true);

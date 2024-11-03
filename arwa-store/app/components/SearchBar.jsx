@@ -26,7 +26,6 @@ export default function SearchBar({
         setInputValue(null)
         setIsLoading(true)
         if (source === "commandes") {
-          console.log('#######  status :', status , '#######  searchValue :', searchValue)
           search(status , searchValue);
         } else if (source === "clients") {
           getClients();

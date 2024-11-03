@@ -131,7 +131,7 @@ export default async function Home() {
 
           <div className="text-center text-sm mt-5">
             <span className="text-muted-foreground">
-              Don't have an account?
+              Don&apos;t have an account?
             </span>{" "}
             <Button variant="text" color="blue" className="p-0">
               <a>Create an account</a>
