@@ -32,7 +32,7 @@ export async function PUT(req , {params}){
 
 export async function GET(req , {params}) {
   const page = params.id
-  const clientsPerPage = 6
+  const clientsPerPage = 10
   const Clients = await prisma.clients.findMany({
     skip : (page - 1)*clientsPerPage,
     take : clientsPerPage ,

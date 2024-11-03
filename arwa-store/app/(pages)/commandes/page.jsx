@@ -174,10 +174,10 @@ export default function CommandeFeiled() {
   return (
     <>
       <NavBar commandePage={commandePage} />
-      <div className="container flex flex-col gap-2">
+      <div className="container p-0 flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
           <div className="flex flex-row">
-            <div className="flex flex-col md:flex-row gap-2 items-center w-2/3">
+            <div className="flex flex-col justify-start md:flex-row gap-2 md:items-center w-2/3">
               <SearchBar
                 source={source}
                 search={search}
@@ -188,7 +188,7 @@ export default function CommandeFeiled() {
                 getCommandesByStatus={getCommandesByStatus}
                 status={status}
               />
-              <div className=" w-1/3 ">
+              <div className="md:w-1/3 w-full">
                 <Select
                 className="bg-white"
                   color="blue-gray"

@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 export async function GET(req, { params }) {
   const searchValue  = params.searchValue;
   const page = params.page
-  const commandesPerPage = 3
+  const commandesPerPage = 10
   
   try {
     const commandes = await prisma.commandes.findMany({

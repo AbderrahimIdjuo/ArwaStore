@@ -54,7 +54,7 @@ export async function PUT(req , {params}){
 
 export async function GET(req , {params}){
     const page = params.id
-    const facturesPerPage = 6
+    const facturesPerPage = 10
     const factures = await prisma.factures.findMany({
         skip : (page - 1)*facturesPerPage,
         take : facturesPerPage ,

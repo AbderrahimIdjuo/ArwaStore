@@ -4,7 +4,7 @@ import prisma from "../../../../../lib/prisma";
 
 export async function GET(req , {params}) {
   const {date , page } = params
-  const facturesPerPage = 6
+  const facturesPerPage = 10
   if (!date) {
     return NextResponse.status(400).json({ error: 'Date is required.' });
   }

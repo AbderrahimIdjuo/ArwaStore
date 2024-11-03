@@ -83,7 +83,7 @@ export default function UpdateCompta({
             <Typography variant="h4" >
               Modifier une facture
             </Typography>
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
               {Inputs.map((element, index) => {
                 return (
                   <div

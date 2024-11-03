@@ -2,65 +2,116 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color: rgb(255, 255, 255);
+html,body {
+  background-color: rgb(255, 255, 255);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 }
 
-.header{
-background-color: rgb(225, 106, 106);
-width: 100%;
-height: 7rem;
-margin-bottom: 2rem;
+.header {
+  background-color: rgb(225, 106, 106);
+  width: 100%;
+  height: 7rem;
+  margin-bottom: 2rem;
 }
 
-.container{
-    width: 100%; 
+.container {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 1rem;
+  height: 100vh; /* Full viewport height */
+  width: 100%; /* Full width of the body */
+}
+
+.content {
+  background-color: #eceff1;
+  width: 100%;
+  height: fit-content;
+  padding: 1rem;
+  box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 1rem;
+}
+
+@media (min-width: 641px) {
+  .container {
+    
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1rem;
+    height: 100vh; /* Full viewport height */
+  }
+  .content {
+    background-color: #eceff1;
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0;
+    width: 100%;
     margin: 0 auto;
     display: flex;
-    margin-top: 3rem;
-    justify-content: start;  /* Horizontal centering */
-    align-items: start;      /* Vertical centering */
-    height: 100vh;            /* Full viewport height */
-}
-.content{
-background-color: #eceff1;
-width:100%;
-height: fit-content;
-padding: 1rem;
-box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
-border-radius: 1rem;
+    /* margin-top: 2rem; */
+    justify-content: start; /* Horizontal centering */
+    align-items: start; /* Vertical centering */
+    height: 100vh; /* Full viewport height */
+  }
+  .content {
+    margin: 0 auto;
+    background-color: #eceff1;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 0rem;
+  }
 }
 
 .button2:hover {
-    transform: scale(1.08);
+  transform: scale(1.08);
 }
-
 
 /* Styling the button */
 .hover-button {
-    background-color: white; /* Initial button color */
-    color: #ff3d00;
-    border: 1px solid #ff3d00;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition */
-  }
-  .round-button {
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth transition */
-  }
-  
-  /* Hover state to change button color */
-  .hover-button:hover {
-    background-color: #ff3d00;
-    color: #ffffff; /* Color on hover */
-  }
+  background-color: white; /* Initial button color */
+  color: #ff3d00;
+  border: 1px solid #ff3d00;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+.round-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
 
-  .display-compta {
-    border: 2px solid #5e5c69;
-    padding-bottom: 0px;
-    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
-  }
+/* Hover state to change button color */
+.hover-button:hover {
+  background-color: #ff3d00;
+  color: #ffffff; /* Color on hover */
+}
 
- 
+.display-compta {
+  border: 2px solid #5e5c69;
+  padding-bottom: 0px;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
+}

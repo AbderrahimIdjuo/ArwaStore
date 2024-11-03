@@ -42,7 +42,7 @@ export async function PUT(req, { params }) {
 
 export async function GET(req , {params}) {
   const page = params.id
-  const commandesPerPage = 6
+  const commandesPerPage = 10
   const Commandes = await prisma.commandes.findMany({
     skip : (page - 1)*commandesPerPage,
     take : commandesPerPage ,

@@ -3,7 +3,7 @@ import prisma from "../../../../../../lib/prisma";
 export async function GET(req , {params}) {
     const status = params.status
     const page = params.page
-    const commandesPerPage = 6
+    const commandesPerPage = 10
     
     const Commandes = await prisma.commandes.findMany({
 where:{

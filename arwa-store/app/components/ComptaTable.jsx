@@ -43,7 +43,7 @@ const TABLE_HEAD = [
   "",
 ];
 
-export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
+export default function CpmtaTable({ facturesList, getFactures, isLoading }) {
   // const [facturesList, setFacturesList] = useState([]);
   const [factureClicked, setFactureClicked] = useState(null);
   const [openDetails, setOpenDetails] = useState(false);
@@ -76,8 +76,8 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
   return (
     <>
       <Toaster position="top-center" />
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+      <Paper sx={{ width: "100%", overflow: { xs: "auto", md: "hidden" } }}>
+        <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
@@ -86,6 +86,10 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                     className="!bg-[#37474f] !text-white !py-3"
                     key={column}
                     align="left"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      fontSize: { xs: "0.8rem", md: "1rem" },
+                    }}
                   >
                     {column}
                   </TableCell>
@@ -122,7 +126,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                       tabIndex={-1}
                       key={facture.id}
                     >
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 120 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -131,7 +141,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           {date}
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Chip
                           value={`${facture.capital_reel} DH`}
                           variant="ghost"
@@ -140,7 +156,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           className="rounded-full w-[fit-content]"
                         />
                       </TableCell>
-                      <TableCell className="!py-2" align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Chip
                           value={`${facture.capital_general} DH`}
                           variant="ghost"
@@ -149,7 +171,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           className="rounded-full w-[fit-content]"
                         />
                       </TableCell>
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -158,7 +186,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           {facture.cash} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -167,7 +201,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           {facture.beyou} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -176,7 +216,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           {facture.fornisseur} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -185,7 +231,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           {facture.barid} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -194,7 +246,13 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
                           {facture.cih} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2"  align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 160 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        align="left"
+                      >
                         {/* détails */}
                         <IconButton
                           onClick={() => {
@@ -300,11 +358,11 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
         </TableContainer>
       </Paper>
       <Dialog
-        id="ajouter-facture"
+        id="Détails-facture"
         size="lg"
         open={openDetails}
         handler={HandleOpenDetails}
-        className="bg-transparent shadow-none dialog"
+        className="bg-transparent shadow-none dialog "
       >
         <FactureDetails
           HandleOpenDetails={HandleOpenDetails}
@@ -312,11 +370,11 @@ export default function CpmtaTable({ facturesList, getFactures , isLoading }) {
         />
       </Dialog>
       <Dialog
-        id="ajouter-commande"
+        id="Modifier-commande"
         size="xl"
         open={openUpdate}
         handler={HandleOpenUpdate}
-        className="bg-transparent shadow-none dialog"
+        className="bg-transparent shadow-none dialog overflow-y-auto max-h-[90vh]"
       >
         <UpdateCompta
           HandleOpenUpdate={HandleOpenUpdate}

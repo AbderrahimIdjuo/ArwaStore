@@ -94,8 +94,8 @@ export function NavbarWithSolidBackground({
   );
 
   return (
-    <div className="-m-6 max-h-[768px] w-[calc(100%+48px)] bg-[#cfd8dc]">
-      <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 border-0">
+    <div className="-m-6 max-h-[768px] w-[calc(100%+24px)] bg-[#cfd8dc] mb-1 md:mb-0">
+      <Navbar className="sticky top-0  h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 border-0">
         <div className="flex items-center justify-between text-slate-900 pt-4">
           <Typography
             as="a"

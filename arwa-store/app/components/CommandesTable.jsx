@@ -99,16 +99,20 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
     <>
       <Toaster position="top-center" />
 
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
+      <Paper sx={{ width: "100%", overflow: { xs: "auto", md: "hidden" } }}>
+        <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {TABLE_HEAD.map((column) => (
                   <TableCell
-                    className="!bg-[#37474f] !text-white !py-3"
+                    className="!bg-[#37474f] !text-white text-sm md:!py-3 md:text-base"
                     key={column}
                     align="left"
+                    sx={{
+                      whiteSpace: "nowrap",
+                      fontSize: { xs: "0.8rem", md: "1rem" },
+                    }}
                   >
                     {column}
                   </TableCell>
@@ -146,7 +150,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                       tabIndex={-1}
                       key={commande.id}
                     >
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 180 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -155,7 +166,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {client?.name.toUpperCase()}
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 50 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -164,7 +182,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {commande.nbrArticls}
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Tooltip
                           animate={{
                             mount: { scale: 1, y: 0 },
@@ -191,7 +216,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           </Typography>
                         </Tooltip>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 80 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -200,7 +232,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {commande.avance} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 80 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -209,7 +248,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {commande.prixInt} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 80 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -218,7 +264,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {commande.rest} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 80 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -227,7 +280,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {commande.livraison} DH
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 80 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="slate"
@@ -236,7 +296,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {commande.trakingNbr}
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 80 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -252,7 +319,14 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
                           {label}
                         </Typography>
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="center">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 120 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="center"
+                      >
                         <IconButton
                           onClick={() => {
                             setCommandeClicked(commande);
@@ -347,7 +421,7 @@ export default function CommandesTable({ Commandes, getCommandes, isLoading }) {
         <DialogFooter>
           <>
             <Button
-              color="green"
+              color="blue"
               className=" mx-1 rounded-full"
               onClick={() => {
                 deletCommande(commandeClicked.id);

@@ -81,7 +81,7 @@ export default function ClientFeiled() {
 
   return (
     <>
-      <NavBar clientPage={clientPage} />
+      <NavBar clientPage={clientPage}  />
       <div className="container flex flex-col gap-2">
         <div className="content  flex flex-col gap-4">
           <div className="flex flex-row justify-between">

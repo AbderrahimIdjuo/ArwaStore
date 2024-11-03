@@ -5,7 +5,7 @@ export async function GET(req, { params }) {
   const searchValue = params.searchValue;
   const status = params.status;
   const page = params.page
-  const commandesPerPage = 3
+  const commandesPerPage = 10
 
   try {
     const commande = await prisma.commandes.findMany({

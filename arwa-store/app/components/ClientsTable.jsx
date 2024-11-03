@@ -89,16 +89,20 @@ const ClientsTable = forwardRef(
     return (
       <>
         <Toaster position="top-center" />
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
+        <Paper sx={{ width: "100%", overflow: { xs: "auto", md: "hidden" } }}>
+          <TableContainer>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
                   {TABLE_HEAD.map((column) => (
                     <TableCell
-                      className="!bg-[#37474f] !text-white !py-3"
+                      className="!bg-[#37474f] !text-white   text-sm md:!py-3 md:text-base"
                       key={column}
                       align="left"
+                      sx={{
+                        whiteSpace: "nowrap",
+                        fontSize: { xs: "0.8rem", md: "1rem" },
+                      }}
                     >
                       {column}
                     </TableCell>
@@ -115,7 +119,11 @@ const ClientsTable = forwardRef(
                       tabIndex={-1}
                       key={index}
                     >
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        className="!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         <Skeleton animation="wave" className="h-6 w-full " />
                       </TableCell>
                       <TableCell className="!py-2" key={index} align="left">
@@ -141,19 +149,47 @@ const ClientsTable = forwardRef(
                       tabIndex={-1}
                       key={index}
                     >
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 180 },
+                        }}
+                        className="!py-1 md:!py-2 text-sm md:text-base"
+                        key={index}
+                        align="left"
+                      >
                         {client.name.toUpperCase()}
                       </TableCell>
                       <TableCell className="!py-2" key={index} align="left">
                         {client.tele}
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 100 },
+                        }}
+                        className="!py-2"
+                        key={index}
+                        align="left"
+                      >
                         {client.ville}
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="left">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 200 },
+                        }}
+                        className="!py-2"
+                        key={index}
+                        align="left"
+                      >
                         {client.adress}
                       </TableCell>
-                      <TableCell className="!py-2" key={index} align="center">
+                      <TableCell
+                        sx={{
+                          minWidth: { xs: 120 },
+                        }}
+                        className="!py-2"
+                        key={index}
+                        align="center"
+                      >
                         <IconButton
                           onClick={() => {
                             setClientClicked(client);
@@ -178,15 +214,14 @@ const ClientsTable = forwardRef(
                   ))
                 ) : (
                   <>
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="border border-gray-300 px-4 py-8 text-center text-gray-500"
-                    >
-                    Aucun client trouvé
-                    </TableCell>
-                  </TableRow>
-                  
+                    <TableRow>
+                      <TableCell
+                        colSpan={5}
+                        className="border border-gray-300 px-4 py-8 text-center text-gray-500"
+                      >
+                        Aucun client trouvé
+                      </TableCell>
+                    </TableRow>
                   </>
                 )}
               </TableBody>
@@ -196,7 +231,7 @@ const ClientsTable = forwardRef(
 
         <Card className="hidden h-full w-full overflow-scroll">
           <Dialog
-            id="ajouter-client"
+            id="modifier-client"
             size="xl"
             open={open}
             handler={handleOpen}
@@ -233,25 +268,23 @@ const ClientsTable = forwardRef(
               </Typography>
             </DialogBody>
             <DialogFooter>
-              <>
-                <Button
-                  color="green"
-                  className=" mx-1 rounded-full"
-                  onClick={() => {
-                    deletClient(clientClicked.id);
-                    handleconfirmDelete();
-                  }}
-                >
-                  Oui
-                </Button>
-                <Button
-                  color="deep-orange"
-                  onClick={handleconfirmDelete}
-                  className="mx-1 rounded-full hover-button"
-                >
-                  Fermer
-                </Button>
-              </>
+              <Button
+                color="blue"
+                className=" mx-1 rounded-full"
+                onClick={() => {
+                  deletClient(clientClicked.id);
+                  handleconfirmDelete();
+                }}
+              >
+                Oui
+              </Button>
+              <Button
+                color="deep-orange"
+                onClick={handleconfirmDelete}
+                className="mx-1 rounded-full hover-button"
+              >
+                Fermer
+              </Button>
             </DialogFooter>
           </Dialog>
         </Card>

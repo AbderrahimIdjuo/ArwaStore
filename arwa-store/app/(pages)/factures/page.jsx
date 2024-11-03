@@ -107,7 +107,7 @@ export default function ComptaFeiled() {
               id="Bar"
               className="flex flex-col md:flex-row gap-2 items-center w-2/3"
             >
-              <div className=" w-1/2 flex flex-row justify-start items-center">
+              <div className=" md:w-1/2 flex flex-col  md:flex-row md:justify-start md:items-center items-start">
                 <Typography variant="h5" color="blue-gray" className="pr-4">
                   Date :
                 </Typography>
@@ -156,7 +156,7 @@ export default function ComptaFeiled() {
             size="xl"
             open={open}
             handler={handleOpen}
-            className="bg-transparent shadow-none dialog"
+            className="bg-transparent shadow-none dialog overflow-y-auto max-h-[90vh]"
           >
             <AddComptaForm handleOpen={handleOpen} getFactures={getFactures} />
           </Dialog>
