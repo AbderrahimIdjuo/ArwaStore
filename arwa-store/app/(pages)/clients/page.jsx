@@ -77,7 +77,7 @@ export default function ClientFeiled() {
     } else {
       search(inputValue);
     }
-  }, [page , searching , inputValue , getClients]);
+  }, [page , searching ]);
 
   return (
     <>

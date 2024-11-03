@@ -58,7 +58,7 @@ export default function ComptaFeiled() {
     } else if (date) {
       getFacturesByDate(date);
     }
-  }, [page , date , getFactures , getFacturesByDate]);
+  }, [page]);
   const HandleChange = (newValue) => {
     setIsLoading(true)
     setPage(1);
