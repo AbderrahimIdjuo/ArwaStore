@@ -9,10 +9,7 @@ html,body {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
   
 }
 
@@ -23,7 +20,7 @@ html,body {
   margin-bottom: 2rem;
 }
 
-.container {
+.Container {
   padding: 0;
   display: flex;
   flex-direction: row;
@@ -35,15 +32,15 @@ html,body {
 
 .content {
   background-color: #eceff1;
-  width: 100%;
+  width: 100vw;
   height: fit-content;
-  padding: 1rem;
+  padding: 1.5rem;
   box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
   border-radius: 1rem;
 }
 
 @media (min-width: 641px) {
-  .container {
+  .Container {
     
     width: 100%;
     padding: 0;

@@ -100,7 +100,7 @@ export default function ComptaFeiled() {
   return (
     <>
       <NavBar facturePage={facturePage} />
-      <div className="container flex flex-col gap-2">
+      <div className="2xl:container mt-3 mx-auto flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
           <div className="flex flex-row items-center">
             <div

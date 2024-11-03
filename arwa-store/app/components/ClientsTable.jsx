@@ -157,7 +157,13 @@ const ClientsTable = forwardRef(
                         key={index}
                         align="left"
                       >
-                        {client.name.toUpperCase()}
+                        <Typography
+                          variant="small"
+                          color="slate"
+                          className="font-normal text-left"
+                        >
+                          {client.name.toUpperCase()}
+                        </Typography>
                       </TableCell>
                       <TableCell className="!py-2" key={index} align="left">
                         {client.tele}

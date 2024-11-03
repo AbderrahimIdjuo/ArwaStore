@@ -174,7 +174,7 @@ export default function CommandeFeiled() {
   return (
     <>
       <NavBar commandePage={commandePage} />
-      <div className="container p-0 flex flex-col gap-2">
+      <div className="2xl:container mt-3 mx-auto  flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
           <div className="flex flex-row">
             <div className="flex flex-col justify-start md:flex-row gap-2 md:items-center w-2/3">

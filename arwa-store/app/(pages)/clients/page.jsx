@@ -82,8 +82,8 @@ export default function ClientFeiled() {
   return (
     <>
       <NavBar clientPage={clientPage}  />
-      <div className="container flex flex-col gap-2">
-        <div className="content  flex flex-col gap-4">
+      <div className="2xl:container  mx-auto  flex flex-col gap-2">
+        <div className="content mt-4  flex flex-col gap-4">
           <div className="flex flex-row justify-between">
             <SearchBar
               searchClient={search}
