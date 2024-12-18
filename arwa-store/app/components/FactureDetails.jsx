@@ -58,19 +58,19 @@ export default function FactureDetails({ HandleOpenDetails, facture }) {
           <div className="flex flex-col  gap-4 ">
             <div className="flex flex-row justify-center items-center gap-4 ">
               <Typography
-                className="text-center flex flex-row gap-2 items-center mx-6"
-                variant="h4"
-                color="slate"
+                className="text-start text-center flex flex-row gap-2 items-center mx-6"
+               variant="h4"
+                color="blue-gray"
               >
                 <CalendarDaysIcon className="h-7 w-7" />
                 {date}
               </Typography>
             </div>
-            <div className="flex flex-row justify-evenly gap-4 ">
+            <div className="flex flex-col justify-start md:flex-row md:justify-evenly gap-4 ">
               <ListItem className="mx-4 px-4">
                 <Typography
-                  className="text-center uppercase"
-                  variant="h4"
+                  className="text-center text-base sm:text-lg md:text-xl uppercase"
+                 variant="h4"
                   color="green"
                 >
                   Capital Réel
@@ -88,7 +88,7 @@ export default function FactureDetails({ HandleOpenDetails, facture }) {
               </ListItem>
               <ListItem className="mx-4 px-4">
                 <Typography
-                  className="text-center uppercase"
+                  className="text-center text-base sm:text-lg md:text-xl uppercase"
                   variant="h4"
                   color="amber"
                 >
@@ -107,7 +107,7 @@ export default function FactureDetails({ HandleOpenDetails, facture }) {
             </div>
 
             <div className="px-5">
-              <List className="grid grid-cols-2 gap-y-2 gap-x-[6rem] w-full px-5">
+              <List className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-[6rem] w-full px-5">
                 {list.map((item, index) => {
                   return (
                     <ListItem key={index}>

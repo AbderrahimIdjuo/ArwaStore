@@ -41,10 +41,6 @@ const ClientsTable = forwardRef(
     const handleOpen = () => setOpen((cur) => !cur);
     const router = useRouter();
 
-    // useEffect(() => {
-    //   HandleClientsList();
-    // }, []);
-
     useImperativeHandle(ref, () => ({
       callFunction: HandleClientsList,
     }));

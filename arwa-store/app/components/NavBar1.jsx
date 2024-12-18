@@ -7,6 +7,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
+import { SignedIn, SignInButton, UserButton , SignedOut  } from "@clerk/nextjs";
 import {
   Bars3Icon,
   XMarkIcon,
@@ -90,6 +91,12 @@ export function NavbarWithSolidBackground({
           <BanknotesIcon className="h-6 w-6" />
         </Button>
       </Link>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
     </ul>
   );
 
@@ -119,12 +126,7 @@ export function NavbarWithSolidBackground({
             )}
           </IconButton>
         </div>
-        <Collapse open={openNav}>
-          {navList}
-          <Button fullWidth variant="gradient" size="sm" className="">
-            <span>Get started</span>
-          </Button>
-        </Collapse>
+        <Collapse open={openNav}>{navList}</Collapse>
       </Navbar>
     </div>
   );

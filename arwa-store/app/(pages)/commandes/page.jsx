@@ -7,14 +7,14 @@ import {
   Select,
   Option,
   IconButton,
-} from "@/app/MT";
+} from "../..//MT";
 import AddCommandeForm from "../../components/AddOrderForm";
 import CommandesTable from "../../components/CommandesTable";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 import SearchBar from "../../components/SearchBar";
 import { useEffect, useState, useCallback } from "react";
 import Pagination from "../../components/Pagination";
-import AddButton from "@/app/components/AddButton";
+import AddButton from "../../components/AddButton";
 
 const Status = [
   { color: "blue-gray", label: "All" },
@@ -176,7 +176,7 @@ export default function CommandeFeiled() {
       <NavBar commandePage={commandePage} />
       <div className="2xl:container mt-3 mx-auto  flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
-          <div className="flex flex-row">
+          <div className="flex flex-row justify-between">
             <div className="flex flex-col justify-start md:flex-row gap-2 md:items-center w-2/3">
               <SearchBar
                 source={source}

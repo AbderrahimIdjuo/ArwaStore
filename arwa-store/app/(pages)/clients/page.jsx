@@ -7,8 +7,8 @@ import Pagination from "../../components/Pagination";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import ClientsTable from "../../components/ClientsTable";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
-import SearchBar from "@/app/components/SearchBar";
-import AddButton from "@/app/components/AddButton";
+import SearchBar from "../../components/SearchBar";
+import AddButton from "../../components/AddButton";
 export default function ClientFeiled() {
   const [source] = useState("clients");
   const [clientPage] = useState(true);
@@ -17,17 +17,14 @@ export default function ClientFeiled() {
   const [searching, setSearching] = useState(false);
   const [inputValue, setInputValue] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
- const [pagination, setPagination] = useState(true);
-
-
-
+  const [pagination, setPagination] = useState(true);
   const [open, setOpen] = useState(false);
   const [clientsList, setClientsList] = useState();
 
   const handleOpen = () => setOpen((cur) => !cur);
 
   const search = async (searchValue) => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const result = await fetch(`/api/search-client/${searchValue}/${page}`, {
         method: "GET",
@@ -36,7 +33,7 @@ export default function ClientFeiled() {
       if (!result.ok) {
         console.log("Client not found.");
         setClientsList([]);
-        
+
         return;
       }
 
@@ -45,10 +42,10 @@ export default function ClientFeiled() {
 
       setClientsList(client);
       setTotalPages(totalPage);
-      if(totalPage===0){
-        setPagination(false)
+      if (totalPage === 0) {
+        setPagination(false);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (e) {
       console.error("Error fetching clients:", e);
       console.log("Something went wrong.");
@@ -56,8 +53,8 @@ export default function ClientFeiled() {
   };
 
   const getClients = useCallback(async () => {
-    setPagination(true)
-    setIsLoading(true)
+    setPagination(true);
+    setIsLoading(true);
     try {
       const result = await fetch(`/api/espace-client/${page}`, {
         method: "GET",
@@ -65,7 +62,7 @@ export default function ClientFeiled() {
       const { Clients, totalPage } = await result.json();
       setClientsList(Clients);
       setTotalPages(totalPage);
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -77,11 +74,11 @@ export default function ClientFeiled() {
     } else {
       search(inputValue);
     }
-  }, [page , searching ]);
+  }, [page, searching]);
 
   return (
     <>
-      <NavBar clientPage={clientPage}  />
+      <NavBar clientPage={clientPage} />
       <div className="2xl:container  mx-auto  flex flex-col gap-2">
         <div className="content mt-4  flex flex-col gap-4">
           <div className="flex flex-row justify-between">
@@ -94,7 +91,7 @@ export default function ClientFeiled() {
               setPage={setPage}
               setIsLoading={setIsLoading}
             />
-            <AddButton handleOpen={handleOpen}  title={"Ajouter un client"}/>
+            <AddButton handleOpen={handleOpen} title={"Ajouter un client"} />
           </div>
           <ClientsTable
             getClients={getClients}
@@ -110,9 +107,14 @@ export default function ClientFeiled() {
             handler={handleOpen}
             className="bg-transparent shadow-none dialog"
           >
-            <AddClientForm getClients={getClients} handleOpen={handleOpen}  />
+            <AddClientForm getClients={getClients} handleOpen={handleOpen} />
           </Dialog>
-          <Pagination pagination={pagination} page={page} totalPages={totalPages} setPage={setPage} />
+          <Pagination
+            pagination={pagination}
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
+          />
         </div>
       </div>
     </>

@@ -6,7 +6,7 @@ import CpmtaTable from "../../components/ComptaTable";
 import { useState, useEffect, useCallback } from "react";
 import { NavbarWithSolidBackground as NavBar } from "../../components/NavBar1";
 import Pagination from "../../components/Pagination";
-import AddButton from "@/app/components/AddButton";
+import AddButton from "../../components/AddButton";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -102,7 +102,7 @@ export default function ComptaFeiled() {
       <NavBar facturePage={facturePage} />
       <div className="2xl:container mt-3 mx-auto flex flex-col gap-2">
         <div className="content rounded flex flex-col gap-4">
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center justify-between">
             <div
               id="Bar"
               className="flex flex-col md:flex-row gap-2 items-center w-2/3"

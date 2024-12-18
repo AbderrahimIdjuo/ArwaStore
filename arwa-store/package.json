@@ -10,6 +10,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.5.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@heroicons/react": "^2.1.5",
@@ -17,16 +18,19 @@
     "@mui/material": "^6.1.5",
     "@mui/x-date-pickers": "^7.22.0",
     "@prisma/client": "^5.19.0",
+    "@radix-ui/react-slot": "^1.1.1",
     "@vercel/postgres": "^0.9.0",
     "dayjs": "^1.11.13",
     "list-of-moroccan-cities": "^1.0.4",
     "lodash": "^4.17.21",
+    "lucide": "^0.468.0",
     "next": "^14.2.5",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-hot-toast": "^2.4.1",
-    "react-select": "^5.8.0"
+    "react-select": "^5.8.0",
+    "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "^8",

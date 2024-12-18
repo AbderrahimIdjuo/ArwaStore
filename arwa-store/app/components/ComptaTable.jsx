@@ -362,7 +362,7 @@ export default function CpmtaTable({ facturesList, getFactures, isLoading }) {
         size="lg"
         open={openDetails}
         handler={HandleOpenDetails}
-        className="bg-transparent shadow-none dialog "
+        className="bg-transparent shadow-none overflow-y-auto max-h-[90vh] dialog "
       >
         <FactureDetails
           HandleOpenDetails={HandleOpenDetails}
@@ -406,7 +406,7 @@ export default function CpmtaTable({ facturesList, getFactures, isLoading }) {
         <DialogFooter>
           <>
             <Button
-              color="green"
+              color="blue"
               className=" mx-1 rounded-full"
               onClick={() => {
                 deletFacture(factureClicked.id);

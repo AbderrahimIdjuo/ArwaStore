@@ -63,4 +63,17 @@ model factures {
   non_livre           Int?          @default(0)
   capital_reel        Int?          @default(0)
   capital_general     Int?          @default(0)
+  userId              String
+  user              User          @relation(fields: [userId], references: [clerkId] , onDelete: Cascade)
+}
+
+model User {
+  id          String   @id @default(cuid())
+  clerkId     String   @unique
+  email       String   @unique
+  firstName   String?
+  lastName    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  factures    factures[]
 }
